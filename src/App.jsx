@@ -375,15 +375,12 @@ function NavBar() {
           {/* Logo */}
           <div className="nav-logo">
             <motion.span
-              className="nav-logo-mark"
+            className="w-[200px] h-[80px] rounded-2xl bg-white"
               whileHover={{ scale: 1.1, rotate: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <img src={images.logo01} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
+              <img src={images.logo01Png} alt="Celetex Group Logo" className="w-full h-full" />
             </motion.span>
-            <span className="nav-logo-text">
-              Celetex <span>Group</span>
-            </span>
           </div>
 
           {/* Desktop Navigation */}
