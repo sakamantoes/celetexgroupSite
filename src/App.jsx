@@ -21,6 +21,8 @@ import {
   CreditCard,
   Truck,
   BadgeCheck,
+  Package,
+  MapPin,
 } from "lucide-react";
 import images from "./assets/image";
 
@@ -865,7 +867,7 @@ function VideoSection() {
 }
 
 /* ----------------------------------------------------------------------
-   CYBERMALL APP SHOWCASE SECTION
+   CYBERMALL APP SHOWCASE SECTION — UPDATED with Tracking Logistics
 ---------------------------------------------------------------------- */
 
 function CybermallAppSection() {
@@ -875,6 +877,7 @@ function CybermallAppSection() {
     { icon: ShoppingCart, label: "Easy Shopping" },
     { icon: CreditCard, label: "Secure Payments" },
     { icon: Truck, label: "Fast Delivery" },
+    { icon: Package, label: "Tracking Logistics" },
     { icon: BadgeCheck, label: "Verified Sellers" },
   ];
 
@@ -896,8 +899,8 @@ function CybermallAppSection() {
 
               <p className="cybermall-description">
                 Experience seamless shopping with the Cybermall mobile app.
-                Browse products, make secure payments, and track deliveries
-                all from the palm of your hand.
+                Browse products, make secure payments, track deliveries, and
+                manage your logistics all from the palm of your hand.
               </p>
 
               <div className="cybermall-features">
@@ -905,7 +908,7 @@ function CybermallAppSection() {
                   <div
                     key={index}
                     className={`cybermall-feature reveal-fade-up ${visible ? "reveal-fade-up-visible" : ""}`}
-                    style={{ transitionDelay: `${180 + index * 90}ms` }}
+                    style={{ transitionDelay: `${180 + index * 70}ms` }}
                   >
                     <div className="cybermall-feature-icon">
                       <feature.icon size={18} />
@@ -1374,7 +1377,7 @@ export default function App() {
       {/* VIDEO */}
       <VideoSection />
 
-      {/* CYBERMALL APP */}
+      {/* CYBERMALL APP — Updated with Tracking Logistics */}
       <CybermallAppSection />
 
       {/* BRANDS */}
