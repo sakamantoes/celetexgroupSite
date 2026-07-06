@@ -2074,7 +2074,7 @@ function CybermallAppSection() {
               </motion.div>
             </div>
 
-            {/* Right - Mockup Image */}
+            {/* Right - Mockup Image - Made Larger */}
             <motion.div
               className="cybermall-mockup-wrapper"
               initial={{ opacity: 0, scale: 0.95, x: 30 }}
@@ -2291,7 +2291,7 @@ function CybermallAppSection() {
           color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Right - Mockup Image */
+        /* Right - Mockup Image - Made Larger */
         .cybermall-mockup-wrapper {
           display: flex;
           justify-content: center;
@@ -2302,7 +2302,7 @@ function CybermallAppSection() {
         .cybermall-mockup-container {
           position: relative;
           width: 100%;
-          max-width: 400px;
+          max-width: 550px;
           border-radius: 24px;
           overflow: hidden;
           border: 1px solid var(--line);
@@ -2348,7 +2348,7 @@ function CybermallAppSection() {
           }
 
           .cybermall-mockup-container {
-            max-width: 320px;
+            max-width: 400px;
           }
         }
 
@@ -2370,7 +2370,7 @@ function CybermallAppSection() {
           }
 
           .cybermall-mockup-container {
-            max-width: 260px;
+            max-width: 320px;
           }
         }
 
@@ -2402,7 +2402,7 @@ function CybermallAppSection() {
           }
 
           .cybermall-mockup-container {
-            max-width: 200px;
+            max-width: 250px;
           }
         }
       `}</style>
