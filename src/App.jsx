@@ -375,7 +375,7 @@ function NavBar() {
           {/* Logo */}
           <div className="nav-logo">
             <motion.span
-            className="w-[200px] h-[80px] rounded-2xl bg-white"
+              className="w-[200px] h-[50px] rounded-2xl bg-white"
               whileHover={{ scale: 1.1, rotate: -5 }}
               transition={{ duration: 0.3 }}
             >
@@ -766,8 +766,9 @@ function NavBar() {
             display: none;
           }
 
+          /* Hide desktop CTA button on mobile */
           .nav-cta-btn {
-            display: none;
+            display: none !important;
           }
 
           .menu-toggle {
@@ -782,6 +783,13 @@ function NavBar() {
 
           .nav.scrolled {
             padding: 12px 24px !important;
+          }
+        }
+
+        @media (min-width: 981px) {
+          /* Show desktop CTA button on large screens */
+          .nav-cta-btn {
+            display: inline-flex !important;
           }
         }
 
