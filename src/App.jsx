@@ -1078,7 +1078,7 @@ function HeroArtSecondary() {
         fontSize="11"
         letterSpacing="2"
       >
-        CELETEX / EST. 2022
+        CELETEX / EST. 202
       </text>
       <text
         x="30"
@@ -2504,7 +2504,7 @@ export default function App() {
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 bg-[#C9A227] rounded-full animate-pulse" />
                     <span className="text-white/80 text-[10px] font-mono tracking-widest">
-                      EST. 2022
+                      Celetex Group
                     </span>
                   </div>
                 </div>
@@ -2512,7 +2512,7 @@ export default function App() {
                 {/* Main Title Overlay - Bottom Left */}
                 <div className="absolute bottom-8 left-8 right-8 z-20">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[#F3D27A] text-xs font-mono tracking-[0.2em] uppercase">
+                    <span className="text-[#F3D27A] text-xs font-mono tracking-[0.2em] uppercase mb-2">
                       Founder & CEO
                     </span>
                     <h3 className="text-white text-2xl md:text-3xl font-display font-bold leading-tight">
@@ -2588,7 +2588,7 @@ export default function App() {
                 </div>
 
                 {/* Trust Badge - Bottom Center */}
-                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-black/50 backdrop-blur-md border border-white/10 rounded-full px-5 py-2">
+                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-black/50 backdrop-blur-md border mt-2 border-white/10 rounded-full px-5 py-2">
                   <div className="flex items-center gap-2">
                     <span className="text-[#F3D27A] text-xs font-mono tracking-wider">
                       ✦
