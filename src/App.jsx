@@ -24,6 +24,15 @@ import {
   Award,
   Briefcase,
   Globe,
+  Camera,
+  Home,
+  Plane,
+  ShoppingBag,
+  Zap,
+  Coffee,
+  Play,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 
 /* ----------------------------------------------------------------------
@@ -169,12 +178,12 @@ function HeroArtPrimary() {
     <svg viewBox="0 0 520 620" className="hero-art-svg" aria-hidden="true">
       <defs>
         <linearGradient id="gGoldA" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FF8C00" />
-          <stop offset="100%" stopColor="#E07000" />
+          <stop offset="0%" stopColor="#C9A227" />
+          <stop offset="100%" stopColor="#B8862F" />
         </linearGradient>
         <radialGradient id="gGlow" cx="50%" cy="30%" r="70%">
-          <stop offset="0%" stopColor="rgba(255,140,0,0.15)" />
-          <stop offset="100%" stopColor="rgba(255,140,0,0)" />
+          <stop offset="0%" stopColor="rgba(201,162,39,0.15)" />
+          <stop offset="100%" stopColor="rgba(201,162,39,0)" />
         </radialGradient>
       </defs>
       <rect x="0" y="0" width="520" height="620" rx="18" fill="#F8F6F0" />
@@ -188,7 +197,7 @@ function HeroArtPrimary() {
         <rect x="386" y="300" width="56" height="250" fill="#E8E4DC" stroke="url(#gGoldA)" strokeWidth="1.2" />
       </g>
       {/* window grid on tall tower */}
-      <g stroke="rgba(255,140,0,0.25)" strokeWidth="1">
+      <g stroke="rgba(201,162,39,0.25)" strokeWidth="1">
         {Array.from({ length: 9 }).map((_, r) =>
           Array.from({ length: 4 }).map((_, c) => (
             <rect
@@ -197,7 +206,7 @@ function HeroArtPrimary() {
               y={200 + r * 36}
               width="10"
               height="18"
-              fill={ (r + c) % 3 === 0 ? "rgba(255,140,0,0.4)" : "rgba(0,0,0,0.04)"}
+              fill={ (r + c) % 3 === 0 ? "rgba(201,162,39,0.4)" : "rgba(0,0,0,0.04)"}
             />
           ))
         )}
@@ -215,7 +224,7 @@ function HeroArtPrimary() {
       <polyline
         points="40,560 110,520 175,540 235,470 300,495 365,410 430,440 470,360"
         fill="none"
-        stroke="#FF8C00"
+        stroke="#C9A227"
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -227,7 +236,7 @@ function HeroArtPrimary() {
           [300, 495],[365, 410],[430, 440],[470, 360],
         ];
         return (
-          <circle key={i} cx={pts[i][0]} cy={pts[i][1]} r="4" fill="#F8F6F0" stroke="#FF8C00" strokeWidth="2" />
+          <circle key={i} cx={pts[i][0]} cy={pts[i][1]} r="4" fill="#F8F6F0" stroke="#C9A227" strokeWidth="2" />
         );
       })}
     </svg>
@@ -239,8 +248,8 @@ function HeroArtSecondary() {
     <svg viewBox="0 0 360 300" className="hero-art-svg-sm" aria-hidden="true">
       <defs>
         <linearGradient id="gGoldB" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FF8C00" />
-          <stop offset="100%" stopColor="#CC6600" />
+          <stop offset="0%" stopColor="#C9A227" />
+          <stop offset="100%" stopColor="#8C6A22" />
         </linearGradient>
       </defs>
       <rect x="0" y="0" width="360" height="300" rx="16" fill="#EDE9E1" />
@@ -253,14 +262,14 @@ function HeroArtSecondary() {
         <line x1="166" y1="130" x2="230" y2="170" />
         <line x1="166" y1="112" x2="230" y2="60" />
       </g>
-      <circle cx="230" cy="90" r="6" fill="#FF8C00" />
-      <circle cx="230" cy="170" r="6" fill="#FF8C00" />
-      <circle cx="230" cy="60" r="6" fill="#FF8C00" />
+      <circle cx="230" cy="90" r="6" fill="#C9A227" />
+      <circle cx="230" cy="170" r="6" fill="#C9A227" />
+      <circle cx="230" cy="60" r="6" fill="#C9A227" />
       <text x="30" y="250" fill="#1a1a1a" fontFamily="IBM Plex Mono, monospace" fontSize="11" letterSpacing="2">
-        AURELIA / EST.
+        CELETEX / EST. 2022
       </text>
       <text x="30" y="268" fill="rgba(0,0,0,0.4)" fontFamily="IBM Plex Mono, monospace" fontSize="11">
-        MULTI-DISCIPLINARY GROUP
+        DIVERSE VENTURES, UNIFIED VISION
       </text>
     </svg>
   );
@@ -268,9 +277,10 @@ function HeroArtSecondary() {
 
 function GalleryArt({ variant }) {
   const palette = {
-    tower: { a: "#FF8C00", b: "#CC6600" },
-    logistics: { a: "#FF8C00", b: "#CC6600" },
-    digital: { a: "#FF8C00", b: "#CC6600" },
+    media: { a: "#C9A227", b: "#8C6A22" },
+    travels: { a: "#C9A227", b: "#8C6A22" },
+    homes: { a: "#C9A227", b: "#8C6A22" },
+    cybermall: { a: "#C9A227", b: "#8C6A22" },
   }[variant];
 
   return (
@@ -282,37 +292,339 @@ function GalleryArt({ variant }) {
         </linearGradient>
       </defs>
       <rect width="400" height="260" fill="#F5F2EC" />
-      {variant === "tower" && (
+      {variant === "media" && (
         <g>
-          <rect x="60" y="70" width="50" height="160" fill="#E8E4DC" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
-          <rect x="120" y="40" width="60" height="190" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
-          <rect x="190" y="90" width="46" height="140" fill="#E8E4DC" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
-          <rect x="250" y="60" width="54" height="170" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
-          <rect x="316" y="100" width="40" height="130" fill="#E8E4DC" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <rect x="50" y="40" width="300" height="180" rx="8" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
+          <circle cx="100" cy="130" r="36" fill="#E8E4DC" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <circle cx="100" cy="130" r="18" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="150" y="90" width="30" height="80" rx="2" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="190" y="70" width="30" height="100" rx="2" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="230" y="100" width="30" height="70" rx="2" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="270" y="85" width="30" height="85" rx="2" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <path d="M60 220 L340 220" stroke={`url(#grad-${variant})`} strokeWidth="1.5" strokeDasharray="4 6" opacity="0.5" />
         </g>
       )}
-      {variant === "logistics" && (
-        <g fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.6">
-          <rect x="50" y="150" width="300" height="70" rx="4" />
-          <circle cx="100" cy="222" r="14" />
-          <circle cx="300" cy="222" r="14" />
-          <path d="M50 150 L90 100 L260 100 L300 150" />
-          <line x1="150" y1="150" x2="150" y2="100" />
-          <line x1="200" y1="150" x2="200" y2="100" />
-          <path d="M40 60 L360 60" strokeDasharray="6 8" opacity="0.5" />
+      {variant === "travels" && (
+        <g>
+          <path d="M60 140 L140 60 L280 60 L340 140 L280 220 L140 220 Z" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
+          <circle cx="170" cy="140" r="30" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <circle cx="230" cy="140" r="30" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <path d="M170 110 L230 110 L230 170 L170 170 Z" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <line x1="200" y1="90" x2="200" y2="60" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <line x1="185" y1="60" x2="215" y2="60" stroke={`url(#grad-${variant})`} strokeWidth="1.2" />
+          <line x1="140" y1="80" x2="140" y2="120" stroke={`url(#grad-${variant})`} strokeWidth="1" opacity="0.4" />
         </g>
       )}
-      {variant === "digital" && (
+      {variant === "homes" && (
         <g>
-          <rect x="70" y="50" width="260" height="150" rx="8" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
-          <line x1="70" y1="80" x2="330" y2="80" stroke={`url(#grad-${variant})`} strokeWidth="1" opacity="0.5" />
-          <polyline points="90,170 140,130 180,150 230,100 270,120 310,90" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="2" />
-          <circle cx="90" cy="65" r="4" fill={palette.a} />
-          <circle cx="110" cy="65" r="4" fill={palette.a} opacity="0.6" />
-          <circle cx="130" cy="65" r="4" fill={palette.a} opacity="0.3" />
+          <rect x="60" y="100" width="280" height="130" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" rx="4" />
+          <polygon points="60,100 200,40 340,100" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
+          <rect x="120" y="150" width="40" height="80" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="240" y="150" width="40" height="80" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="175" y="140" width="50" height="40" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="185" y="150" width="30" height="30" fill="#E8E4DC" stroke={`url(#grad-${variant})`} strokeWidth="0.8" />
+        </g>
+      )}
+      {variant === "cybermall" && (
+        <g>
+          <rect x="60" y="50" width="280" height="160" rx="8" fill="#EDE9E1" stroke={`url(#grad-${variant})`} strokeWidth="1.4" />
+          <rect x="80" y="70" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="155" y="70" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="230" y="70" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="80" y="125" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="155" y="125" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <rect x="230" y="125" width="60" height="40" rx="4" fill="#D8D0C0" stroke={`url(#grad-${variant})`} strokeWidth="1" />
+          <circle cx="310" cy="90" r="12" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.5" />
+          <circle cx="310" cy="150" r="12" fill="none" stroke={`url(#grad-${variant})`} strokeWidth="1.5" />
         </g>
       )}
     </svg>
+  );
+}
+
+/* ----------------------------------------------------------------------
+   VIDEO SECTION
+---------------------------------------------------------------------- */
+
+function VideoSection() {
+  const videoRef = useRef(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [ref, visible] = useReveal(0.3);
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <section className="video-section" ref={ref}>
+      <div className={`video-wrapper ${visible ? "reveal-visible" : "reveal"}`}>
+        <div className="video-container">
+          <video
+            ref={videoRef}
+            className="video-element"
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster="https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=1200"
+          >
+            <source
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
+          
+          {/* Overlay with branding */}
+          <div className="video-overlay">
+            <div className="video-overlay-content">
+              <div className="video-brand-icon">C</div>
+              <h3>Celetex Group</h3>
+              <p>Diverse Ventures, Unified Vision</p>
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div className="video-controls">
+            <button 
+              className="video-control-btn"
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+              )}
+            </button>
+            <button 
+              className="video-control-btn"
+              onClick={toggleMute}
+              aria-label={isMuted ? "Unmute" : "Mute"}
+            >
+              {isMuted ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                  <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+              )}
+            </button>
+            <span className="video-loop-indicator">⟳ Loop</span>
+          </div>
+
+          {/* Gold accent line */}
+          <div className="video-accent-line" />
+        </div>
+      </div>
+
+      <style>{`
+        .video-section {
+          max-width: 1360px;
+          margin: 0 auto;
+          padding: 40px 48px 60px;
+        }
+
+        .video-wrapper {
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), 
+                      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .video-wrapper.reveal-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .video-container {
+          position: relative;
+          border-radius: 20px;
+          overflow: hidden;
+          background: var(--black);
+          border: 1px solid var(--line);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+          aspect-ratio: 16/9;
+        }
+
+        .video-element {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .video-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            135deg,
+            rgba(10, 10, 10, 0.3) 0%,
+            rgba(10, 10, 10, 0.1) 50%,
+            rgba(10, 10, 10, 0.3) 100%
+          );
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          pointer-events: none;
+        }
+
+        .video-overlay-content {
+          text-align: center;
+          color: white;
+          padding: 20px;
+        }
+
+        .video-brand-icon {
+          width: 60px;
+          height: 60px;
+          margin: 0 auto 16px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 28px;
+          font-weight: 700;
+          color: #0a0a0a;
+          box-shadow: 0 8px 30px rgba(201, 162, 39, 0.3);
+        }
+
+        .video-overlay-content h3 {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 28px;
+          font-weight: 700;
+          margin: 0 0 6px;
+          letter-spacing: -0.02em;
+          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-overlay-content p {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.7);
+          margin: 0;
+          letter-spacing: 0.1em;
+          font-weight: 300;
+          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-controls {
+          position: absolute;
+          bottom: 20px;
+          left: 20px;
+          right: 20px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          z-index: 2;
+          pointer-events: none;
+        }
+
+        .video-control-btn {
+          pointer-events: auto;
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(8px);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .video-control-btn:hover {
+          background: rgba(201, 162, 39, 0.4);
+          border-color: var(--gold-bright);
+          transform: scale(1.05);
+        }
+
+        .video-loop-indicator {
+          pointer-events: none;
+          font-size: 11px;
+          color: rgba(255, 255, 255, 0.5);
+          font-family: 'IBM Plex Mono', monospace;
+          letter-spacing: 0.06em;
+          margin-left: auto;
+          background: rgba(0, 0, 0, 0.3);
+          backdrop-filter: blur(4px);
+          padding: 4px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .video-accent-line {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, var(--gold-bright), var(--gold), var(--gold-deep));
+          z-index: 1;
+          opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+          .video-section {
+            padding: 20px 20px 40px;
+          }
+          
+          .video-overlay-content h3 {
+            font-size: 20px;
+          }
+          
+          .video-brand-icon {
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
+          }
+          
+          .video-controls {
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+          }
+          
+          .video-control-btn {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      `}</style>
+    </section>
   );
 }
 
@@ -335,55 +647,40 @@ export default function App() {
   const tiltA = useTilt(8);
   const tiltB = useTilt(8);
   const tiltC = useTilt(8);
+  const tiltD = useTilt(8);
   const tiltG1 = useTilt(6);
   const tiltG2 = useTilt(6);
   const tiltG3 = useTilt(6);
+  const tiltG4 = useTilt(6);
 
-  const services = [
+  const brands = [
     {
-      icon: Building2,
-      title: "Construction & Development",
-      desc: "From ground-up builds to large-scale infrastructure, engineered for durability, precision, and long-term value.",
+      icon: Camera,
+      title: "Celetex Multimedia",
+      desc: "Full-service multimedia and creative agency specializing in branding, graphic design, website development, cinematography, photography, digital marketing, content creation, and strategic communications.",
       tilt: tiltA,
+      variant: "media",
     },
     {
-      icon: Compass,
-      title: "Strategic Consulting",
-      desc: "Data-backed guidance through growth, restructuring, and market expansion for organizations at every stage.",
+      icon: Plane,
+      title: "Celetex Travels and Tours",
+      desc: "Travel solutions company providing reliable travel consultancy, tour planning, visa assistance, vacation packages, and corporate travel management for local and international destinations.",
       tilt: tiltB,
+      variant: "travels",
     },
     {
-      icon: Cpu,
-      title: "Technology & Digital",
-      desc: "Custom software, automation, and digital infrastructure designed to scale alongside your ambitions.",
+      icon: Home,
+      title: "Celetex Signature Homes",
+      desc: "Premium real estate brand focused on property development, real estate consultancy, construction, property management, interior design, and investment advisory services.",
       tilt: tiltC,
-    },
-  ];
-
-  const projects = [
-    {
-      variant: "tower",
-      title: "Meridian Tower Development",
-      desc: "A 32-storey mixed-use commercial tower engineered with sustainable systems and smart building infrastructure.",
-      loc: "Victoria Island, Lagos",
-      date: "2024 — 2025",
-      tilt: tiltG1,
+      variant: "homes",
     },
     {
-      variant: "logistics",
-      title: "Northbridge Logistics Hub",
-      desc: "A regional supply-chain and distribution facility built to streamline freight movement across three states.",
-      loc: "Lekki Free Zone, Lagos",
-      date: "2023 — 2024",
-      tilt: tiltG2,
-    },
-    {
-      variant: "digital",
-      title: "Vantage Digital Platform",
-      desc: "An enterprise SaaS platform unifying operations, analytics, and client management under one dashboard.",
-      loc: "Remote / Cloud-native",
-      date: "2025",
-      tilt: tiltG3,
+      icon: ShoppingBag,
+      title: "Cybermall",
+      desc: "Innovative digital commerce platform connecting buyers and sellers through a seamless online marketplace experience, integrating e-commerce, logistics, and product discovery.",
+      tilt: tiltD,
+      variant: "cybermall",
     },
   ];
 
@@ -405,9 +702,9 @@ export default function App() {
           --cream:#ede9e1;
           --black:#0a0a0a;
           --charcoal:#1a1a1a;
-          --orange:#FF8C00;
-          --orange-bright:#FFA333;
-          --orange-deep:#CC6600;
+          --gold:#C9A227;
+          --gold-bright:#F3D27A;
+          --gold-deep:#8C6A22;
           --line:rgba(0,0,0,0.08);
           --line-strong:rgba(0,0,0,0.15);
         }
@@ -431,7 +728,7 @@ export default function App() {
 
         .progress-thread{
           position:fixed; top:0; left:0; width:3px; height:100vh; z-index:60;
-          background:linear-gradient(180deg, var(--orange-bright), var(--orange) 40%, transparent 100%);
+          background:linear-gradient(180deg, var(--gold-bright), var(--gold) 40%, transparent 100%);
           transform-origin:top; pointer-events:none;
         }
 
@@ -453,18 +750,19 @@ export default function App() {
         .nav-logo{ display:flex; align-items:center; gap:10px; }
         .nav-logo-mark{
           width:34px; height:34px; border-radius:8px;
-          background:linear-gradient(135deg, var(--orange-bright), var(--orange-deep));
+          background:linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
           display:flex; align-items:center; justify-content:center;
           font-family:'Space Grotesk'; font-weight:700; color:#fff; font-size:16px;
         }
         .nav-logo-text{ color:var(--black); font-family:'Space Grotesk'; font-weight:600; font-size:18px; letter-spacing:0.02em; }
+        .nav-logo-text span{ color:var(--gold); }
         .nav-links{ display:flex; gap:36px; }
         .nav-links a{
           color:rgba(0,0,0,0.65); font-size:14.5px; font-weight:500; position:relative; padding:4px 0;
           transition:color .25s ease;
         }
         .nav-links a::after{
-          content:''; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--orange);
+          content:''; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--gold);
           transition:width .3s ease;
         }
         .nav-links a:hover{ color:var(--black); }
@@ -476,19 +774,19 @@ export default function App() {
           border:1px solid transparent; transition:all .3s cubic-bezier(.2,.8,.2,1);
           white-space:nowrap;
         }
-        .btn-orange{
-          background:linear-gradient(135deg, var(--orange-bright), var(--orange));
-          color:#fff;
+        .btn-gold{
+          background:linear-gradient(135deg, var(--gold-bright), var(--gold));
+          color:#0a0a0a;
         }
-        .btn-orange:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(255,140,0,0.35); }
+        .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(201,162,39,0.35); }
         .btn-ghost-dark{
           background:transparent; border:1px solid rgba(0,0,0,0.15); color:var(--black);
         }
-        .btn-ghost-dark:hover{ border-color:var(--orange); color:var(--orange-deep); }
+        .btn-ghost-dark:hover{ border-color:var(--gold); color:var(--gold-deep); }
         .btn-ghost-light{
           background:transparent; border:1px solid rgba(255,255,255,0.25); color:#fff;
         }
-        .btn-ghost-light:hover{ border-color:var(--orange-bright); color:var(--orange-bright); }
+        .btn-ghost-light:hover{ border-color:var(--gold-bright); color:var(--gold-bright); }
         .menu-toggle{ display:none; background:none; border:none; color:var(--black); }
 
         /* HERO */
@@ -504,14 +802,14 @@ export default function App() {
         .eyebrow{
           display:inline-flex; align-items:center; gap:10px;
           font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.12em;
-          text-transform:uppercase; color:var(--orange); margin-bottom:20px;
+          text-transform:uppercase; color:var(--gold); margin-bottom:20px;
         }
-        .eyebrow-chip{ width:8px; height:8px; background:var(--orange); border-radius:2px; display:inline-block; }
+        .eyebrow-chip{ width:8px; height:8px; background:var(--gold); border-radius:2px; display:inline-block; }
         .hero h1{
           font-size:56px; line-height:1.08; font-weight:700; margin:0 0 22px;
         }
         .hero h1 .accent{
-          background:linear-gradient(90deg, var(--orange-bright), var(--orange));
+          background:linear-gradient(90deg, var(--gold-bright), var(--gold));
           -webkit-background-clip:text; background-clip:text; color:transparent;
         }
         .hero p.lead{
@@ -523,7 +821,7 @@ export default function App() {
         .hero-avatars span{
           width:34px; height:34px; border-radius:50%; border:2px solid var(--white);
           background:linear-gradient(135deg, #ddd, #bbb); margin-left:-10px;
-          display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--orange-deep); font-weight:600;
+          display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--gold-deep); font-weight:600;
         }
         .hero-avatars span:first-child{ margin-left:0; }
         .hero-meta-text{ font-size:13px; color:rgba(0,0,0,0.5); }
@@ -559,8 +857,8 @@ export default function App() {
         .hero-badge-1{ top:40px; left:-40px; }
         .hero-badge-2{ bottom:60px; right:-20px; }
         .hero-badge-icon{
-          width:36px; height:36px; border-radius:10px; background:rgba(255,140,0,0.1);
-          display:flex; align-items:center; justify-content:center; color:var(--orange);
+          width:36px; height:36px; border-radius:10px; background:rgba(201,162,39,0.1);
+          display:flex; align-items:center; justify-content:center; color:var(--gold);
         }
         .hero-badge-num{ font-family:'Space Grotesk'; font-weight:700; font-size:18px; color:var(--black); line-height:1.1; }
         .hero-badge-label{ font-size:11.5px; color:rgba(0,0,0,0.5); }
@@ -587,44 +885,44 @@ export default function App() {
         .stat-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.05); }
         .stat-card.dark{ background:var(--black); color:var(--white); border-color:var(--charcoal); }
         .stat-card-main{ grid-row:span 2; background:var(--black); color:var(--white); border-color:var(--charcoal); }
-        .stat-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:16px; color:var(--orange-bright); }
+        .stat-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:16px; color:var(--gold-bright); }
         .stat-number{ font-family:'Space Grotesk'; font-weight:700; font-size:52px; display:block; margin:24px 0 8px; }
         .stat-card-main .stat-number{ font-size:64px; }
         .stat-desc{ font-size:14px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:260px; }
         .stat-icon-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-        .stat-icon-box{ width:38px; height:38px; border-radius:10px; background:rgba(255,140,0,0.08); display:flex; align-items:center; justify-content:center; color:var(--orange); }
+        .stat-icon-box{ width:38px; height:38px; border-radius:10px; background:rgba(201,162,39,0.08); display:flex; align-items:center; justify-content:center; color:var(--gold); }
         .stat-label{ font-size:13px; color:rgba(0,0,0,0.5); margin-top:8px; }
         .stat-card.dark .stat-label{ color:rgba(255,255,255,0.5); }
 
-        /* SERVICES */
-        .services-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:24px; }
-        .service-card{
+        /* BRANDS / SERVICES */
+        .brands-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:24px; }
+        .brand-card{
           background:var(--white); border:1px solid var(--line); border-radius:18px; padding:36px;
           transition:box-shadow .4s ease, border-color .4s ease; will-change:transform;
         }
-        .service-card:hover{ box-shadow:0 24px 50px rgba(0,0,0,0.06); border-color:rgba(255,140,0,0.3); }
-        .service-icon{
+        .brand-card:hover{ box-shadow:0 24px 50px rgba(0,0,0,0.06); border-color:rgba(201,162,39,0.3); }
+        .brand-card-full{ grid-column:span 2; }
+        .brand-icon{
           width:52px; height:52px; border-radius:14px; margin-bottom:26px;
           background:linear-gradient(135deg, var(--off), var(--cream));
-          display:flex; align-items:center; justify-content:center; color:var(--orange);
+          display:flex; align-items:center; justify-content:center; color:var(--gold);
         }
-        .service-card h3{ font-size:20px; font-weight:600; margin:0 0 12px; }
-        .service-card p{ font-size:14.5px; color:rgba(0,0,0,0.6); line-height:1.7; margin:0 0 20px; }
-        .service-link{ display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:var(--orange-deep); }
-        .service-link svg{ transition:transform .3s ease; }
-        .service-card:hover .service-link svg{ transform:translateX(4px); }
+        .brand-card h3{ font-size:20px; font-weight:600; margin:0 0 12px; }
+        .brand-card h3 span{ color:var(--gold); }
+        .brand-card p{ font-size:14.5px; color:rgba(0,0,0,0.6); line-height:1.7; margin:0 0 20px; }
+        .brand-link{ display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:var(--gold-deep); }
+        .brand-link svg{ transition:transform .3s ease; }
+        .brand-card:hover .brand-link svg{ transform:translateX(4px); }
 
-        /* GALLERY */
-        .gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+        /* GALLERY / PROJECTS */
+        .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
         .gallery-card{ border-radius:18px; overflow:hidden; background:var(--white); border:1px solid var(--line); }
-        .gallery-art-wrap{ overflow:hidden; height:200px; }
+        .gallery-art-wrap{ overflow:hidden; height:180px; }
         .gallery-art-svg{ width:100%; height:100%; display:block; transition:transform .6s ease; }
         .gallery-card:hover .gallery-art-svg{ transform:scale(1.08); }
-        .gallery-body{ padding:26px; }
-        .gallery-body h3{ font-size:18px; font-weight:600; margin:0 0 10px; }
-        .gallery-body p{ font-size:14px; color:rgba(0,0,0,0.6); line-height:1.6; margin:0 0 18px; }
-        .gallery-meta{ display:flex; gap:16px; font-size:12.5px; color:rgba(0,0,0,0.5); margin-bottom:16px; }
-        .gallery-meta span{ display:flex; align-items:center; gap:6px; }
+        .gallery-body{ padding:22px; }
+        .gallery-body h4{ font-size:15px; font-weight:600; margin:0 0 6px; }
+        .gallery-body p{ font-size:13px; color:rgba(0,0,0,0.6); line-height:1.5; margin:0; }
 
         /* PROCESS */
         .process-wrap{ background:var(--black); color:var(--white); }
@@ -636,15 +934,45 @@ export default function App() {
           position:absolute; top:44px; left:0; right:0; height:1px; background:rgba(255,255,255,0.12);
           overflow:hidden;
         }
-        .process-line-fill{ height:100%; background:linear-gradient(90deg, var(--orange-bright), var(--orange)); width:0%; transition:width 1.4s cubic-bezier(.2,.7,.2,1); }
+        .process-line-fill{ height:100%; background:linear-gradient(90deg, var(--gold-bright), var(--gold)); width:0%; transition:width 1.4s cubic-bezier(.2,.7,.2,1); }
         .process-step{ padding:0 24px 0 0; position:relative; }
         .process-num{ font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:rgba(255,255,255,0.14); margin-bottom:18px; }
         .process-icon{
-          width:44px; height:44px; border-radius:12px; background:rgba(255,140,0,0.12); color:var(--orange-bright);
+          width:44px; height:44px; border-radius:12px; background:rgba(201,162,39,0.12); color:var(--gold-bright);
           display:flex; align-items:center; justify-content:center; margin-bottom:18px; position:relative; z-index:2;
         }
         .process-step h3{ font-size:17px; font-weight:600; margin:0 0 10px; }
         .process-step p{ font-size:13.5px; color:rgba(255,255,255,0.55); line-height:1.6; margin:0; max-width:240px; }
+
+        /* ABOUT FOUNDER */
+        .founder-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:60px; align-items:start; }
+        .founder-image-wrap{
+          border-radius:20px; overflow:hidden; border:1px solid var(--line);
+          background:var(--cream); position:relative;
+        }
+        .founder-placeholder{
+          width:100%; aspect-ratio:3/4; background:linear-gradient(135deg, var(--cream), var(--off));
+          display:flex; align-items:center; justify-content:center; flex-direction:column;
+          padding:40px; text-align:center;
+        }
+        .founder-placeholder .initial{
+          font-family:'Space Grotesk'; font-size:80px; font-weight:700; color:var(--gold); opacity:0.3;
+        }
+        .founder-placeholder .label{
+          font-size:14px; color:rgba(0,0,0,0.4); margin-top:12px;
+        }
+        .founder-tag{
+          position:absolute; bottom:20px; left:20px;
+          background:var(--gold); color:#fff; padding:6px 16px; border-radius:999px;
+          font-size:12px; font-weight:600; letter-spacing:0.06em;
+        }
+        .founder-content h3{ font-size:28px; font-weight:700; margin:0 0 4px; }
+        .founder-content .title{ font-size:15px; color:var(--gold); font-weight:500; margin-bottom:16px; }
+        .founder-content p{ font-size:15px; color:rgba(0,0,0,0.65); line-height:1.7; margin-bottom:14px; }
+        .founder-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+        .founder-stat{ background:var(--off); padding:14px 18px; border-radius:12px; border:1px solid var(--line); }
+        .founder-stat .num{ font-family:'Space Grotesk'; font-size:20px; font-weight:700; color:var(--gold); }
+        .founder-stat .lbl{ font-size:12px; color:rgba(0,0,0,0.5); }
 
         /* CTA BANNER */
         .cta-banner{
@@ -656,7 +984,7 @@ export default function App() {
         }
         .cta-banner::after{
           content:''; position:absolute; width:400px; height:400px; border-radius:50%;
-          background:radial-gradient(circle, rgba(255,140,0,0.1), transparent 70%);
+          background:radial-gradient(circle, rgba(201,162,39,0.1), transparent 70%);
           top:-160px; right:-100px;
         }
         .cta-banner h2{ font-size:32px; max-width:460px; margin:0 0 8px; position:relative; z-index:1; }
@@ -669,8 +997,9 @@ export default function App() {
         .footer-brand-text{ font-size:13.5px; line-height:1.7; margin-top:16px; max-width:280px; }
         .footer-col h4{ color:var(--white); font-size:13.5px; margin:0 0 18px; letter-spacing:0.04em; text-transform:uppercase; font-family:'IBM Plex Mono', monospace; }
         .footer-col a{ display:block; font-size:14px; margin-bottom:12px; color:rgba(255,255,255,0.6); transition:color .25s ease; }
-        .footer-col a:hover{ color:var(--orange-bright); }
+        .footer-col a:hover{ color:var(--gold-bright); }
         .footer-bottom{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:28px; font-size:12.5px; }
+        .footer-bottom .rc{ color:var(--gold-bright); }
 
         /* RESPONSIVE */
         @media (max-width:980px){
@@ -681,7 +1010,9 @@ export default function App() {
           .hero-visual{ height:420px; margin-top:40px; }
           .stats-grid{ grid-template-columns:1fr 1fr; }
           .stat-card-main{ grid-column:span 2; grid-row:auto; }
-          .services-grid, .gallery-grid{ grid-template-columns:1fr; }
+          .brands-grid{ grid-template-columns:1fr; }
+          .brand-card-full{ grid-column:span 1; }
+          .gallery-grid{ grid-template-columns:1fr 1fr; }
           .process-grid{ grid-template-columns:1fr 1fr; row-gap:40px; }
           .process-line{ display:none; }
           .process-head{ grid-template-columns:1fr; }
@@ -691,6 +1022,11 @@ export default function App() {
           .hero{ padding:32px 24px 72px; }
           .hero-badge-1{ left:10px; }
           .hero-badge-2{ right:10px; }
+          .founder-grid{ grid-template-columns:1fr; }
+        }
+        @media (max-width:600px){
+          .gallery-grid{ grid-template-columns:1fr; }
+          .founder-stats{ grid-template-columns:1fr; }
         }
         @media (prefers-reduced-motion: reduce){
           .reveal, .hero-line-draw, .hero-ring-draw, .stat-card, .gallery-art-svg{ transition:none !important; animation:none !important; }
@@ -702,23 +1038,22 @@ export default function App() {
       {/* NAV */}
       <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-logo">
-          <span className="nav-logo-mark">A</span>
-          <span className="nav-logo-text">Aurelia Group</span>
+          <span className="nav-logo-mark">C</span>
+          <span className="nav-logo-text">Celetex <span>Group</span></span>
         </div>
         <div className="nav-links">
           <a href="#home">Home</a>
           <a href="#about">About</a>
-          <a href="#services">Services</a>
-          <a href="#projects">Projects</a>
+          <a href="#brands">Our Brands</a>
           <a href="#process">Process</a>
           <a href="#contact">Contact</a>
         </div>
         <div className="nav-cta">
           <a href="#contact" className="btn btn-ghost-dark" style={{ display: menuOpen ? "none" : "inline-flex" }}>
-            Log In
+            RC: 9341015
           </a>
-          <a href="#contact" className="btn btn-orange">
-            Request a Quote
+          <a href="#contact" className="btn btn-gold">
+            Get in Touch <ArrowRight size={16} />
           </a>
           <button className="menu-toggle" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -730,30 +1065,31 @@ export default function App() {
       <section className="hero" id="home">
         <div className="hero-inner">
           <div>
-            <Eyebrow>Trusted Multi-Disciplinary Partner</Eyebrow>
+            <Eyebrow>Diverse Ventures, Unified Vision</Eyebrow>
             <h1>
-              Focused on delivering thoughtful strategy <span className="accent">and flawless execution.</span>
+              Building a legacy of innovation <span className="accent">across Africa.</span>
             </h1>
             <p className="lead">
-              Aurelia Group brings three decades of combined expertise across construction, consulting,
-              and technology — transforming ambitious ideas into measurable results for clients across industries.
+              Celetex Group is a diversified business conglomerate delivering innovative solutions 
+              across media, real estate, travel, and digital commerce — empowering individuals, 
+              businesses, and communities.
             </p>
             <div className="hero-ctas">
-              <a href="#contact" className="btn btn-orange">
-                Request a Consultation <ArrowRight size={16} />
+              <a href="#contact" className="btn btn-gold">
+                Explore Our Brands <ArrowRight size={16} />
               </a>
-              <a href="#services" className="btn btn-ghost-dark">
-                Our Services
+              <a href="#about" className="btn btn-ghost-dark">
+                About Us
               </a>
             </div>
             <div className="hero-meta">
               <div className="hero-avatars">
-                <span>JK</span>
-                <span>MO</span>
-                <span>AT</span>
+                <span>CK</span>
+                <span>CO</span>
+                <span>CE</span>
               </div>
               <div className="hero-meta-text">
-                Trusted by <b>120+</b> organizations worldwide
+                Founded <b>2022</b> · RC: <b>9341015</b>
               </div>
             </div>
           </div>
@@ -770,8 +1106,8 @@ export default function App() {
                 <ShieldCheck size={18} />
               </div>
               <div>
-                <div className="hero-badge-num">18+ Yrs</div>
-                <div className="hero-badge-label">Industry Experience</div>
+                <div className="hero-badge-num">3+ Yrs</div>
+                <div className="hero-badge-label">Building Excellence</div>
               </div>
             </div>
             <div className="hero-badge hero-badge-2">
@@ -779,8 +1115,8 @@ export default function App() {
                 <Users size={18} />
               </div>
               <div>
-                <div className="hero-badge-num">240+</div>
-                <div className="hero-badge-label">Projects Delivered</div>
+                <div className="hero-badge-num">4+</div>
+                <div className="hero-badge-label">Brands Under One Roof</div>
               </div>
             </div>
           </div>
@@ -791,11 +1127,11 @@ export default function App() {
       <section className="stats-wrap" id="about">
         <div className="section">
           <div className="section-head">
-            <Reveal as="h2">Built on Experience. Driven by Quality.</Reveal>
+            <Reveal as="h2">About Celetex Group</Reveal>
             <Reveal delay={100}>
               <p>
-                With nearly two decades in the industry, we bring a hands-on, client-first approach to every
-                engagement — blending craftsmanship, strategy, and technology to deliver excellence.
+                Founded on 9th March 2022 by Rtr. Onyekachi Uchechukwu Celestine, a visionary 
+                entrepreneur committed to innovation, excellence, and sustainable business growth.
               </p>
             </Reveal>
           </div>
@@ -803,81 +1139,84 @@ export default function App() {
           <div className="stats-grid">
             <Reveal className="stat-card stat-card-main">
               <div className="stat-brand">
-                <span className="nav-logo-mark" style={{ width: 30, height: 30, fontSize: 14 }}>A</span>
-                Aurelia Group
+                <span className="nav-logo-mark" style={{ width: 30, height: 30, fontSize: 14 }}>C</span>
+                Celetex Group
               </div>
               <div>
-                <StatNumber value={240} suffix="+" />
+                <StatNumber value={2022} suffix="" decimals={0} />
                 <div className="stat-desc">
-                  Proven track record across construction, consulting, and technology sectors worldwide.
+                  Founded with a vision to create impactful solutions across multiple industries.
                 </div>
               </div>
             </Reveal>
 
             <Reveal delay={80} className="stat-card">
               <div className="stat-icon-row">
-                <div className="stat-icon-box"><Cpu size={18} /></div>
+                <div className="stat-icon-box"><Building2 size={18} /></div>
               </div>
-              <div className="stat-label">Modern Technology</div>
+              <div className="stat-label">Portfolio</div>
               <p style={{ fontSize: 13.5, color: "rgba(0,0,0,0.55)", marginTop: 8, lineHeight: 1.6 }}>
-                We integrate the latest tools and platforms to ensure faster, smarter delivery.
+                4 distinct brands delivering value across media, real estate, travel, and e-commerce.
               </p>
             </Reveal>
 
             <Reveal delay={140} className="stat-card dark">
-              <StatNumber value={98} suffix="%" />
-              <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Client Retention Rate</div>
+              <StatNumber value={100} suffix="+" />
+              <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Clients Served</div>
             </Reveal>
 
             <Reveal delay={200} className="stat-card dark">
-              <StatNumber value={40} suffix="M+" />
-              <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Capital Managed ($)</div>
+              <StatNumber value={5} suffix="+" />
+              <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Industry Sectors</div>
             </Reveal>
 
             <Reveal delay={260} className="stat-card">
               <div className="stat-icon-row">
-                <div className="stat-icon-box"><Users size={18} /></div>
+                <div className="stat-icon-box"><Award size={18} /></div>
               </div>
-              <div className="stat-label">Expert Team</div>
+              <div className="stat-label">Recognition</div>
               <p style={{ fontSize: 13.5, color: "rgba(0,0,0,0.55)", marginTop: 8, lineHeight: 1.6 }}>
-                Seasoned specialists across every division, bringing decades of hands-on experience.
+                Award-winning entrepreneur with merit honors from various organizations.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="section" id="services">
+      {/* VIDEO SECTION - Added here between Stats and Brands */}
+      <VideoSection />
+
+      {/* BRANDS */}
+      <section className="section" id="brands">
         <Reveal as="div">
-          <Eyebrow>Our Services</Eyebrow>
+          <Eyebrow>Our Brands</Eyebrow>
         </Reveal>
         <div className="section-head">
-          <Reveal as="h2">End-to-End Solutions You Can Rely On.</Reveal>
+          <Reveal as="h2">Diverse Ventures, Unified Vision.</Reveal>
           <Reveal delay={100}>
             <p>
-              From ground-up construction to digital transformation — we offer comprehensive
-              solutions tailored to every kind of ambition.
+              From creative media to real estate, travel, and digital commerce — our brands 
+              deliver innovative solutions across multiple sectors.
             </p>
           </Reveal>
         </div>
 
-        <div className="services-grid">
-          {services.map((s, i) => (
-            <Reveal key={s.title} delay={i * 100}>
+        <div className="brands-grid">
+          {brands.map((b, i) => (
+            <Reveal key={b.title} delay={i * 100} className={i === 0 ? "brand-card-full" : ""}>
               <div
-                className="service-card"
-                ref={s.tilt.ref}
-                onMouseMove={s.tilt.onMouseMove}
-                onMouseLeave={s.tilt.onMouseLeave}
+                className="brand-card"
+                ref={b.tilt.ref}
+                onMouseMove={b.tilt.onMouseMove}
+                onMouseLeave={b.tilt.onMouseLeave}
               >
-                <div className="service-icon">
-                  <s.icon size={22} />
+                <div className="brand-icon">
+                  <b.icon size={22} />
                 </div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
-                <a href="#contact" className="service-link">
-                  Read More <ArrowUpRight size={15} />
+                <h3><span>{b.title.split(" ")[0]}</span> {b.title.split(" ").slice(1).join(" ")}</h3>
+                <p>{b.desc}</p>
+                <a href="#contact" className="brand-link">
+                  Learn More <ArrowUpRight size={15} />
                 </a>
               </div>
             </Reveal>
@@ -885,54 +1224,93 @@ export default function App() {
         </div>
       </section>
 
-      {/* PROJECTS / GALLERY */}
-      <section className="section" id="projects">
-        <Reveal as="div">
-          <Eyebrow>Our Projects</Eyebrow>
-        </Reveal>
-        <div className="section-head">
-          <Reveal as="h2">Crafted Solutions, Proven Results.</Reveal>
-          <Reveal delay={100}>
-            <p>
-              We don't just deliver — we build lasting value. Every engagement reflects thoughtful
-              planning, expert execution, and measurable impact.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="gallery-grid">
-          {projects.map((p, i) => (
-            <Reveal key={p.title} delay={i * 100}>
-              <div
-                className="gallery-card"
-                ref={p.tilt.ref}
-                onMouseMove={p.tilt.onMouseMove}
-                onMouseLeave={p.tilt.onMouseLeave}
-              >
-                <div className="gallery-art-wrap">
-                  <GalleryArt variant={p.variant} />
-                </div>
-                <div className="gallery-body">
-                  <h3>{p.title}</h3>
-                  <p>{p.desc}</p>
-                  <div className="gallery-meta">
-                    <span><MapPin size={13} /> {p.loc}</span>
-                    <span><Calendar size={13} /> {p.date}</span>
+      {/* GALLERY / BRAND SNAPSHOTS */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <Reveal>
+          <div className="gallery-grid">
+            {brands.map((b, i) => (
+              <Reveal key={`gallery-${i}`} delay={i * 80}>
+                <div className="gallery-card">
+                  <div className="gallery-art-wrap">
+                    <GalleryArt variant={b.variant} />
                   </div>
-                  <a href="#contact" className="service-link">
-                    View More <ArrowUpRight size={15} />
-                  </a>
+                  <div className="gallery-body">
+                    <h4>{b.title}</h4>
+                    <p>{b.desc.slice(0, 70)}...</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+
+      {/* FOUNDER */}
+      <section className="section" style={{ background: "var(--off)", borderRadius: "24px", padding: "80px 48px" }}>
+        <Reveal as="div" className="text-center" style={{ marginBottom: 48 }}>
+          <Eyebrow>Meet the Founder</Eyebrow>
+          <h2 style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>Rtr. Onyekachi Uchechukwu Celestine</h2>
+          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)" }}>Visionary Entrepreneur · Founder, Celetex Group</p>
+        </Reveal>
+
+        <div className="founder-grid">
+          <Reveal delay={100}>
+            <div className="founder-image-wrap">
+              <div className="founder-placeholder">
+                <div className="initial">OC</div>
+                <div className="label">Onyekachi Celestine</div>
+              </div>
+              <span className="founder-tag">Founder & CEO</span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={200}>
+            <div className="founder-content">
+              <h3>Rtr. Onyekachi Uchechukwu Celestine</h3>
+              <div className="title">Founder, Celetex Group of Company Limited</div>
+              <p>
+                Rtr. Onyekachi Uchechukwu Celestine is a visionary entrepreneur, media professional, 
+                technology enthusiast, and business strategist. He is the Founder of <strong>Celetex Group</strong> — 
+                a growing conglomerate driven by the motto, <em>"Diverse Ventures, Unified Vision."</em>
+              </p>
+              <p>
+                A native of Odenkume, Obowo LGA, Imo State, he was raised in Anambra State, where he 
+                developed his entrepreneurial mindset and business network. He holds a degree in 
+                <strong> Computer Science</strong> from Abia State University.
+              </p>
+              <p>
+                Through Celetex Group, he oversees brands including <strong>Celetex Media</strong>, 
+                <strong> Celetex Travels and Tours</strong>, <strong> Celetex Signature Homes</strong>, 
+                and <strong>Cybermall</strong>, delivering innovative solutions across media, technology, 
+                real estate, travel, and commerce.
+              </p>
+              <p>
+                Recognized with several awards and merit honors from various organizations and institutions, 
+                he is also committed to youth development, mentorship, innovation, and entrepreneurship, 
+                inspiring others through leadership, resilience, and service.
+              </p>
+
+              <div className="founder-stats">
+                <div className="founder-stat">
+                  <div className="num">2022</div>
+                  <div className="lbl">Year Founded</div>
+                </div>
+                <div className="founder-stat">
+                  <div className="num">4</div>
+                  <div className="lbl">Group Companies</div>
+                </div>
+                <div className="founder-stat">
+                  <div className="num">CS</div>
+                  <div className="lbl">Computer Science Degree</div>
+                </div>
+                <div className="founder-stat">
+                  <div className="num">Imo</div>
+                  <div className="lbl">State of Origin</div>
                 </div>
               </div>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
         </div>
-
-        <Reveal delay={300} style={{ textAlign: "center", marginTop: 48 }}>
-          <a href="#contact" className="btn btn-ghost-dark">
-            Explore All Projects <ChevronRight size={16} />
-          </a>
-        </Reveal>
       </section>
 
       {/* PROCESS */}
@@ -941,12 +1319,12 @@ export default function App() {
           <div className="process-head">
             <div>
               <Reveal><Eyebrow>Our Process</Eyebrow></Reveal>
-              <Reveal delay={80}><h2>Our 4-Step Process to a Successful Partnership.</h2></Reveal>
+              <Reveal delay={80}><h2>How We Build Brands That Last.</h2></Reveal>
             </div>
             <Reveal delay={140}>
               <p>
-                We don't just execute — we partner. Every engagement is a reflection of thoughtful
-                design, expert planning, and precise delivery.
+                Every brand under the Celetex umbrella follows a proven framework — from vision 
+                to execution, we ensure excellence at every step.
               </p>
             </Reveal>
           </div>
@@ -971,15 +1349,15 @@ export default function App() {
       <Reveal>
         <div className="cta-banner" id="contact">
           <div>
-            <h2>Ready to build something exceptional together?</h2>
-            <p>Tell us about your project and our team will get back to you within one business day.</p>
+            <h2>Ready to partner with Celetex Group?</h2>
+            <p>Connect with us today and let's build something extraordinary together.</p>
           </div>
           <div className="cta-actions">
-            <a href="#" className="btn btn-orange">
-              Request a Quote <ArrowRight size={16} />
+            <a href="mailto:Celetexgroup@gmail.com" className="btn btn-gold">
+              <Mail size={16} /> Email Us
             </a>
-            <a href="#" className="btn btn-ghost-dark">
-              Contact Us
+            <a href="tel:08140784286" className="btn btn-ghost-dark">
+              <Phone size={16} /> Call Now
             </a>
           </div>
         </div>
@@ -990,37 +1368,42 @@ export default function App() {
         <div className="footer-top">
           <div>
             <div className="nav-logo">
-              <span className="nav-logo-mark">A</span>
-              <span className="nav-logo-text" style={{ color: "#fff" }}>Aurelia Group</span>
+              <span className="nav-logo-mark">C</span>
+              <span className="nav-logo-text" style={{ color: "#fff" }}>Celetex <span>Group</span></span>
             </div>
             <p className="footer-brand-text">
-              A multi-disciplinary company delivering construction, consulting, and technology
-              solutions engineered for lasting impact.
+              A diversified business conglomerate delivering innovative solutions across media, 
+              real estate, travel, and digital commerce.
+            </p>
+            <p style={{ fontSize: 12, marginTop: 12, color: "rgba(255,255,255,0.4)" }}>
+              RC: <span className="rc">9341015</span>
             </p>
           </div>
           <div className="footer-col">
-            <h4>Company</h4>
-            <a href="#about">About Us</a>
-            <a href="#services">Services</a>
-            <a href="#projects">Projects</a>
-            <a href="#process">Process</a>
-          </div>
-          <div className="footer-col">
-            <h4>Services</h4>
-            <a href="#services">Construction & Development</a>
-            <a href="#services">Strategic Consulting</a>
-            <a href="#services">Technology & Digital</a>
+            <h4>Our Brands</h4>
+            <a href="#">Celetex Multimedia</a>
+            <a href="#">Celetex Signature Homes</a>
+            <a href="#">Celetex Travels and Tours</a>
+            <a href="#">Cybermall</a>
           </div>
           <div className="footer-col">
             <h4>Contact</h4>
-            <a href="#">hello@aureliagroup.com</a>
-            <a href="#">+234 (0) 1 234 5678</a>
-            <a href="#">Victoria Island, Lagos</a>
+            <a href="mailto:Celetexgroup@gmail.com">Celetexgroup@gmail.com</a>
+            <a href="tel:08140784286">0814 078 4286</a>
+            <a href="tel:08123676517">0812 367 6517</a>
+            <a href="#">@Celetex_group (FB/IG)</a>
+          </div>
+          <div className="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#about">About Us</a>
+            <a href="#brands">Our Brands</a>
+            <a href="#process">Our Process</a>
+            <a href="#contact">Contact</a>
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Aurelia Group. All rights reserved.</span>
-          <span className="mono">Black · White · Orange</span>
+          <span>© 2026 Celetex Group of Company Limited. All rights reserved.</span>
+          <span className="mono">Black · Gold · White</span>
         </div>
       </footer>
     </div>
