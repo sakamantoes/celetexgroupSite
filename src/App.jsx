@@ -371,7 +371,7 @@ function NavBar() {
               whileHover={{ scale: 1.1, rotate: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <img src={images.Logo1} alt="" />
+              <img src={images.Logo1} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
             </motion.span>
             <span className="nav-logo-text">
               Celetex <span>Group</span>
@@ -421,7 +421,9 @@ function NavBar() {
           >
             <div className="mobile-menu-header">
               <div className="nav-logo">
-                <span className="nav-logo-mark">C</span>
+                <span className="nav-logo-mark">
+                  <img src={images.Logo1} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
+                </span>
                 <span className="nav-logo-text" style={{ color: "#fff" }}>
                   Celetex <span>Group</span>
                 </span>
@@ -805,6 +807,7 @@ function NavBar() {
           color: #fff;
           font-size: 16px;
           flex-shrink: 0;
+          overflow: hidden;
         }
 
         .nav-logo-text {
@@ -1078,7 +1081,7 @@ function HeroArtSecondary() {
         fontSize="11"
         letterSpacing="2"
       >
-        CELETEX / EST. 202
+        CELETEX / EST. 2022
       </text>
       <text
         x="30"
@@ -1757,32 +1760,40 @@ export default function App() {
 
   const brands = [
     {
-      icon: Camera,
+      icon: images.celetexMedia,
       title: "Celetex Multimedia",
       desc: "Full-service multimedia and creative agency specializing in branding, graphic design, website development, cinematography, photography, digital marketing, content creation, and strategic communications.",
       tilt: tiltA,
       variant: "media",
+      gradient: "from-purple-500/20 to-blue-500/20",
+      bg: "bg-gradient-to-br from-purple-50 to-blue-50",
     },
     {
-      icon: Plane,
+      icon: images.celetexTravelsTours,
       title: "Celetex Travels and Tours",
       desc: "Travel solutions company providing reliable travel consultancy, tour planning, visa assistance, vacation packages, and corporate travel management for local and international destinations.",
       tilt: tiltB,
       variant: "travels",
+      gradient: "from-orange-500/20 to-yellow-500/20",
+      bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
     },
     {
-      icon: Home,
+      icon: images.celetexSignature,
       title: "Celetex Signature Homes",
       desc: "Premium real estate brand focused on property development, real estate consultancy, construction, property management, interior design, and investment advisory services.",
       tilt: tiltC,
       variant: "homes",
+      gradient: "from-emerald-500/20 to-teal-500/20",
+      bg: "bg-gradient-to-br from-emerald-50 to-teal-50",
     },
     {
-      icon: ShoppingBag,
+      icon: images.cyberMall,
       title: "Cybermall",
       desc: "Innovative digital commerce platform connecting buyers and sellers through a seamless online marketplace experience, integrating e-commerce, logistics, and product discovery.",
       tilt: tiltD,
       variant: "cybermall",
+      gradient: "from-cyan-500/20 to-indigo-500/20",
+      bg: "bg-gradient-to-br from-cyan-50 to-indigo-50",
     },
   ];
 
@@ -1974,25 +1985,119 @@ export default function App() {
         .stat-label{ font-size:13px; color:rgba(0,0,0,0.5); margin-top:8px; }
         .stat-card.dark .stat-label{ color:rgba(255,255,255,0.5); }
 
-        /* BRANDS / SERVICES */
-        .brands-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:24px; }
+        /* BRANDS / SERVICES - REDESIGNED */
+        .brands-grid{ 
+          display:grid; 
+          grid-template-columns:repeat(2, 1fr); 
+          gap:28px; 
+        }
+        
         .brand-card{
-          background:var(--white); border:1px solid var(--line); border-radius:18px; padding:36px;
-          transition:box-shadow .4s ease, border-color .4s ease; will-change:transform;
+          background:var(--white); 
+          border:1px solid var(--line); 
+          border-radius:24px; 
+          padding:0;
+          overflow:hidden;
+          transition:all 0.4s ease;
+          box-shadow:0 4px 20px rgba(0,0,0,0.04);
         }
-        .brand-card:hover{ box-shadow:0 24px 50px rgba(0,0,0,0.06); border-color:rgba(201,162,39,0.3); }
-        .brand-card-full{ grid-column:span 2; }
-        .brand-icon{
-          width:52px; height:52px; border-radius:14px; margin-bottom:26px;
+        
+        .brand-card:hover{ 
+          box-shadow:0 24px 60px rgba(0,0,0,0.1); 
+          border-color:var(--gold);
+          transform:translateY(-6px);
+        }
+        
+        .brand-card-full{ 
+          grid-column:span 2; 
+        }
+        
+        .brand-card-image-wrapper{
+          position:relative;
+          height:200px;
+          overflow:hidden;
           background:linear-gradient(135deg, var(--off), var(--cream));
-          display:flex; align-items:center; justify-content:center; color:var(--gold);
         }
-        .brand-card h3{ font-size:20px; font-weight:600; margin:0 0 12px; }
-        .brand-card h3 span{ color:var(--gold); }
-        .brand-card p{ font-size:14.5px; color:rgba(0,0,0,0.6); line-height:1.7; margin:0 0 20px; }
-        .brand-link{ display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:var(--gold-deep); }
-        .brand-link svg{ transition:transform .3s ease; }
-        .brand-card:hover .brand-link svg{ transform:translateX(4px); }
+        
+        .brand-card-image-wrapper img{
+          width:100%;
+          height:100%;
+          object-fit:cover;
+          transition:transform 0.6s ease;
+        }
+        
+        .brand-card:hover .brand-card-image-wrapper img{
+          transform:scale(1.05);
+        }
+        
+        .brand-card-image-overlay{
+          position:absolute;
+          inset:0;
+          background:linear-gradient(135deg, rgba(201,162,39,0.08), rgba(0,0,0,0.02));
+          pointer-events:none;
+        }
+        
+        .brand-card-image-badge{
+          position:absolute;
+          top:16px;
+          right:16px;
+          background:rgba(255,255,255,0.92);
+          backdrop-filter:blur(8px);
+          padding:6px 14px;
+          border-radius:999px;
+          font-size:10px;
+          font-weight:600;
+          color:var(--gold-deep);
+          border:1px solid rgba(201,162,39,0.15);
+          letter-spacing:0.04em;
+          text-transform:uppercase;
+        }
+        
+        .brand-card-body{
+          padding:24px 28px 28px;
+        }
+        
+        .brand-card-body h3{ 
+          font-size:20px; 
+          font-weight:700; 
+          margin:0 0 10px; 
+          font-family:'Space Grotesk', sans-serif;
+          letter-spacing:-0.02em;
+        }
+        
+        .brand-card-body h3 span{ 
+          color:var(--gold); 
+        }
+        
+        .brand-card-body p{ 
+          font-size:14.5px; 
+          color:rgba(0,0,0,0.6); 
+          line-height:1.7; 
+          margin:0 0 20px; 
+        }
+        
+        .brand-link{ 
+          display:inline-flex; 
+          align-items:center; 
+          gap:8px; 
+          font-size:14px; 
+          font-weight:600; 
+          color:var(--gold-deep);
+          transition:all 0.3s ease;
+          text-decoration:none;
+        }
+        
+        .brand-link svg{ 
+          transition:transform 0.3s ease; 
+        }
+        
+        .brand-card:hover .brand-link svg{ 
+          transform:translateX(4px); 
+        }
+        
+        .brand-card-full .brand-card-image-wrapper{
+          height:240px;
+        }
 
         /* GALLERY / PROJECTS */
         .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
@@ -2090,6 +2195,8 @@ export default function App() {
           .stat-card-main{ grid-column:span 2; grid-row:auto; }
           .brands-grid{ grid-template-columns:1fr; }
           .brand-card-full{ grid-column:span 1; }
+          .brand-card-image-wrapper{ height:180px; }
+          .brand-card-full .brand-card-image-wrapper{ height:200px; }
           .gallery-grid{ grid-template-columns:1fr 1fr; }
           .process-grid{ grid-template-columns:1fr 1fr; row-gap:40px; }
           .process-line{ display:none; }
@@ -2105,6 +2212,8 @@ export default function App() {
         @media (max-width:600px){
           .gallery-grid{ grid-template-columns:1fr; }
           .founder-stats{ grid-template-columns:1fr; }
+          .brand-card-image-wrapper{ height:160px; }
+          .brand-card-body{ padding:20px; }
         }
         @media (prefers-reduced-motion: reduce){
           .reveal, .hero-line-draw, .hero-ring-draw, .stat-card, .gallery-art-svg{ transition:none !important; animation:none !important; }
@@ -2346,7 +2455,7 @@ export default function App() {
       {/* VIDEO SECTION */}
       <VideoSection />
 
-      {/* BRANDS */}
+      {/* BRANDS - REDESIGNED WITH BOLD IMAGES */}
       <section className="section" id="brands" ref={brandsRef}>
         <motion.div
           initial="hidden"
@@ -2387,25 +2496,30 @@ export default function App() {
                 onMouseMove={b.tilt.onMouseMove}
                 onMouseLeave={b.tilt.onMouseLeave}
               >
-                <motion.div
-                  className="brand-icon"
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <b.icon size={22} />
-                </motion.div>
-                <h3>
-                  <span>{b.title.split(" ")[0]}</span>{" "}
-                  {b.title.split(" ").slice(1).join(" ")}
-                </h3>
-                <p>{b.desc}</p>
-                <motion.a
-                  href="#contact"
-                  className="brand-link"
-                  whileHover={{ x: 4 }}
-                >
-                  Learn More <ArrowUpRight size={15} />
-                </motion.a>
+                {/* Image Section - Now prominent and visible */}
+                <div className="brand-card-image-wrapper">
+                  <img src={b.icon} alt={b.title} />
+                  <div className="brand-card-image-overlay" />
+                  <span className="brand-card-image-badge">
+                    {b.title.split(" ")[0]}
+                  </span>
+                </div>
+                
+                {/* Content Section */}
+                <div className="brand-card-body">
+                  <h3>
+                    <span>{b.title.split(" ")[0]}</span>{" "}
+                    {b.title.split(" ").slice(1).join(" ")}
+                  </h3>
+                  <p>{b.desc}</p>
+                  <motion.a
+                    href="#contact"
+                    className="brand-link"
+                    whileHover={{ x: 4 }}
+                  >
+                    Learn More <ArrowUpRight size={15} />
+                  </motion.a>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -2470,154 +2584,98 @@ export default function App() {
 
         <motion.div className="founder-grid" variants={staggerChildren}>
           <motion.div variants={staggerItem}>
-            <div className="founder-image-wrap group relative">
-              <motion.div
-                className="founder-placeholder relative overflow-hidden rounded-2xl shadow-2xl"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-              >
-                {/* Main Image */}
-                <img
-                  src={images.Agu}
-                  alt="Onyekachi Celestine - Founder of Celetex Group"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                />
+  <div className="founder-image-wrap group relative">
+    {/* Main Card Container */}
+    <motion.div
+      className="relative overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-2xl"
+      whileHover={{ scale: 1.02, y: -4 }}
+      transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+    >
+      {/* Image Container with Grey Box Effect */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#2a2a2a]">
+        <img
+          src={images.Agu}
+          alt="Onyekachi Celestine - Founder of Celetex Group"
+          className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+        />
+        
+        {/* Grey Box Overlay - Creative Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/95 via-[#1a1a1a]/40 to-transparent" />
+        
+        {/* Grey Box Pattern - Subtle Texture */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMzBoMTB2MTBIMzB6TTAgMGgxMHYxMEgweiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==')] bg-repeat" />
+        
+        {/* Grey Box Accent Line - Top */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
+        
+        {/* Floating Badge - Top Right */}
+        <motion.div 
+          className="absolute top-4 right-4 z-20 bg-[#1a1a1a]/80 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5 shadow-lg"
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-[#C9A227] rounded-full animate-pulse" />
+            <span className="text-white/70 text-[9px] font-mono tracking-[0.15em] uppercase">
+              Celetex Group
+            </span>
+          </div>
+        </motion.div>
 
-                {/* Gradient Overlay - Modern Multi-layer */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#C9A227]/10 via-transparent to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-transparent to-[#C9A227]/5" />
-
-                {/* Gold Glow Effect */}
-                <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#C9A227]/10 rounded-full blur-3xl" />
-                <div className="absolute -top-20 -left-20 w-48 h-48 bg-[#F3D27A]/5 rounded-full blur-2xl" />
-
-                {/* Corner Accents */}
-                <div className="absolute top-6 left-6 w-12 h-12 border-t-2 border-l-2 border-[#C9A227]/40 rounded-tl-lg" />
-                <div className="absolute bottom-6 right-6 w-12 h-12 border-b-2 border-r-2 border-[#C9A227]/40 rounded-br-lg" />
-
-                {/* Gold Line - Animated */}
-                <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent" />
-
-                {/* Floating Badge - Year Established */}
-                <div className="absolute top-6 right-6 z-20 bg-black/60 backdrop-blur-md border border-[#C9A227]/30 rounded-xl px-4 py-2 shadow-lg">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 bg-[#C9A227] rounded-full animate-pulse" />
-                    <span className="text-white/80 text-[10px] font-mono tracking-widest">
-                      Celetex Group
-                    </span>
-                  </div>
-                </div>
-
-                {/* Main Title Overlay - Bottom Left */}
-                <div className="absolute bottom-8 left-8 right-8 z-20">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[#F3D27A] text-xs font-mono tracking-[0.2em] uppercase mb-2">
-                      Founder & CEO
-                    </span>
-                    <h3 className="text-white text-2xl md:text-3xl font-display font-bold leading-tight">
-                      Onyekachi Celestine
-                    </h3>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="w-8 h-[2px] bg-[#C9A227]" />
-                      <span className="text-white/60 text-xs font-mono tracking-wider">
-                        Diverse Ventures, Unified Vision
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Social Badges - Bottom Right */}
-                <div className="absolute bottom-8 right-8 z-20 flex gap-2">
-                  <motion.a
-                    href="#"
-                    className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A227] hover:border-[#C9A227]/50 transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.99h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
-                    </svg>
-                  </motion.a>
-                  <motion.a
-                    href="#"
-                    className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A227] hover:border-[#C9A227]/50 transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z" />
-                    </svg>
-                  </motion.a>
-                  <motion.a
-                    href="#"
-                    className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A227] hover:border-[#C9A227]/50 transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.937 4.937 0 004.604 3.417 9.868 9.868 0 01-6.102 2.104c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0021.634-12.227c.002-.017.002-.034.002-.051.004-.053.004-.106.004-.16A9.86 9.86 0 0024 4.557a9.716 9.716 0 01-2.047.563z" />
-                    </svg>
-                  </motion.a>
-                  <motion.a
-                    href="#"
-                    className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/60 hover:text-[#C9A227] hover:border-[#C9A227]/50 transition-all duration-300"
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <svg
-                      className="w-4 h-4"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                    </svg>
-                  </motion.a>
-                </div>
-
-                {/* Trust Badge - Bottom Center */}
-                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 bg-black/50 backdrop-blur-md border mt-2 border-white/10 rounded-full px-5 py-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[#F3D27A] text-xs font-mono tracking-wider">
-                      ✦
-                    </span>
-                    <span className="text-white/70 text-[10px] font-mono tracking-[0.15em] uppercase">
-                      Trusted · Innovative · Excellent
-                    </span>
-                    <span className="text-[#F3D27A] text-xs font-mono tracking-wider">
-                      ✦
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Decorative Elements - Outside the card */}
-              <div className="absolute -top-4 -left-4 w-20 h-20 border-t-2 border-l-2 border-[#C9A227]/20 rounded-tl-xl hidden lg:block" />
-              <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b-2 border-r-2 border-[#C9A227]/20 rounded-br-xl hidden lg:block" />
-
-              {/* Floating Dot Pattern */}
-              <div className="absolute -top-8 -right-8 grid grid-cols-3 gap-1 opacity-20 hidden lg:grid">
-                {[...Array(9)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-1.5 h-1.5 rounded-full bg-[#C9A227]"
-                  />
-                ))}
-              </div>
+        {/* Content Overlay - Perfectly Centered at Bottom */}
+        <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 pt-20 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/40 to-transparent">
+          <motion.div 
+            className="text-center space-y-3 w-full px-6"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            {/* Gold Accent Line - Centered */}
+            <motion.div 
+              className="w-16 h-[2px] bg-gradient-to-r from-[#C9A227] to-[#F3D27A] mx-auto rounded-full"
+              initial={{ width: 0 }}
+              animate={{ width: 64 }}
+              transition={{ delay: 0.5, duration: 0.7 }}
+            />
+            
+            {/* Title - Founder & CEO */}
+            <span className="block text-[#F3D27A] text-[11px] font-mono tracking-[0.2em] uppercase">
+              Founder & CEO
+            </span>
+            
+            {/* Name */}
+            <h3 className="text-white text-2xl md:text-3xl font-display font-bold leading-tight">
+              Onyekachi Celestine
+            </h3>
+            
+            {/* Tagline with decorative dots */}
+            <div className="flex items-center justify-center gap-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
+              <span className="text-white/60 text-[11px] font-mono tracking-wider">
+                Diverse Ventures, Unified Vision
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
             </div>
           </motion.div>
+        </div>
+
+        {/* Grey Box Hover Reveal */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-t from-[#C9A227]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        />
+      </div>
+
+      {/* Grey Box Border Animation - Bottom */}
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      />
+    </motion.div>
+  </div>
+</motion.div>
 
           <motion.div variants={staggerItem}>
             <div className="founder-content">
@@ -2793,7 +2851,7 @@ export default function App() {
                 whileHover={{ scale: 1.1, rotate: -5 }}
                 transition={{ duration: 0.3 }}
               >
-                C
+                <img src={images.Logo1} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
               </motion.span>
               <span className="nav-logo-text" style={{ color: "#fff" }}>
                 Celetex <span>Group</span>
