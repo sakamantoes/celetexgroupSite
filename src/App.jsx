@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { motion, useAnimation, useInView, AnimatePresence } from "framer-motion";
 import {
   Building2,
   Compass,
@@ -33,6 +34,7 @@ import {
   Play,
   Volume2,
   VolumeX,
+  ChevronDown,
 } from "lucide-react";
 
 /* ----------------------------------------------------------------------
@@ -132,6 +134,75 @@ function useScrollProgress() {
   return progress;
 }
 
+// Framer Motion variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] } }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
+};
+
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: [0.22, 0.61, 0.36, 1] } }
+};
+
+const slideInLeft = {
+  hidden: { opacity: 0, x: -60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] } }
+};
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 60 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 0.61, 0.36, 1] } }
+};
+
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.2,
+    }
+  }
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 0.61, 0.36, 1] } }
+};
+
+const mobileMenuVariants = {
+  hidden: { 
+    opacity: 0,
+    clipPath: "inset(0 0 100% 0)",
+    transition: { duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }
+  },
+  visible: {
+    opacity: 1,
+    clipPath: "inset(0 0 0% 0)",
+    transition: { 
+      duration: 0.5,
+      ease: [0.22, 0.61, 0.36, 1],
+      staggerChildren: 0.08,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const mobileMenuItem = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { 
+    opacity: 1, 
+    x: 0,
+    transition: { duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }
+  }
+};
+
 /* ----------------------------------------------------------------------
    SMALL UI PARTS
 ---------------------------------------------------------------------- */
@@ -158,6 +229,29 @@ function Reveal({ as: Tag = "div", className = "", delay = 0, children }) {
   );
 }
 
+// Framer Motion version of Reveal
+function MotionReveal({ children, delay = 0, className = "", as: Tag = "div", ...props }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      {...props}
+    >
+      <motion.div
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={fadeUp}
+        transition={{ delay: delay / 1000 }}
+      >
+        {children}
+      </motion.div>
+    </Tag>
+  );
+}
+
 function StatNumber({ value, suffix = "", decimals = 0 }) {
   const [ref, visible] = useReveal(0.5);
   const count = useCountUp(value, visible);
@@ -166,6 +260,588 @@ function StatNumber({ value, suffix = "", decimals = 0 }) {
       {count.toFixed(decimals)}
       {suffix}
     </span>
+  );
+}
+
+// Framer Motion Stat Number
+function MotionStatNumber({ value, suffix = "", decimals = 0, delay = 0 }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const count = useCountUp(value, isInView);
+
+  return (
+    <motion.span
+      ref={ref}
+      className="stat-number"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={isInView ? { opacity: 1, scale: 1 } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.22, 0.61, 0.36, 1] }}
+    >
+      {count.toFixed(decimals)}
+      {suffix}
+    </motion.span>
+  );
+}
+
+/* ----------------------------------------------------------------------
+   RESPONSIVE NAVIGATION
+---------------------------------------------------------------------- */
+
+function NavBar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const navLinks = [
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Our Brands", href: "#brands" },
+    { label: "Process", href: "#process" },
+    { label: "Contact", href: "#contact" },
+  ];
+
+  return (
+    <>
+      <motion.nav 
+        className={`nav ${scrolled ? "scrolled" : ""}`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+      >
+        <div className="nav-container">
+          {/* Logo */}
+          <div className="nav-logo">
+            <motion.span 
+              className="nav-logo-mark"
+              whileHover={{ scale: 1.1, rotate: -5 }}
+              transition={{ duration: 0.3 }}
+            >
+              C
+            </motion.span>
+            <span className="nav-logo-text">Celetex <span>Group</span></span>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="nav-links-desktop">
+            {navLinks.map((link) => (
+              <a key={link.label} href={link.href} className="nav-link">
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Desktop CTA */}
+          <div className="nav-cta">
+            <motion.a 
+              href="#contact" 
+              className="btn btn-gold nav-cta-btn"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              Get in Touch <ArrowRight size={16} />
+            </motion.a>
+            <motion.button 
+              className="menu-toggle" 
+              onClick={() => setMenuOpen(true)} 
+              aria-label="Open menu"
+              whileTap={{ scale: 0.9 }}
+            >
+              <Menu size={24} />
+            </motion.button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            className="mobile-menu-overlay"
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={mobileMenuVariants}
+          >
+            <div className="mobile-menu-header">
+              <div className="nav-logo">
+                <span className="nav-logo-mark">C</span>
+                <span className="nav-logo-text" style={{ color: "#fff" }}>Celetex <span>Group</span></span>
+              </div>
+              <motion.button 
+                className="mobile-menu-close"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={28} />
+              </motion.button>
+            </div>
+
+            <div className="mobile-menu-body">
+              <motion.div className="mobile-menu-links" variants={staggerChildren}>
+                {navLinks.map((link, index) => (
+                  <motion.a 
+                    key={link.label} 
+                    href={link.href}
+                    className="mobile-menu-link"
+                    variants={mobileMenuItem}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <span className="mobile-menu-link-number">0{index + 1}</span>
+                    <span className="mobile-menu-link-label">{link.label}</span>
+                    <ArrowUpRight size={20} className="mobile-menu-link-arrow" />
+                  </motion.a>
+                ))}
+              </motion.div>
+
+              <motion.div 
+                className="mobile-menu-footer"
+                variants={fadeUp}
+                transition={{ delay: 0.4 }}
+              >
+                <div className="mobile-menu-contact">
+                  <a href="mailto:Celetexgroup@gmail.com" className="mobile-menu-email">
+                    <Mail size={18} /> Celetexgroup@gmail.com
+                  </a>
+                  <a href="tel:08140784286" className="mobile-menu-phone">
+                    <Phone size={18} /> 0814 078 4286
+                  </a>
+                </div>
+                <div className="mobile-menu-social">
+                  <span className="mobile-menu-rc">RC: 9341015</span>
+                  <div className="mobile-menu-social-icons">
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="Twitter">TW</a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <style>{`
+        /* Nav Container */
+        .nav-container {
+          max-width: 1360px;
+          width: 100%;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0;
+        }
+
+        /* Desktop Navigation */
+        .nav-links-desktop {
+          display: flex;
+          align-items: center;
+          gap: 32px;
+        }
+
+        .nav-link {
+          color: rgba(0, 0, 0, 0.65);
+          font-size: 14px;
+          font-weight: 500;
+          position: relative;
+          padding: 4px 0;
+          transition: color 0.25s ease;
+          text-decoration: none;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 0;
+          height: 2px;
+          background: var(--gold);
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+          color: var(--black);
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--black);
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          overflow-y: auto;
+        }
+
+        .mobile-menu-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 24px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          flex-shrink: 0;
+        }
+
+        .mobile-menu-close {
+          background: none;
+          border: none;
+          color: #fff;
+          cursor: pointer;
+          padding: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 8px;
+          transition: background 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .mobile-menu-body {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 40px 24px 32px;
+        }
+
+        .mobile-menu-links {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .mobile-menu-link {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 16px 20px;
+          border-radius: 12px;
+          color: #fff;
+          text-decoration: none;
+          transition: background 0.3s ease;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 20px;
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          position: relative;
+          border: 1px solid transparent;
+        }
+
+        .mobile-menu-link:hover {
+          background: rgba(255, 255, 255, 0.04);
+          border-color: rgba(201, 162, 39, 0.2);
+        }
+
+        .mobile-menu-link-number {
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 12px;
+          color: var(--gold);
+          font-weight: 400;
+          letter-spacing: 0.04em;
+          opacity: 0.6;
+          min-width: 28px;
+        }
+
+        .mobile-menu-link-label {
+          flex: 1;
+        }
+
+        .mobile-menu-link-arrow {
+          opacity: 0;
+          transform: translateX(-10px);
+          transition: all 0.3s ease;
+          color: var(--gold);
+        }
+
+        .mobile-menu-link:hover .mobile-menu-link-arrow {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .mobile-menu-footer {
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          padding-top: 24px;
+          margin-top: 32px;
+        }
+
+        .mobile-menu-contact {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-bottom: 20px;
+        }
+
+        .mobile-menu-contact a {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          color: rgba(255, 255, 255, 0.7);
+          text-decoration: none;
+          font-size: 14px;
+          transition: color 0.3s ease;
+          padding: 8px 0;
+        }
+
+        .mobile-menu-contact a:hover {
+          color: var(--gold-bright);
+        }
+
+        .mobile-menu-social {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .mobile-menu-rc {
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 12px;
+          color: var(--gold);
+          letter-spacing: 0.06em;
+        }
+
+        .mobile-menu-social-icons {
+          display: flex;
+          gap: 12px;
+        }
+
+        .mobile-menu-social-icons a {
+          color: rgba(255, 255, 255, 0.5);
+          text-decoration: none;
+          font-size: 13px;
+          font-weight: 500;
+          padding: 6px 12px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        .mobile-menu-social-icons a:hover {
+          color: var(--gold-bright);
+          border-color: var(--gold);
+          background: rgba(201, 162, 39, 0.08);
+        }
+
+        /* Responsive */
+        @media (max-width: 980px) {
+          .nav-links-desktop {
+            display: none;
+          }
+
+          .nav-rc {
+            display: none;
+          }
+
+          .nav-cta-btn {
+            display: none;
+          }
+
+          .menu-toggle {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .nav {
+            padding: 16px 24px !important;
+          }
+
+          .nav.scrolled {
+            padding: 12px 24px !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .mobile-menu-body {
+            padding: 24px 16px 24px;
+          }
+
+          .mobile-menu-link {
+            font-size: 17px;
+            padding: 14px 16px;
+          }
+
+          .mobile-menu-header {
+            padding: 16px 16px;
+          }
+        }
+
+        @media (min-width: 981px) {
+          .menu-toggle {
+            display: none !important;
+          }
+        }
+
+        /* Fix for nav sticky */
+        .nav {
+          position: sticky;
+          top: 0;
+          z-index: 50;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px 48px;
+          background: rgba(250, 249, 246, 0);
+          transition: all 0.4s ease;
+          border-bottom: 1px solid transparent;
+        }
+
+        .nav.scrolled {
+          background: rgba(250, 249, 246, 0.95);
+          backdrop-filter: blur(14px);
+          border-bottom: 1px solid var(--line);
+          padding: 14px 48px;
+        }
+
+        .nav-logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-shrink: 0;
+        }
+
+        .nav-logo-mark {
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: 'Space Grotesk', sans-serif;
+          font-weight: 700;
+          color: #fff;
+          font-size: 16px;
+          flex-shrink: 0;
+        }
+
+        .nav-logo-text {
+          color: var(--black);
+          font-family: 'Space Grotesk', sans-serif;
+          font-weight: 600;
+          font-size: 18px;
+          letter-spacing: 0.02em;
+          white-space: nowrap;
+        }
+
+        .nav-logo-text span {
+          color: var(--gold);
+        }
+
+        .nav-cta {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex-shrink: 0;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 20px;
+          border-radius: 999px;
+          font-size: 13.5px;
+          font-weight: 600;
+          border: 1px solid transparent;
+          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+          white-space: nowrap;
+          text-decoration: none;
+        }
+
+        .btn-gold {
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+          color: #0a0a0a;
+        }
+
+        .btn-gold:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(201, 162, 39, 0.35);
+        }
+
+        .btn-ghost-dark {
+          background: transparent;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+          color: var(--black);
+        }
+
+        .btn-ghost-dark:hover {
+          border-color: var(--gold);
+          color: var(--gold-deep);
+        }
+
+        .menu-toggle {
+          background: none;
+          border: none;
+          color: var(--black);
+          cursor: pointer;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+          .nav-logo-text {
+            font-size: 15px;
+          }
+          .nav-logo-mark {
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
+          }
+          .nav {
+            padding: 14px 16px !important;
+          }
+          .nav.scrolled {
+            padding: 10px 16px !important;
+          }
+        }
+      `}</style>
+    </>
   );
 }
 
@@ -188,7 +864,6 @@ function HeroArtPrimary() {
       </defs>
       <rect x="0" y="0" width="520" height="620" rx="18" fill="#F8F6F0" />
       <rect x="0" y="0" width="520" height="620" rx="18" fill="url(#gGlow)" />
-      {/* skyline blocks */}
       <g opacity="0.8">
         <rect x="60" y="330" width="60" height="220" fill="#E8E4DC" stroke="url(#gGoldA)" strokeWidth="1.2" />
         <rect x="130" y="260" width="70" height="290" fill="#EDE9E1" stroke="url(#gGoldA)" strokeWidth="1.2" />
@@ -196,7 +871,6 @@ function HeroArtPrimary() {
         <rect x="310" y="240" width="66" height="310" fill="#EDE9E1" stroke="url(#gGoldA)" strokeWidth="1.2" />
         <rect x="386" y="300" width="56" height="250" fill="#E8E4DC" stroke="url(#gGoldA)" strokeWidth="1.2" />
       </g>
-      {/* window grid on tall tower */}
       <g stroke="rgba(201,162,39,0.25)" strokeWidth="1">
         {Array.from({ length: 9 }).map((_, r) =>
           Array.from({ length: 4 }).map((_, c) => (
@@ -211,7 +885,6 @@ function HeroArtPrimary() {
           ))
         )}
       </g>
-      {/* crane */}
       <g stroke="url(#gGoldA)" strokeWidth="2.2" fill="none" strokeLinecap="round">
         <line x1="150" y1="560" x2="150" y2="120" />
         <line x1="150" y1="130" x2="330" y2="130" />
@@ -220,7 +893,6 @@ function HeroArtPrimary() {
         <line x1="300" y1="130" x2="300" y2="175" />
         <circle cx="150" cy="120" r="4" fill="url(#gGoldA)" />
       </g>
-      {/* ascending data line */}
       <polyline
         points="40,560 110,520 175,540 235,470 300,495 365,410 430,440 470,360"
         fill="none"
@@ -350,7 +1022,8 @@ function VideoSection() {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [ref, visible] = useReveal(0.3);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   const toggleMute = () => {
     if (videoRef.current) {
@@ -372,7 +1045,13 @@ function VideoSection() {
 
   return (
     <section className="video-section" ref={ref}>
-      <div className={`video-wrapper ${visible ? "reveal-visible" : "reveal"}`}>
+      <motion.div
+        className="video-wrapper"
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        variants={fadeUp}
+        transition={{ duration: 0.8 }}
+      >
         <div className="video-container">
           <video
             ref={videoRef}
@@ -390,21 +1069,45 @@ function VideoSection() {
             Your browser does not support the video tag.
           </video>
           
-          {/* Overlay with branding */}
-          <div className="video-overlay">
+          <motion.div 
+            className="video-overlay"
+            initial={{ opacity: 0.8 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2 }}
+          >
             <div className="video-overlay-content">
-              <div className="video-brand-icon">C</div>
-              <h3>Celetex Group</h3>
-              <p>Diverse Ventures, Unified Vision</p>
+              <motion.div 
+                className="video-brand-icon"
+                initial={{ scale: 0.8, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
+              >
+                C
+              </motion.div>
+              <motion.h3
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                Celetex Group
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+              >
+                Diverse Ventures, Unified Vision
+              </motion.p>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Controls */}
           <div className="video-controls">
-            <button 
+            <motion.button 
               className="video-control-btn"
               onClick={togglePlay}
               aria-label={isPlaying ? "Pause" : "Play"}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               {isPlaying ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
@@ -416,11 +1119,13 @@ function VideoSection() {
                   <polygon points="5,3 19,12 5,21" />
                 </svg>
               )}
-            </button>
-            <button 
+            </motion.button>
+            <motion.button 
               className="video-control-btn"
               onClick={toggleMute}
               aria-label={isMuted ? "Unmute" : "Mute"}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               {isMuted ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -435,14 +1140,13 @@ function VideoSection() {
                   <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                 </svg>
               )}
-            </button>
+            </motion.button>
             <span className="video-loop-indicator">⟳ Loop</span>
           </div>
 
-          {/* Gold accent line */}
           <div className="video-accent-line" />
         </div>
-      </div>
+      </motion.div>
 
       <style>{`
         .video-section {
@@ -691,6 +1395,21 @@ export default function App() {
     { n: "04", title: "Support & Optimization", desc: "We stay engaged after delivery, refining performance long after launch.", icon: HeartHandshake },
   ];
 
+  // Refs for Framer Motion
+  const heroRef = useRef(null);
+  const statsRef = useRef(null);
+  const brandsRef = useRef(null);
+  const founderRef = useRef(null);
+  const processRef = useRef(null);
+  const ctaRef = useRef(null);
+
+  const heroInView = useInView(heroRef, { once: true, amount: 0.2 });
+  const statsInView = useInView(statsRef, { once: true, amount: 0.2 });
+  const brandsInView = useInView(brandsRef, { once: true, amount: 0.2 });
+  const founderInView = useInView(founderRef, { once: true, amount: 0.2 });
+  const processInView = useInView(processRef, { once: true, amount: 0.2 });
+  const ctaInView = useInView(ctaRef, { once: true, amount: 0.2 });
+
   return (
     <div className="ag-root">
       <style>{`
@@ -731,63 +1450,6 @@ export default function App() {
           background:linear-gradient(180deg, var(--gold-bright), var(--gold) 40%, transparent 100%);
           transform-origin:top; pointer-events:none;
         }
-
-        /* NAV */
-        .nav{
-          position:sticky; top:0; z-index:50;
-          display:flex; align-items:center; justify-content:space-between;
-          padding:20px 48px;
-          background:rgba(250,249,246,0.0);
-          transition:all .4s ease;
-          border-bottom:1px solid transparent;
-        }
-        .nav.scrolled{
-          background:rgba(250,249,246,0.95);
-          backdrop-filter:blur(14px);
-          border-bottom:1px solid var(--line);
-          padding:14px 48px;
-        }
-        .nav-logo{ display:flex; align-items:center; gap:10px; }
-        .nav-logo-mark{
-          width:34px; height:34px; border-radius:8px;
-          background:linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
-          display:flex; align-items:center; justify-content:center;
-          font-family:'Space Grotesk'; font-weight:700; color:#fff; font-size:16px;
-        }
-        .nav-logo-text{ color:var(--black); font-family:'Space Grotesk'; font-weight:600; font-size:18px; letter-spacing:0.02em; }
-        .nav-logo-text span{ color:var(--gold); }
-        .nav-links{ display:flex; gap:36px; }
-        .nav-links a{
-          color:rgba(0,0,0,0.65); font-size:14.5px; font-weight:500; position:relative; padding:4px 0;
-          transition:color .25s ease;
-        }
-        .nav-links a::after{
-          content:''; position:absolute; left:0; bottom:-2px; width:0; height:1.5px; background:var(--gold);
-          transition:width .3s ease;
-        }
-        .nav-links a:hover{ color:var(--black); }
-        .nav-links a:hover::after{ width:100%; }
-        .nav-cta{ display:flex; align-items:center; gap:16px; }
-        .btn{
-          display:inline-flex; align-items:center; gap:8px;
-          padding:12px 24px; border-radius:999px; font-size:14px; font-weight:600;
-          border:1px solid transparent; transition:all .3s cubic-bezier(.2,.8,.2,1);
-          white-space:nowrap;
-        }
-        .btn-gold{
-          background:linear-gradient(135deg, var(--gold-bright), var(--gold));
-          color:#0a0a0a;
-        }
-        .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(201,162,39,0.35); }
-        .btn-ghost-dark{
-          background:transparent; border:1px solid rgba(0,0,0,0.15); color:var(--black);
-        }
-        .btn-ghost-dark:hover{ border-color:var(--gold); color:var(--gold-deep); }
-        .btn-ghost-light{
-          background:transparent; border:1px solid rgba(255,255,255,0.25); color:#fff;
-        }
-        .btn-ghost-light:hover{ border-color:var(--gold-bright); color:var(--gold-bright); }
-        .menu-toggle{ display:none; background:none; border:none; color:var(--black); }
 
         /* HERO */
         .hero{
@@ -1003,8 +1665,6 @@ export default function App() {
 
         /* RESPONSIVE */
         @media (max-width:980px){
-          .nav-links{ display:none; }
-          .menu-toggle{ display:block; }
           .hero-inner{ grid-template-columns:1fr; }
           .hero h1{ font-size:40px; }
           .hero-visual{ height:420px; margin-top:40px; }
@@ -1033,38 +1693,26 @@ export default function App() {
         }
       `}</style>
 
-      <div className="progress-thread" style={{ transform: `scaleY(${progress})` }} />
+      <motion.div 
+        className="progress-thread" 
+        style={{ transform: `scaleY(${progress})` }}
+        initial={{ scaleY: 0 }}
+        animate={{ scaleY: progress }}
+        transition={{ duration: 0.1 }}
+      />
 
-      {/* NAV */}
-      <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
-        <div className="nav-logo">
-          <span className="nav-logo-mark">C</span>
-          <span className="nav-logo-text">Celetex <span>Group</span></span>
-        </div>
-        <div className="nav-links">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#brands">Our Brands</a>
-          <a href="#process">Process</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <div className="nav-cta">
-          <a href="#contact" className="btn btn-ghost-dark" style={{ display: menuOpen ? "none" : "inline-flex" }}>
-            RC: 9341015
-          </a>
-          <a href="#contact" className="btn btn-gold">
-            Get in Touch <ArrowRight size={16} />
-          </a>
-          <button className="menu-toggle" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle menu">
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-      </nav>
+      {/* NAVIGATION */}
+      <NavBar />
 
       {/* HERO */}
-      <section className="hero" id="home">
+      <section className="hero" id="home" ref={heroRef}>
         <div className="hero-inner">
-          <div>
+          <motion.div
+            initial="hidden"
+            animate={heroInView ? "visible" : "hidden"}
+            variants={fadeUp}
+            transition={{ duration: 0.7 }}
+          >
             <Eyebrow>Diverse Ventures, Unified Vision</Eyebrow>
             <h1>
               Building a legacy of innovation <span className="accent">across Africa.</span>
@@ -1075,12 +1723,22 @@ export default function App() {
               businesses, and communities.
             </p>
             <div className="hero-ctas">
-              <a href="#contact" className="btn btn-gold">
+              <motion.a 
+                href="#contact" 
+                className="btn btn-gold"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 Explore Our Brands <ArrowRight size={16} />
-              </a>
-              <a href="#about" className="btn btn-ghost-dark">
+              </motion.a>
+              <motion.a 
+                href="#about" 
+                className="btn btn-ghost-dark"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
                 About Us
-              </a>
+              </motion.a>
             </div>
             <div className="hero-meta">
               <div className="hero-avatars">
@@ -1092,16 +1750,32 @@ export default function App() {
                 Founded <b>2022</b> · RC: <b>9341015</b>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="hero-visual">
+          <motion.div 
+            className="hero-visual"
+            initial="hidden"
+            animate={heroInView ? "visible" : "hidden"}
+            variants={scaleUp}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <div className="hero-art-primary">
               <HeroArtPrimary />
             </div>
-            <div className="hero-art-secondary">
+            <motion.div 
+              className="hero-art-secondary"
+              initial={{ x: -30, opacity: 0 }}
+              animate={heroInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
               <HeroArtSecondary />
-            </div>
-            <div className="hero-badge hero-badge-1">
+            </motion.div>
+            <motion.div 
+              className="hero-badge hero-badge-1"
+              initial={{ x: -40, opacity: 0 }}
+              animate={heroInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               <div className="hero-badge-icon">
                 <ShieldCheck size={18} />
               </div>
@@ -1109,8 +1783,13 @@ export default function App() {
                 <div className="hero-badge-num">3+ Yrs</div>
                 <div className="hero-badge-label">Building Excellence</div>
               </div>
-            </div>
-            <div className="hero-badge hero-badge-2">
+            </motion.div>
+            <motion.div 
+              className="hero-badge hero-badge-2"
+              initial={{ x: 40, opacity: 0 }}
+              animate={heroInView ? { x: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
               <div className="hero-badge-icon">
                 <Users size={18} />
               </div>
@@ -1118,39 +1797,55 @@ export default function App() {
                 <div className="hero-badge-num">4+</div>
                 <div className="hero-badge-label">Brands Under One Roof</div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* ABOUT / STATS */}
-      <section className="stats-wrap" id="about">
+      <section className="stats-wrap" id="about" ref={statsRef}>
         <div className="section">
-          <div className="section-head">
-            <Reveal as="h2">About Celetex Group</Reveal>
-            <Reveal delay={100}>
-              <p>
-                Founded on 9th March 2022 by Rtr. Onyekachi Uchechukwu Celestine, a visionary 
-                entrepreneur committed to innovation, excellence, and sustainable business growth.
-              </p>
-            </Reveal>
-          </div>
+          <motion.div 
+            className="section-head"
+            initial="hidden"
+            animate={statsInView ? "visible" : "hidden"}
+            variants={fadeUp}
+          >
+            <h2>About Celetex Group</h2>
+            <motion.p
+              initial="hidden"
+              animate={statsInView ? "visible" : "hidden"}
+              variants={fadeUp}
+              transition={{ delay: 0.15 }}
+            >
+              Founded on 9th March 2022 by Rtr. Onyekachi Uchechukwu Celestine, a visionary 
+              entrepreneur committed to innovation, excellence, and sustainable business growth.
+               <a href="#contact" className="btn btn-ghost-dark nav-rc">
+              RC: 9341015
+            </a>
+            </motion.p>
+          </motion.div>
 
-          <div className="stats-grid">
-            <Reveal className="stat-card stat-card-main">
+          <motion.div 
+            className="stats-grid"
+            initial="hidden"
+            animate={statsInView ? "visible" : "hidden"}
+            variants={staggerChildren}
+          >
+            <motion.div variants={staggerItem} className="stat-card stat-card-main">
               <div className="stat-brand">
                 <span className="nav-logo-mark" style={{ width: 30, height: 30, fontSize: 14 }}>C</span>
                 Celetex Group
               </div>
               <div>
-                <StatNumber value={2022} suffix="" decimals={0} />
+                <MotionStatNumber value={2022} suffix="" decimals={0} delay={0.2} />
                 <div className="stat-desc">
                   Founded with a vision to create impactful solutions across multiple industries.
                 </div>
               </div>
-            </Reveal>
+            </motion.div>
 
-            <Reveal delay={80} className="stat-card">
+            <motion.div variants={staggerItem} className="stat-card">
               <div className="stat-icon-row">
                 <div className="stat-icon-box"><Building2 size={18} /></div>
               </div>
@@ -1158,19 +1853,19 @@ export default function App() {
               <p style={{ fontSize: 13.5, color: "rgba(0,0,0,0.55)", marginTop: 8, lineHeight: 1.6 }}>
                 4 distinct brands delivering value across media, real estate, travel, and e-commerce.
               </p>
-            </Reveal>
+            </motion.div>
 
-            <Reveal delay={140} className="stat-card dark">
-              <StatNumber value={100} suffix="+" />
+            <motion.div variants={staggerItem} className="stat-card dark">
+              <MotionStatNumber value={100} suffix="+" delay={0.4} />
               <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Clients Served</div>
-            </Reveal>
+            </motion.div>
 
-            <Reveal delay={200} className="stat-card dark">
-              <StatNumber value={5} suffix="+" />
+            <motion.div variants={staggerItem} className="stat-card dark">
+              <MotionStatNumber value={5} suffix="+" delay={0.6} />
               <div className="stat-label" style={{ color: "rgba(255,255,255,0.6)" }}>Industry Sectors</div>
-            </Reveal>
+            </motion.div>
 
-            <Reveal delay={260} className="stat-card">
+            <motion.div variants={staggerItem} className="stat-card">
               <div className="stat-icon-row">
                 <div className="stat-icon-box"><Award size={18} /></div>
               </div>
@@ -1178,93 +1873,144 @@ export default function App() {
               <p style={{ fontSize: 13.5, color: "rgba(0,0,0,0.55)", marginTop: 8, lineHeight: 1.6 }}>
                 Award-winning entrepreneur with merit honors from various organizations.
               </p>
-            </Reveal>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* VIDEO SECTION - Added here between Stats and Brands */}
+      {/* VIDEO SECTION */}
       <VideoSection />
 
       {/* BRANDS */}
-      <section className="section" id="brands">
-        <Reveal as="div">
+      <section className="section" id="brands" ref={brandsRef}>
+        <motion.div
+          initial="hidden"
+          animate={brandsInView ? "visible" : "hidden"}
+          variants={fadeUp}
+        >
           <Eyebrow>Our Brands</Eyebrow>
-        </Reveal>
-        <div className="section-head">
-          <Reveal as="h2">Diverse Ventures, Unified Vision.</Reveal>
-          <Reveal delay={100}>
-            <p>
-              From creative media to real estate, travel, and digital commerce — our brands 
-              deliver innovative solutions across multiple sectors.
-            </p>
-          </Reveal>
-        </div>
+        </motion.div>
+        <motion.div 
+          className="section-head"
+          initial="hidden"
+          animate={brandsInView ? "visible" : "hidden"}
+          variants={fadeUp}
+          transition={{ delay: 0.1 }}
+        >
+          <h2>Diverse Ventures, Unified Vision.</h2>
+          <p>
+            From creative media to real estate, travel, and digital commerce — our brands 
+            deliver innovative solutions across multiple sectors.
+          </p>
+        </motion.div>
 
-        <div className="brands-grid">
+        <motion.div 
+          className="brands-grid"
+          initial="hidden"
+          animate={brandsInView ? "visible" : "hidden"}
+          variants={staggerChildren}
+        >
           {brands.map((b, i) => (
-            <Reveal key={b.title} delay={i * 100} className={i === 0 ? "brand-card-full" : ""}>
+            <motion.div 
+              key={b.title} 
+              variants={staggerItem}
+              className={i === 0 ? "brand-card-full" : ""}
+            >
               <div
                 className="brand-card"
                 ref={b.tilt.ref}
                 onMouseMove={b.tilt.onMouseMove}
                 onMouseLeave={b.tilt.onMouseLeave}
               >
-                <div className="brand-icon">
+                <motion.div 
+                  className="brand-icon"
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <b.icon size={22} />
-                </div>
+                </motion.div>
                 <h3><span>{b.title.split(" ")[0]}</span> {b.title.split(" ").slice(1).join(" ")}</h3>
                 <p>{b.desc}</p>
-                <a href="#contact" className="brand-link">
+                <motion.a 
+                  href="#contact" 
+                  className="brand-link"
+                  whileHover={{ x: 4 }}
+                >
                   Learn More <ArrowUpRight size={15} />
-                </a>
+                </motion.a>
               </div>
-            </Reveal>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* GALLERY / BRAND SNAPSHOTS */}
       <section className="section" style={{ paddingTop: 0 }}>
-        <Reveal>
-          <div className="gallery-grid">
-            {brands.map((b, i) => (
-              <Reveal key={`gallery-${i}`} delay={i * 80}>
-                <div className="gallery-card">
-                  <div className="gallery-art-wrap">
-                    <GalleryArt variant={b.variant} />
-                  </div>
-                  <div className="gallery-body">
-                    <h4>{b.title}</h4>
-                    <p>{b.desc.slice(0, 70)}...</p>
-                  </div>
+        <motion.div 
+          className="gallery-grid"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerChildren}
+        >
+          {brands.map((b, i) => (
+            <motion.div 
+              key={`gallery-${i}`} 
+              variants={staggerItem}
+              whileHover={{ y: -6, transition: { duration: 0.3 } }}
+            >
+              <div className="gallery-card">
+                <div className="gallery-art-wrap">
+                  <GalleryArt variant={b.variant} />
                 </div>
-              </Reveal>
-            ))}
-          </div>
-        </Reveal>
+                <div className="gallery-body">
+                  <h4>{b.title}</h4>
+                  <p>{b.desc.slice(0, 70)}...</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </section>
 
       {/* FOUNDER */}
-      <section className="section" style={{ background: "var(--off)", borderRadius: "24px", padding: "80px 48px" }}>
-        <Reveal as="div" className="text-center" style={{ marginBottom: 48 }}>
+      <motion.section 
+        className="section" 
+        style={{ background: "var(--off)", borderRadius: "24px", padding: "80px 48px" }}
+        ref={founderRef}
+        initial="hidden"
+        animate={founderInView ? "visible" : "hidden"}
+        variants={fadeUp}
+      >
+        <motion.div 
+          className="text-center" 
+          style={{ marginBottom: 48 }}
+          variants={fadeUp}
+        >
           <Eyebrow>Meet the Founder</Eyebrow>
           <h2 style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>Rtr. Onyekachi Uchechukwu Celestine</h2>
           <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)" }}>Visionary Entrepreneur · Founder, Celetex Group</p>
-        </Reveal>
+        </motion.div>
 
-        <div className="founder-grid">
-          <Reveal delay={100}>
+        <motion.div 
+          className="founder-grid"
+          variants={staggerChildren}
+        >
+          <motion.div variants={staggerItem}>
             <div className="founder-image-wrap">
-              <div className="founder-placeholder">
+              <motion.div 
+                className="founder-placeholder"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4 }}
+              >
                 <div className="initial">OC</div>
                 <div className="label">Onyekachi Celestine</div>
-              </div>
+              </motion.div>
               <span className="founder-tag">Founder & CEO</span>
             </div>
-          </Reveal>
+          </motion.div>
 
-          <Reveal delay={200}>
+          <motion.div variants={staggerItem}>
             <div className="founder-content">
               <h3>Rtr. Onyekachi Uchechukwu Celestine</h3>
               <div className="title">Founder, Celetex Group of Company Limited</div>
@@ -1291,84 +2037,146 @@ export default function App() {
               </p>
 
               <div className="founder-stats">
-                <div className="founder-stat">
-                  <div className="num">2022</div>
-                  <div className="lbl">Year Founded</div>
-                </div>
-                <div className="founder-stat">
-                  <div className="num">4</div>
-                  <div className="lbl">Group Companies</div>
-                </div>
-                <div className="founder-stat">
-                  <div className="num">CS</div>
-                  <div className="lbl">Computer Science Degree</div>
-                </div>
-                <div className="founder-stat">
-                  <div className="num">Imo</div>
-                  <div className="lbl">State of Origin</div>
-                </div>
+                {[
+                  { num: "2022", lbl: "Year Founded" },
+                  { num: "4", lbl: "Group Companies" },
+                  { num: "CS", lbl: "Computer Science Degree" },
+                  { num: "Imo", lbl: "State of Origin" },
+                ].map((stat, i) => (
+                  <motion.div 
+                    key={i}
+                    className="founder-stat"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={founderInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.6 + i * 0.1 }}
+                  >
+                    <div className="num">{stat.num}</div>
+                    <div className="lbl">{stat.lbl}</div>
+                  </motion.div>
+                ))}
               </div>
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </motion.div>
+        </motion.div>
+      </motion.section>
 
       {/* PROCESS */}
-      <section className="process-wrap" id="process">
+      <section className="process-wrap" id="process" ref={processRef}>
         <div className="section">
-          <div className="process-head">
+          <motion.div 
+            className="process-head"
+            initial="hidden"
+            animate={processInView ? "visible" : "hidden"}
+            variants={fadeUp}
+          >
             <div>
-              <Reveal><Eyebrow>Our Process</Eyebrow></Reveal>
-              <Reveal delay={80}><h2>How We Build Brands That Last.</h2></Reveal>
+              <Eyebrow>Our Process</Eyebrow>
+              <h2>How We Build Brands That Last.</h2>
             </div>
-            <Reveal delay={140}>
-              <p>
-                Every brand under the Celetex umbrella follows a proven framework — from vision 
-                to execution, we ensure excellence at every step.
-              </p>
-            </Reveal>
-          </div>
+            <p>
+              Every brand under the Celetex umbrella follows a proven framework — from vision 
+              to execution, we ensure excellence at every step.
+            </p>
+          </motion.div>
 
-          <div className="process-grid">
+          <motion.div 
+            className="process-grid"
+            initial="hidden"
+            animate={processInView ? "visible" : "hidden"}
+            variants={staggerChildren}
+          >
             <ProcessLine />
             {process.map((step, i) => (
-              <Reveal key={step.n} delay={i * 120} className="process-step">
+              <motion.div 
+                key={step.n} 
+                variants={staggerItem}
+                className="process-step"
+              >
                 <div className="process-num">{step.n}</div>
-                <div className="process-icon">
+                <motion.div 
+                  className="process-icon"
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <step.icon size={20} />
-                </div>
+                </motion.div>
                 <h3>{step.title}</h3>
                 <p>{step.desc}</p>
-              </Reveal>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA BANNER */}
-      <Reveal>
+      <motion.div
+        ref={ctaRef}
+        initial="hidden"
+        animate={ctaInView ? "visible" : "hidden"}
+        variants={scaleUp}
+        transition={{ duration: 0.7 }}
+      >
         <div className="cta-banner" id="contact">
           <div>
-            <h2>Ready to partner with Celetex Group?</h2>
-            <p>Connect with us today and let's build something extraordinary together.</p>
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={ctaInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 }}
+            >
+              Ready to partner with Celetex Group?
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={ctaInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.3 }}
+            >
+              Connect with us today and let's build something extraordinary together.
+            </motion.p>
           </div>
-          <div className="cta-actions">
-            <a href="mailto:Celetexgroup@gmail.com" className="btn btn-gold">
+          <motion.div 
+            className="cta-actions"
+            initial={{ opacity: 0, x: 20 }}
+            animate={ctaInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ delay: 0.4 }}
+          >
+            <motion.a 
+              href="mailto:Celetexgroup@gmail.com" 
+              className="btn btn-gold"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
               <Mail size={16} /> Email Us
-            </a>
-            <a href="tel:08140784286" className="btn btn-ghost-dark">
+            </motion.a>
+            <motion.a 
+              href="tel:08140784286" 
+              className="btn btn-ghost-dark"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
               <Phone size={16} /> Call Now
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
-      </Reveal>
+      </motion.div>
 
       {/* FOOTER */}
-      <footer className="footer">
+      <motion.footer 
+        className="footer"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="footer-top">
           <div>
             <div className="nav-logo">
-              <span className="nav-logo-mark">C</span>
+              <motion.span 
+                className="nav-logo-mark"
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                transition={{ duration: 0.3 }}
+              >
+                C
+              </motion.span>
               <span className="nav-logo-text" style={{ color: "#fff" }}>Celetex <span>Group</span></span>
             </div>
             <p className="footer-brand-text">
@@ -1405,16 +2213,23 @@ export default function App() {
           <span>© 2026 Celetex Group of Company Limited. All rights reserved.</span>
           <span className="mono">Black · Gold · White</span>
         </div>
-      </footer>
+      </motion.footer>
     </div>
   );
 }
 
 function ProcessLine() {
-  const [ref, visible] = useReveal(0.4);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.4 });
+  
   return (
     <div className="process-line" ref={ref}>
-      <div className="process-line-fill" style={{ width: visible ? "100%" : "0%" }} />
+      <motion.div 
+        className="process-line-fill" 
+        initial={{ width: "0%" }}
+        animate={isInView ? { width: "100%" } : { width: "0%" }}
+        transition={{ duration: 1.4, ease: [0.22, 0.61, 0.36, 1] }}
+      />
     </div>
   );
 }
