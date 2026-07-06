@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* Add to your global CSS or tailwind config */
+.bg-gold {
+  background-color: #C9A227;
+}
+
+.bg-gold-deep {
+  background-color: #8C6A22;
+}
+
+.text-gold {
+  color: #C9A227;
+}
+
+.border-gold\/40 {
+  border-color: rgba(201, 162, 39, 0.4);
+}
