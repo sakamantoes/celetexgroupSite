@@ -40,6 +40,13 @@ import {
   Volume2,
   VolumeX,
   ChevronDown,
+  Smartphone,
+  Download,
+  Store,
+  ShoppingCart,
+  CreditCard,
+  Truck,
+  BadgeCheck,
 } from "lucide-react";
 import images from "./assets/image";
 
@@ -351,6 +358,7 @@ function NavBar() {
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
     { label: "Our Brands", href: "#brands" },
+    { label: "Cybermall", href: "#cybermall-app" },
     { label: "Process", href: "#process" },
     { label: "Contact", href: "#contact" },
   ];
@@ -520,7 +528,7 @@ function NavBar() {
         }
 
         .nav-link {
-          color: rgba(0, 0, 0, 0.65);
+          color: rgba(255, 255, 255, 0.65);
           font-size: 14px;
           font-weight: 500;
           position: relative;
@@ -541,7 +549,7 @@ function NavBar() {
         }
 
         .nav-link:hover {
-          color: var(--black);
+          color: var(--white);
         }
 
         .nav-link:hover::after {
@@ -775,15 +783,15 @@ function NavBar() {
           align-items: center;
           justify-content: space-between;
           padding: 20px 48px;
-          background: rgba(250, 249, 246, 0);
+          background: rgba(10, 10, 10, 0);
           transition: all 0.4s ease;
           border-bottom: 1px solid transparent;
         }
 
         .nav.scrolled {
-          background: rgba(250, 249, 246, 0.95);
+          background: rgba(10, 10, 10, 0.95);
           backdrop-filter: blur(14px);
-          border-bottom: 1px solid var(--line);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
           padding: 14px 48px;
         }
 
@@ -811,7 +819,7 @@ function NavBar() {
         }
 
         .nav-logo-text {
-          color: var(--black);
+          color: var(--white);
           font-family: 'Space Grotesk', sans-serif;
           font-weight: 600;
           font-size: 18px;
@@ -856,19 +864,19 @@ function NavBar() {
 
         .btn-ghost-dark {
           background: transparent;
-          border: 1px solid rgba(0, 0, 0, 0.15);
-          color: var(--black);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: var(--white);
         }
 
         .btn-ghost-dark:hover {
           border-color: var(--gold);
-          color: var(--gold-deep);
+          color: var(--gold-bright);
         }
 
         .menu-toggle {
           background: none;
           border: none;
-          color: var(--black);
+          color: var(--white);
           cursor: pointer;
           padding: 4px;
           display: flex;
@@ -914,15 +922,15 @@ function HeroArtPrimary() {
           <stop offset="100%" stopColor="rgba(201,162,39,0)" />
         </radialGradient>
       </defs>
-      <rect x="0" y="0" width="520" height="620" rx="18" fill="#F8F6F0" />
+      <rect x="0" y="0" width="520" height="620" rx="18" fill="#0a0a0a" />
       <rect x="0" y="0" width="520" height="620" rx="18" fill="url(#gGlow)" />
-      <g opacity="0.8">
+      <g opacity="0.6">
         <rect
           x="60"
           y="330"
           width="60"
           height="220"
-          fill="#E8E4DC"
+          fill="#1a1a1a"
           stroke="url(#gGoldA)"
           strokeWidth="1.2"
         />
@@ -931,7 +939,7 @@ function HeroArtPrimary() {
           y="260"
           width="70"
           height="290"
-          fill="#EDE9E1"
+          fill="#1a1a1a"
           stroke="url(#gGoldA)"
           strokeWidth="1.2"
         />
@@ -940,7 +948,7 @@ function HeroArtPrimary() {
           y="180"
           width="90"
           height="370"
-          fill="#F0ECE4"
+          fill="#1a1a1a"
           stroke="url(#gGoldA)"
           strokeWidth="1.4"
         />
@@ -949,7 +957,7 @@ function HeroArtPrimary() {
           y="240"
           width="66"
           height="310"
-          fill="#EDE9E1"
+          fill="#1a1a1a"
           stroke="url(#gGoldA)"
           strokeWidth="1.2"
         />
@@ -958,12 +966,12 @@ function HeroArtPrimary() {
           y="300"
           width="56"
           height="250"
-          fill="#E8E4DC"
+          fill="#1a1a1a"
           stroke="url(#gGoldA)"
           strokeWidth="1.2"
         />
       </g>
-      <g stroke="rgba(201,162,39,0.25)" strokeWidth="1">
+      <g stroke="rgba(201,162,39,0.2)" strokeWidth="1">
         {Array.from({ length: 9 }).map((_, r) =>
           Array.from({ length: 4 }).map((_, c) => (
             <rect
@@ -973,7 +981,7 @@ function HeroArtPrimary() {
               width="10"
               height="18"
               fill={
-                (r + c) % 3 === 0 ? "rgba(201,162,39,0.4)" : "rgba(0,0,0,0.04)"
+                (r + c) % 3 === 0 ? "rgba(201,162,39,0.3)" : "rgba(255,255,255,0.02)"
               }
             />
           )),
@@ -1018,7 +1026,7 @@ function HeroArtPrimary() {
             cx={pts[i][0]}
             cy={pts[i][1]}
             r="4"
-            fill="#F8F6F0"
+            fill="#0a0a0a"
             stroke="#C9A227"
             strokeWidth="2"
           />
@@ -1037,7 +1045,7 @@ function HeroArtSecondary() {
           <stop offset="100%" stopColor="#8C6A22" />
         </linearGradient>
       </defs>
-      <rect x="0" y="0" width="360" height="300" rx="16" fill="#EDE9E1" />
+      <rect x="0" y="0" width="360" height="300" rx="16" fill="#1a1a1a" />
       <circle
         cx="120"
         cy="130"
@@ -1061,7 +1069,7 @@ function HeroArtSecondary() {
         cx="120"
         cy="130"
         r="18"
-        fill="#F8F6F0"
+        fill="#0a0a0a"
         stroke="url(#gGoldB)"
         strokeWidth="1.5"
       />
@@ -1076,7 +1084,7 @@ function HeroArtSecondary() {
       <text
         x="30"
         y="250"
-        fill="#1a1a1a"
+        fill="rgba(255,255,255,0.7)"
         fontFamily="IBM Plex Mono, monospace"
         fontSize="11"
         letterSpacing="2"
@@ -1086,7 +1094,7 @@ function HeroArtSecondary() {
       <text
         x="30"
         y="268"
-        fill="rgba(0,0,0,0.4)"
+        fill="rgba(255,255,255,0.3)"
         fontFamily="IBM Plex Mono, monospace"
         fontSize="11"
       >
@@ -1112,7 +1120,7 @@ function GalleryArt({ variant }) {
           <stop offset="100%" stopColor={palette.b} />
         </linearGradient>
       </defs>
-      <rect width="400" height="260" fill="#F5F2EC" />
+      <rect width="400" height="260" fill="#1a1a1a" />
       {variant === "media" && (
         <g>
           <rect
@@ -1121,7 +1129,7 @@ function GalleryArt({ variant }) {
             width="300"
             height="180"
             rx="8"
-            fill="#EDE9E1"
+            fill="#222"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.4"
           />
@@ -1129,7 +1137,7 @@ function GalleryArt({ variant }) {
             cx="100"
             cy="130"
             r="36"
-            fill="#E8E4DC"
+            fill="#2a2a2a"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.2"
           />
@@ -1137,7 +1145,7 @@ function GalleryArt({ variant }) {
             cx="100"
             cy="130"
             r="18"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1147,7 +1155,7 @@ function GalleryArt({ variant }) {
             width="30"
             height="80"
             rx="2"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1157,7 +1165,7 @@ function GalleryArt({ variant }) {
             width="30"
             height="100"
             rx="2"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1167,7 +1175,7 @@ function GalleryArt({ variant }) {
             width="30"
             height="70"
             rx="2"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1177,7 +1185,7 @@ function GalleryArt({ variant }) {
             width="30"
             height="85"
             rx="2"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1186,7 +1194,7 @@ function GalleryArt({ variant }) {
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.5"
             strokeDasharray="4 6"
-            opacity="0.5"
+            opacity="0.3"
           />
         </g>
       )}
@@ -1194,7 +1202,7 @@ function GalleryArt({ variant }) {
         <g>
           <path
             d="M60 140 L140 60 L280 60 L340 140 L280 220 L140 220 Z"
-            fill="#EDE9E1"
+            fill="#222"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.4"
           />
@@ -1254,14 +1262,14 @@ function GalleryArt({ variant }) {
             y="100"
             width="280"
             height="130"
-            fill="#EDE9E1"
+            fill="#222"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.4"
             rx="4"
           />
           <polygon
             points="60,100 200,40 340,100"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.4"
           />
@@ -1270,7 +1278,7 @@ function GalleryArt({ variant }) {
             y="150"
             width="40"
             height="80"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1279,7 +1287,7 @@ function GalleryArt({ variant }) {
             y="150"
             width="40"
             height="80"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1288,7 +1296,7 @@ function GalleryArt({ variant }) {
             y="140"
             width="50"
             height="40"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1297,7 +1305,7 @@ function GalleryArt({ variant }) {
             y="150"
             width="30"
             height="30"
-            fill="#E8E4DC"
+            fill="#2a2a2a"
             stroke={`url(#grad-${variant})`}
             strokeWidth="0.8"
           />
@@ -1311,7 +1319,7 @@ function GalleryArt({ variant }) {
             width="280"
             height="160"
             rx="8"
-            fill="#EDE9E1"
+            fill="#222"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1.4"
           />
@@ -1321,7 +1329,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1331,7 +1339,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1341,7 +1349,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1351,7 +1359,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1361,7 +1369,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1371,7 +1379,7 @@ function GalleryArt({ variant }) {
             width="60"
             height="40"
             rx="4"
-            fill="#D8D0C0"
+            fill="#333"
             stroke={`url(#grad-${variant})`}
             strokeWidth="1"
           />
@@ -1637,8 +1645,8 @@ function VideoSection() {
           border-radius: 20px;
           overflow: hidden;
           background: var(--black);
-          border: 1px solid var(--line);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
           aspect-ratio: 16/10;
         }
 
@@ -1781,7 +1789,7 @@ function VideoSection() {
           font-weight: 700;
           line-height: 1.12;
           letter-spacing: -0.02em;
-          color: var(--black);
+          color: var(--white);
           margin: 0 0 16px;
         }
 
@@ -1795,7 +1803,7 @@ function VideoSection() {
         .video-text-description {
           font-size: 16px;
           line-height: 1.7;
-          color: rgba(0, 0, 0, 0.6);
+          color: rgba(255, 255, 255, 0.6);
           margin: 0 0 24px;
           max-width: 460px;
         }
@@ -1806,9 +1814,9 @@ function VideoSection() {
           gap: 20px;
           margin-bottom: 24px;
           padding: 16px 20px;
-          background: var(--off);
+          background: rgba(255, 255, 255, 0.04);
           border-radius: 12px;
-          border: 1px solid var(--line);
+          border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .video-text-stat {
@@ -1820,12 +1828,12 @@ function VideoSection() {
           font-family: 'Space Grotesk', sans-serif;
           font-size: 20px;
           font-weight: 700;
-          color: var(--black);
+          color: var(--white);
         }
 
         .video-text-stat-label {
           font-size: 11px;
-          color: rgba(0, 0, 0, 0.5);
+          color: rgba(255, 255, 255, 0.5);
           font-weight: 500;
           text-transform: uppercase;
           letter-spacing: 0.04em;
@@ -1834,7 +1842,7 @@ function VideoSection() {
         .video-text-stat-divider {
           width: 1px;
           height: 30px;
-          background: var(--line);
+          background: rgba(255, 255, 255, 0.06);
         }
 
         .video-text-features {
@@ -1850,7 +1858,7 @@ function VideoSection() {
           gap: 8px;
           font-size: 13px;
           font-weight: 500;
-          color: var(--black);
+          color: var(--white);
         }
 
         .video-text-feature-icon {
@@ -1963,6 +1971,445 @@ function VideoSection() {
 }
 
 /* ----------------------------------------------------------------------
+   CYBERMALL APP SHOWCASE SECTION
+---------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------
+   CYBERMALL APP SHOWCASE SECTION
+---------------------------------------------------------------------- */
+
+function CybermallAppSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const features = [
+    { icon: ShoppingCart, label: "Easy Shopping" },
+    { icon: CreditCard, label: "Secure Payments" },
+    { icon: Truck, label: "Fast Delivery" },
+    { icon: BadgeCheck, label: "Verified Sellers" },
+  ];
+
+  return (
+    <section className="cybermall-section" id="cybermall-app" ref={ref}>
+      <div className="cybermall-container">
+        <motion.div
+          className="cybermall-wrapper"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeUp}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="cybermall-grid">
+            {/* Left Content - Text */}
+            <div className="cybermall-content">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
+                <div className="cybermall-badge">
+                  <Smartphone size={16} />
+                  <span>Coming Soon</span>
+                </div>
+
+                <h2 className="cybermall-title">
+                  Cybermall App
+                  <span className="cybermall-highlight"> Coming Soon</span>
+                </h2>
+
+                <p className="cybermall-description">
+                  Experience seamless shopping with the Cybermall mobile app. 
+                  Browse products, make secure payments, and track deliveries 
+                  all from the palm of your hand.
+                </p>
+
+                <div className="cybermall-features">
+                  {features.map((feature, index) => (
+                    <motion.div
+                      key={index}
+                      className="cybermall-feature"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ delay: 0.3 + index * 0.1 }}
+                    >
+                      <div className="cybermall-feature-icon">
+                        <feature.icon size={18} />
+                      </div>
+                      <span className="cybermall-feature-label">{feature.label}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="cybermall-cta-group">
+                  <motion.a
+                    href="#contact"
+                    className="cybermall-cta-primary"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <Download size={18} />
+                    Get Notified
+                  </motion.a>
+                  <motion.a
+                    href="#contact"
+                    className="cybermall-cta-secondary"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    Learn More
+                    <ArrowRight size={16} />
+                  </motion.a>
+                </div>
+
+                <div className="cybermall-store-badges">
+                  <div className="cybermall-store-badge">
+                    <Store size={20} />
+                    <span>App Store</span>
+                  </div>
+                  <div className="cybermall-store-badge">
+                    <Store size={20} />
+                    <span>Google Play</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right - Mockup Image */}
+            <motion.div
+              className="cybermall-mockup-wrapper"
+              initial={{ opacity: 0, scale: 0.95, x: 30 }}
+              animate={isInView ? { opacity: 1, scale: 1, x: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              <div className="cybermall-mockup-container">
+                <img
+                  src={images.mockup}
+                  alt="Cybermall App Mockup"
+                  className="cybermall-mockup-image"
+                />
+                {/* Decorative glow */}
+                <div className="cybermall-mockup-glow" />
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
+
+      <style>{`
+        .cybermall-section {
+          max-width: 1360px;
+          margin: 0 auto;
+          padding: 60px 48px 80px;
+        }
+
+        .cybermall-wrapper {
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+                      transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+        }
+
+        .cybermall-wrapper.reveal-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .cybermall-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 60px;
+          align-items: center;
+          background: var(--charcoal);
+          border-radius: 28px;
+          padding: 60px;
+          border: 1px solid var(--line);
+          min-height: 500px;
+        }
+
+        /* Left Content */
+        .cybermall-content {
+          padding-right: 20px;
+        }
+
+        .cybermall-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 16px;
+          background: rgba(201, 162, 39, 0.15);
+          border: 1px solid rgba(201, 162, 39, 0.25);
+          border-radius: 999px;
+          color: var(--gold-bright);
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          margin-bottom: 20px;
+          font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .cybermall-title {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 40px;
+          font-weight: 700;
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+          color: var(--white);
+          margin: 0 0 16px;
+        }
+
+        .cybermall-highlight {
+          background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .cybermall-description {
+          font-size: 16px;
+          line-height: 1.7;
+          color: rgba(255, 255, 255, 0.6);
+          margin: 0 0 28px;
+          max-width: 480px;
+        }
+
+        .cybermall-features {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          margin-bottom: 32px;
+        }
+
+        .cybermall-feature {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 12px 16px;
+          background: rgba(255, 255, 255, 0.04);
+          border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          transition: all 0.3s ease;
+        }
+
+        .cybermall-feature:hover {
+          border-color: var(--gold);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(201, 162, 39, 0.1);
+          background: rgba(255, 255, 255, 0.06);
+        }
+
+        .cybermall-feature-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background: rgba(201, 162, 39, 0.12);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--gold-bright);
+          flex-shrink: 0;
+        }
+
+        .cybermall-feature-label {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--white);
+        }
+
+        .cybermall-cta-group {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 24px;
+          flex-wrap: wrap;
+        }
+
+        .cybermall-cta-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 28px;
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+          color: #0a0a0a;
+          border: none;
+          border-radius: 999px;
+          font-weight: 600;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          box-shadow: 0 8px 24px rgba(201, 162, 39, 0.25);
+        }
+
+        .cybermall-cta-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(201, 162, 39, 0.35);
+        }
+
+        .cybermall-cta-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          background: transparent;
+          color: var(--white);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 999px;
+          font-weight: 600;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+
+        .cybermall-cta-secondary:hover {
+          border-color: var(--gold);
+          color: var(--gold-bright);
+          transform: translateY(-2px);
+        }
+
+        .cybermall-store-badges {
+          display: flex;
+          gap: 12px;
+        }
+
+        .cybermall-store-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 10px 18px;
+          background: rgba(255, 255, 255, 0.06);
+          color: rgba(255, 255, 255, 0.5);
+          border-radius: 10px;
+          font-size: 12px;
+          font-weight: 500;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          transition: all 0.3s ease;
+        }
+
+        .cybermall-store-badge:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Right - Mockup Image */
+        .cybermall-mockup-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+        }
+
+        .cybermall-mockup-container {
+          position: relative;
+          width: 100%;
+          max-width: 400px;
+          border-radius: 24px;
+          overflow: hidden;
+          border: 1px solid var(--line);
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .cybermall-mockup-container:hover {
+          transform: translateY(-6px) scale(1.01);
+          box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .cybermall-mockup-image {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: cover;
+        }
+
+        .cybermall-mockup-glow {
+          position: absolute;
+          inset: -50%;
+          background: radial-gradient(circle at 50% 50%, rgba(201, 162, 39, 0.08), transparent 70%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .cybermall-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding: 40px;
+            min-height: 400px;
+          }
+
+          .cybermall-content {
+            padding-right: 0;
+          }
+
+          .cybermall-title {
+            font-size: 32px;
+          }
+
+          .cybermall-mockup-container {
+            max-width: 320px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .cybermall-section {
+            padding: 30px 20px 50px;
+          }
+
+          .cybermall-grid {
+            padding: 28px;
+          }
+
+          .cybermall-title {
+            font-size: 28px;
+          }
+
+          .cybermall-features {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .cybermall-mockup-container {
+            max-width: 260px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cybermall-grid {
+            padding: 20px;
+            min-height: 350px;
+          }
+
+          .cybermall-title {
+            font-size: 24px;
+          }
+
+          .cybermall-features {
+            grid-template-columns: 1fr;
+          }
+
+          .cybermall-cta-group {
+            flex-direction: column;
+          }
+
+          .cybermall-cta-primary,
+          .cybermall-cta-secondary {
+            justify-content: center;
+          }
+
+          .cybermall-store-badges {
+            flex-direction: column;
+          }
+
+          .cybermall-mockup-container {
+            max-width: 200px;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+/* ----------------------------------------------------------------------
    MAIN APP
 ---------------------------------------------------------------------- */
 
@@ -1995,7 +2442,7 @@ export default function App() {
       tilt: tiltA,
       variant: "media",
       gradient: "from-purple-500/20 to-blue-500/20",
-      bg: "bg-gradient-to-br from-purple-50 to-blue-50",
+      bg: "bg-gradient-to-br from-purple-900/20 to-blue-900/20",
     },
     {
       icon: images.celetexTravelsTours,
@@ -2004,7 +2451,7 @@ export default function App() {
       tilt: tiltB,
       variant: "travels",
       gradient: "from-orange-500/20 to-yellow-500/20",
-      bg: "bg-gradient-to-br from-orange-50 to-yellow-50",
+      bg: "bg-gradient-to-br from-orange-900/20 to-yellow-900/20",
     },
     {
       icon: images.celetexSignature,
@@ -2013,7 +2460,7 @@ export default function App() {
       tilt: tiltC,
       variant: "homes",
       gradient: "from-emerald-500/20 to-teal-500/20",
-      bg: "bg-gradient-to-br from-emerald-50 to-teal-50",
+      bg: "bg-gradient-to-br from-emerald-900/20 to-teal-900/20",
     },
     {
       icon: images.cyberMall,
@@ -2022,7 +2469,7 @@ export default function App() {
       tilt: tiltD,
       variant: "cybermall",
       gradient: "from-cyan-500/20 to-indigo-500/20",
-      bg: "bg-gradient-to-br from-cyan-50 to-indigo-50",
+      bg: "bg-gradient-to-br from-cyan-900/20 to-indigo-900/20",
     },
   ];
 
@@ -2082,15 +2529,15 @@ export default function App() {
           --gold:#C9A227;
           --gold-bright:#F3D27A;
           --gold-deep:#8C6A22;
-          --line:rgba(0,0,0,0.08);
-          --line-strong:rgba(0,0,0,0.15);
+          --line:rgba(255,255,255,0.06);
+          --line-strong:rgba(255,255,255,0.12);
         }
 
         *{ box-sizing:border-box; margin:0; padding:0; }
         .ag-root{
           font-family:'Inter', sans-serif;
-          background:var(--white);
-          color:var(--black);
+          background:var(--black);
+          color:var(--white);
           overflow-x:hidden;
           -webkit-font-smoothing:antialiased;
         }
@@ -2111,7 +2558,7 @@ export default function App() {
 
         /* HERO */
         .hero{
-          background:var(--white); color:var(--black);
+          background:var(--black); color:var(--white);
           padding:64px 48px 100px;
           position:relative;
         }
@@ -2133,24 +2580,24 @@ export default function App() {
           -webkit-background-clip:text; background-clip:text; color:transparent;
         }
         .hero p.lead{
-          font-size:17px; line-height:1.7; color:rgba(0,0,0,0.6); max-width:480px; margin-bottom:36px;
+          font-size:17px; line-height:1.7; color:rgba(255,255,255,0.6); max-width:480px; margin-bottom:36px;
         }
         .hero-ctas{ display:flex; gap:14px; margin-bottom:56px; }
         .hero-meta{ display:flex; align-items:center; gap:18px; }
         .hero-avatars{ display:flex; }
         .hero-avatars span{
-          width:34px; height:34px; border-radius:50%; border:2px solid var(--white);
-          background:linear-gradient(135deg, #ddd, #bbb); margin-left:-10px;
-          display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--gold-deep); font-weight:600;
+          width:34px; height:34px; border-radius:50%; border:2px solid var(--black);
+          background:linear-gradient(135deg, #333, #222); margin-left:-10px;
+          display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--gold); font-weight:600;
         }
         .hero-avatars span:first-child{ margin-left:0; }
-        .hero-meta-text{ font-size:13px; color:rgba(0,0,0,0.5); }
-        .hero-meta-text b{ color:var(--black); }
+        .hero-meta-text{ font-size:13px; color:rgba(255,255,255,0.5); }
+        .hero-meta-text b{ color:var(--white); }
 
         .hero-visual{ position:relative; height:560px; }
         .hero-art-primary{
           position:absolute; top:0; right:0; width:78%; height:100%;
-          border-radius:20px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.08);
+          border-radius:20px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.5);
           border:1px solid var(--line);
         }
         .hero-art-svg{ width:100%; height:100%; display:block; }
@@ -2164,15 +2611,15 @@ export default function App() {
 
         .hero-art-secondary{
           position:absolute; bottom:-30px; left:-10px; width:280px;
-          border-radius:16px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.1);
+          border-radius:16px; overflow:hidden; box-shadow:0 25px 60px rgba(0,0,0,0.5);
           border:1px solid var(--line);
         }
         .hero-art-svg-sm{ width:100%; height:100%; display:block; }
 
         .hero-badge{
-          position:absolute; background:rgba(255,255,255,0.95); backdrop-filter:blur(8px);
+          position:absolute; background:rgba(10,10,10,0.9); backdrop-filter:blur(8px);
           border:1px solid var(--line); border-radius:14px; padding:14px 18px;
-          display:flex; align-items:center; gap:12px; box-shadow:0 20px 40px rgba(0,0,0,0.06);
+          display:flex; align-items:center; gap:12px; box-shadow:0 20px 40px rgba(0,0,0,0.4);
         }
         .hero-badge-1{ top:40px; left:-40px; }
         .hero-badge-2{ bottom:60px; right:-20px; }
@@ -2180,8 +2627,8 @@ export default function App() {
           width:36px; height:36px; border-radius:10px; background:rgba(201,162,39,0.1);
           display:flex; align-items:center; justify-content:center; color:var(--gold);
         }
-        .hero-badge-num{ font-family:'Space Grotesk'; font-weight:700; font-size:18px; color:var(--black); line-height:1.1; }
-        .hero-badge-label{ font-size:11.5px; color:rgba(0,0,0,0.5); }
+        .hero-badge-num{ font-family:'Space Grotesk'; font-weight:700; font-size:18px; color:var(--white); line-height:1.1; }
+        .hero-badge-label{ font-size:11.5px; color:rgba(255,255,255,0.5); }
 
         /* REVEAL */
         .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
@@ -2190,31 +2637,31 @@ export default function App() {
         /* SECTION shared */
         .section{ padding:100px 48px; max-width:1360px; margin:0 auto; }
         .section-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:40px; margin-bottom:56px; }
-        .section-head h2{ font-size:38px; font-weight:700; line-height:1.15; max-width:640px; margin:0; }
-        .section-head p{ font-size:15px; color:rgba(0,0,0,0.55); max-width:340px; line-height:1.65; }
+        .section-head h2{ font-size:38px; font-weight:700; line-height:1.15; max-width:640px; margin:0; color:var(--white); }
+        .section-head p{ font-size:15px; color:rgba(255,255,255,0.55); max-width:340px; line-height:1.65; }
 
         /* STATS MOSAIC */
-        .stats-wrap{ background:var(--off); }
+        .stats-wrap{ background:var(--charcoal); }
         .stats-grid{
           display:grid; grid-template-columns:1.4fr 1fr 1fr; grid-template-rows:auto auto; gap:20px;
         }
         .stat-card{
-          background:var(--white); color:var(--black); border-radius:18px; padding:32px;
+          background:var(--black); color:var(--white); border-radius:18px; padding:32px;
           position:relative; overflow:hidden; transition:transform .4s ease; border:1px solid var(--line);
         }
-        .stat-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.05); }
-        .stat-card.dark{ background:var(--black); color:var(--white); border-color:var(--charcoal); }
-        .stat-card-main{ grid-row:span 2; background:var(--black); color:var(--white); border-color:var(--charcoal); }
+        .stat-card:hover{ transform:translateY(-6px); box-shadow:0 12px 30px rgba(0,0,0,0.3); }
+        .stat-card.dark{ background:var(--charcoal); color:var(--white); border-color:var(--line); }
+        .stat-card-main{ grid-row:span 2; background:linear-gradient(135deg, var(--charcoal), var(--black)); color:var(--white); border-color:var(--line); }
         .stat-brand{ display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:600; font-size:16px; color:var(--gold-bright); }
         .stat-number{ font-family:'Space Grotesk'; font-weight:700; font-size:52px; display:block; margin:24px 0 8px; }
         .stat-card-main .stat-number{ font-size:64px; }
         .stat-desc{ font-size:14px; color:rgba(255,255,255,0.6); line-height:1.6; max-width:260px; }
         .stat-icon-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
         .stat-icon-box{ width:38px; height:38px; border-radius:10px; background:rgba(201,162,39,0.08); display:flex; align-items:center; justify-content:center; color:var(--gold); }
-        .stat-label{ font-size:13px; color:rgba(0,0,0,0.5); margin-top:8px; }
+        .stat-label{ font-size:13px; color:rgba(255,255,255,0.5); margin-top:8px; }
         .stat-card.dark .stat-label{ color:rgba(255,255,255,0.5); }
 
-        /* BRANDS / SERVICES - REDESIGNED */
+        /* BRANDS */
         .brands-grid{ 
           display:grid; 
           grid-template-columns:repeat(2, 1fr); 
@@ -2222,17 +2669,17 @@ export default function App() {
         }
         
         .brand-card{
-          background:var(--white); 
+          background:var(--charcoal); 
           border:1px solid var(--line); 
           border-radius:24px; 
           padding:0;
           overflow:hidden;
           transition:all 0.4s ease;
-          box-shadow:0 4px 20px rgba(0,0,0,0.04);
+          box-shadow:0 4px 20px rgba(0,0,0,0.3);
         }
         
         .brand-card:hover{ 
-          box-shadow:0 24px 60px rgba(0,0,0,0.1); 
+          box-shadow:0 24px 60px rgba(0,0,0,0.4); 
           border-color:var(--gold);
           transform:translateY(-6px);
         }
@@ -2245,7 +2692,7 @@ export default function App() {
           position:relative;
           height:200px;
           overflow:hidden;
-          background:linear-gradient(135deg, var(--off), var(--cream));
+          background:var(--charcoal);
         }
         
         .brand-card-image-wrapper img{
@@ -2262,7 +2709,7 @@ export default function App() {
         .brand-card-image-overlay{
           position:absolute;
           inset:0;
-          background:linear-gradient(135deg, rgba(201,162,39,0.08), rgba(0,0,0,0.02));
+          background:linear-gradient(135deg, rgba(201,162,39,0.08), rgba(0,0,0,0.4));
           pointer-events:none;
         }
         
@@ -2270,13 +2717,13 @@ export default function App() {
           position:absolute;
           top:16px;
           right:16px;
-          background:rgba(255,255,255,0.92);
+          background:rgba(10,10,10,0.85);
           backdrop-filter:blur(8px);
           padding:6px 14px;
           border-radius:999px;
           font-size:10px;
           font-weight:600;
-          color:var(--gold-deep);
+          color:var(--gold-bright);
           border:1px solid rgba(201,162,39,0.15);
           letter-spacing:0.04em;
           text-transform:uppercase;
@@ -2292,6 +2739,7 @@ export default function App() {
           margin:0 0 10px; 
           font-family:'Space Grotesk', sans-serif;
           letter-spacing:-0.02em;
+          color:var(--white);
         }
         
         .brand-card-body h3 span{ 
@@ -2300,7 +2748,7 @@ export default function App() {
         
         .brand-card-body p{ 
           font-size:14.5px; 
-          color:rgba(0,0,0,0.6); 
+          color:rgba(255,255,255,0.6); 
           line-height:1.7; 
           margin:0 0 20px; 
         }
@@ -2311,7 +2759,7 @@ export default function App() {
           gap:8px; 
           font-size:14px; 
           font-weight:600; 
-          color:var(--gold-deep);
+          color:var(--gold-bright);
           transition:all 0.3s ease;
           text-decoration:none;
         }
@@ -2328,44 +2776,44 @@ export default function App() {
           height:240px;
         }
 
-        /* GALLERY / PROJECTS */
+        /* GALLERY */
         .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
-        .gallery-card{ border-radius:18px; overflow:hidden; background:var(--white); border:1px solid var(--line); }
+        .gallery-card{ border-radius:18px; overflow:hidden; background:var(--charcoal); border:1px solid var(--line); }
         .gallery-art-wrap{ overflow:hidden; height:180px; }
         .gallery-art-svg{ width:100%; height:100%; display:block; transition:transform .6s ease; }
         .gallery-card:hover .gallery-art-svg{ transform:scale(1.08); }
         .gallery-body{ padding:22px; }
-        .gallery-body h4{ font-size:15px; font-weight:600; margin:0 0 6px; }
-        .gallery-body p{ font-size:13px; color:rgba(0,0,0,0.6); line-height:1.5; margin:0; }
+        .gallery-body h4{ font-size:15px; font-weight:600; margin:0 0 6px; color:var(--white); }
+        .gallery-body p{ font-size:13px; color:rgba(255,255,255,0.6); line-height:1.5; margin:0; }
 
         /* PROCESS */
-        .process-wrap{ background:var(--black); color:var(--white); }
+        .process-wrap{ background:var(--charcoal); color:var(--white); }
         .process-head{ display:grid; grid-template-columns:1.3fr 1fr; gap:40px; align-items:flex-end; margin-bottom:64px; }
         .process-head h2{ color:var(--white); }
         .process-head p{ color:rgba(255,255,255,0.6); }
         .process-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; position:relative; }
         .process-line{
-          position:absolute; top:44px; left:0; right:0; height:1px; background:rgba(255,255,255,0.12);
+          position:absolute; top:44px; left:0; right:0; height:1px; background:rgba(255,255,255,0.06);
           overflow:hidden;
         }
         .process-line-fill{ height:100%; background:linear-gradient(90deg, var(--gold-bright), var(--gold)); width:0%; transition:width 1.4s cubic-bezier(.2,.7,.2,1); }
         .process-step{ padding:0 24px 0 0; position:relative; }
-        .process-num{ font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:rgba(255,255,255,0.14); margin-bottom:18px; }
+        .process-num{ font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:rgba(255,255,255,0.06); margin-bottom:18px; }
         .process-icon{
           width:44px; height:44px; border-radius:12px; background:rgba(201,162,39,0.12); color:var(--gold-bright);
           display:flex; align-items:center; justify-content:center; margin-bottom:18px; position:relative; z-index:2;
         }
-        .process-step h3{ font-size:17px; font-weight:600; margin:0 0 10px; }
+        .process-step h3{ font-size:17px; font-weight:600; margin:0 0 10px; color:var(--white); }
         .process-step p{ font-size:13.5px; color:rgba(255,255,255,0.55); line-height:1.6; margin:0; max-width:240px; }
 
-        /* ABOUT FOUNDER */
+        /* FOUNDER */
         .founder-grid{ display:grid; grid-template-columns:1fr 1.2fr; gap:60px; align-items:start; }
         .founder-image-wrap{
           border-radius:20px; overflow:hidden; border:1px solid var(--line);
-          background:var(--cream); position:relative;
+          background:var(--charcoal); position:relative;
         }
         .founder-placeholder{
-          width:100%; aspect-ratio:3/4; background:linear-gradient(135deg, var(--cream), var(--off));
+          width:100%; aspect-ratio:3/4; background:var(--charcoal);
           display:flex; align-items:center; justify-content:center; flex-direction:column;
           padding:40px; text-align:center;
         }
@@ -2373,46 +2821,46 @@ export default function App() {
           font-family:'Space Grotesk'; font-size:80px; font-weight:700; color:var(--gold); opacity:0.3;
         }
         .founder-placeholder .label{
-          font-size:14px; color:rgba(0,0,0,0.4); margin-top:12px;
+          font-size:14px; color:rgba(255,255,255,0.4); margin-top:12px;
         }
         .founder-tag{
           position:absolute; bottom:20px; left:20px;
-          background:var(--gold); color:#fff; padding:6px 16px; border-radius:999px;
+          background:var(--gold); color:#0a0a0a; padding:6px 16px; border-radius:999px;
           font-size:12px; font-weight:600; letter-spacing:0.06em;
         }
-        .founder-content h3{ font-size:28px; font-weight:700; margin:0 0 4px; }
+        .founder-content h3{ font-size:28px; font-weight:700; margin:0 0 4px; color:var(--white); }
         .founder-content .title{ font-size:15px; color:var(--gold); font-weight:500; margin-bottom:16px; }
-        .founder-content p{ font-size:15px; color:rgba(0,0,0,0.65); line-height:1.7; margin-bottom:14px; }
+        .founder-content p{ font-size:15px; color:rgba(255,255,255,0.65); line-height:1.7; margin-bottom:14px; }
         .founder-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
-        .founder-stat{ background:var(--off); padding:14px 18px; border-radius:12px; border:1px solid var(--line); }
+        .founder-stat{ background:var(--black); padding:14px 18px; border-radius:12px; border:1px solid var(--line); }
         .founder-stat .num{ font-family:'Space Grotesk'; font-size:20px; font-weight:700; color:var(--gold); }
-        .founder-stat .lbl{ font-size:12px; color:rgba(0,0,0,0.5); }
+        .founder-stat .lbl{ font-size:12px; color:rgba(255,255,255,0.5); }
 
         /* CTA BANNER */
         .cta-banner{
           margin:0 48px 100px; border-radius:24px; padding:64px;
-          background:linear-gradient(120deg, #f8f6f0 0%, #ede9e1 60%, #f5f2ec 100%);
-          position:relative; overflow:hidden; color:var(--black);
+          background:linear-gradient(120deg, #1a1a1a 0%, #0a0a0a 60%, #1a1a1a 100%);
+          position:relative; overflow:hidden; color:var(--white);
           display:flex; align-items:center; justify-content:space-between; gap:40px;
           border:1px solid var(--line);
         }
         .cta-banner::after{
           content:''; position:absolute; width:400px; height:400px; border-radius:50%;
-          background:radial-gradient(circle, rgba(201,162,39,0.1), transparent 70%);
+          background:radial-gradient(circle, rgba(201,162,39,0.08), transparent 70%);
           top:-160px; right:-100px;
         }
         .cta-banner h2{ font-size:32px; max-width:460px; margin:0 0 8px; position:relative; z-index:1; }
-        .cta-banner p{ color:rgba(0,0,0,0.6); max-width:420px; margin:0; position:relative; z-index:1; }
+        .cta-banner p{ color:rgba(255,255,255,0.6); max-width:420px; margin:0; position:relative; z-index:1; }
         .cta-actions{ position:relative; z-index:1; display:flex; gap:14px; flex-shrink:0; }
 
         /* FOOTER */
-        .footer{ background:var(--black); color:rgba(255,255,255,0.6); padding:64px 48px 32px; }
+        .footer{ background:var(--black); color:rgba(255,255,255,0.6); padding:64px 48px 32px; border-top:1px solid var(--line); }
         .footer-top{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:56px; }
         .footer-brand-text{ font-size:13.5px; line-height:1.7; margin-top:16px; max-width:280px; }
         .footer-col h4{ color:var(--white); font-size:13.5px; margin:0 0 18px; letter-spacing:0.04em; text-transform:uppercase; font-family:'IBM Plex Mono', monospace; }
         .footer-col a{ display:block; font-size:14px; margin-bottom:12px; color:rgba(255,255,255,0.6); transition:color .25s ease; }
         .footer-col a:hover{ color:var(--gold-bright); }
-        .footer-bottom{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:28px; font-size:12.5px; }
+        .footer-bottom{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:28px; font-size:12.5px; }
         .footer-bottom .rc{ color:var(--gold-bright); }
 
         /* RESPONSIVE */
@@ -2579,7 +3027,7 @@ export default function App() {
               Founded on 9th March 2022 by Rtr. Onyekachi Uchechukwu Celestine,
               a visionary entrepreneur committed to innovation, excellence, and
               sustainable business growth.
-              <a href="#contact" className="btn btn-ghost-dark nav-rc">
+              <a href="#contact" className="btn btn-ghost-dark nav-rc" style={{ marginLeft: 12 }}>
                 RC: 9341015
               </a>
             </motion.p>
@@ -2628,7 +3076,7 @@ export default function App() {
               <p
                 style={{
                   fontSize: 13.5,
-                  color: "rgba(0,0,0,0.55)",
+                  color: "rgba(255,255,255,0.55)",
                   marginTop: 8,
                   lineHeight: 1.6,
                 }}
@@ -2668,7 +3116,7 @@ export default function App() {
               <p
                 style={{
                   fontSize: 13.5,
-                  color: "rgba(0,0,0,0.55)",
+                  color: "rgba(255,255,255,0.55)",
                   marginTop: 8,
                   lineHeight: 1.6,
                 }}
@@ -2684,7 +3132,10 @@ export default function App() {
       {/* VIDEO SECTION */}
       <VideoSection />
 
-      {/* BRANDS - REDESIGNED WITH BOLD IMAGES */}
+      {/* CYBERMALL APP SHOWCASE */}
+      <CybermallAppSection />
+
+      {/* BRANDS */}
       <section className="section" id="brands" ref={brandsRef}>
         <motion.div
           initial="hidden"
@@ -2725,7 +3176,6 @@ export default function App() {
                 onMouseMove={b.tilt.onMouseMove}
                 onMouseLeave={b.tilt.onMouseLeave}
               >
-                {/* Image Section - Now prominent and visible */}
                 <div className="brand-card-image-wrapper">
                   <img src={b.icon} alt={b.title} />
                   <div className="brand-card-image-overlay" />
@@ -2734,7 +3184,6 @@ export default function App() {
                   </span>
                 </div>
                 
-                {/* Content Section */}
                 <div className="brand-card-body">
                   <h3>
                     <span>{b.title.split(" ")[0]}</span>{" "}
@@ -2755,7 +3204,7 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* GALLERY / BRAND SNAPSHOTS */}
+      {/* GALLERY */}
       <section className="section" style={{ paddingTop: 0 }}>
         <motion.div
           className="gallery-grid"
@@ -2788,7 +3237,7 @@ export default function App() {
       <motion.section
         className="section"
         style={{
-          background: "var(--off)",
+          background: "var(--charcoal)",
           borderRadius: "24px",
           padding: "80px 48px",
         }}
@@ -2803,108 +3252,90 @@ export default function App() {
           variants={fadeUp}
         >
           <Eyebrow>Meet the Founder</Eyebrow>
-          <h2 style={{ fontSize: 38, fontWeight: 700, marginTop: 8 }}>
+          <h2 style={{ fontSize: 38, fontWeight: 700, marginTop: 8, color: "var(--white)" }}>
             Rtr. Onyekachi Uchechukwu Celestine
           </h2>
-          <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)" }}>
+          <p style={{ fontSize: 16, color: "rgba(255,255,255,0.55)" }}>
             Visionary Entrepreneur · Founder, Celetex Group
           </p>
         </motion.div>
 
         <motion.div className="founder-grid" variants={staggerChildren}>
           <motion.div variants={staggerItem}>
-  <div className="founder-image-wrap group relative">
-    {/* Main Card Container */}
-    <motion.div
-      className="relative overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-2xl"
-      whileHover={{ scale: 1.02, y: -4 }}
-      transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-    >
-      {/* Image Container with Grey Box Effect */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#2a2a2a]">
-        <img
-          src={images.Agu}
-          alt="Onyekachi Celestine - Founder of Celetex Group"
-          className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
-        />
-        
-        {/* Grey Box Overlay - Creative Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/95 via-[#1a1a1a]/40 to-transparent" />
-        
-        {/* Grey Box Pattern - Subtle Texture */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMzBoMTB2MTBIMzB6TTAgMGgxMHYxMEgweiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==')] bg-repeat" />
-        
-        {/* Grey Box Accent Line - Top */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
-        
-        {/* Floating Badge - Top Right */}
-        <motion.div 
-          className="absolute top-4 right-4 z-20 bg-[#1a1a1a]/80 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5 shadow-lg"
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#C9A227] rounded-full animate-pulse" />
-            <span className="text-white/70 text-[9px] font-mono tracking-[0.15em] uppercase">
-              Celetex Group
-            </span>
-          </div>
-        </motion.div>
+            <div className="founder-image-wrap group relative">
+              <motion.div
+                className="relative overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-2xl"
+                whileHover={{ scale: 1.02, y: -4 }}
+                transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+              >
+                <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#2a2a2a]">
+                  <img
+                    src={images.Agu}
+                    alt="Onyekachi Celestine - Founder of Celetex Group"
+                    className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                  />
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/95 via-[#1a1a1a]/40 to-transparent" />
+                  <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMzBoMTB2MTBIMzB6TTAgMGgxMHYxMEgweiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==')] bg-repeat" />
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
+                  
+                  <motion.div 
+                    className="absolute top-4 right-4 z-20 bg-[#1a1a1a]/80 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5 shadow-lg"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-[#C9A227] rounded-full animate-pulse" />
+                      <span className="text-white/70 text-[9px] font-mono tracking-[0.15em] uppercase">
+                        Celetex Group
+                      </span>
+                    </div>
+                  </motion.div>
 
-        {/* Content Overlay - Perfectly Centered at Bottom */}
-        <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 pt-20 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/40 to-transparent">
-          <motion.div 
-            className="text-center space-y-3 w-full px-6"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-          >
-            {/* Gold Accent Line - Centered */}
-            <motion.div 
-              className="w-16 h-[2px] bg-gradient-to-r from-[#C9A227] to-[#F3D27A] mx-auto rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: 64 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-            />
-            
-            {/* Title - Founder & CEO */}
-            <span className="block text-[#F3D27A] text-[11px] font-mono tracking-[0.2em] uppercase">
-              Founder & CEO
-            </span>
-            
-            {/* Name */}
-            <h3 className="text-white text-2xl md:text-3xl font-display font-bold leading-tight">
-              Onyekachi Celestine
-            </h3>
-            
-            {/* Tagline with decorative dots */}
-            <div className="flex items-center justify-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
-              <span className="text-white/60 text-[11px] font-mono tracking-wider">
-                Diverse Ventures, Unified Vision
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
+                  <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 pt-20 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/40 to-transparent">
+                    <motion.div 
+                      className="text-center space-y-3 w-full px-6"
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                    >
+                      <motion.div 
+                        className="w-16 h-[2px] bg-gradient-to-r from-[#C9A227] to-[#F3D27A] mx-auto rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: 64 }}
+                        transition={{ delay: 0.5, duration: 0.7 }}
+                      />
+                      <span className="block text-[#F3D27A] text-[11px] font-mono tracking-[0.2em] uppercase">
+                        Founder & CEO
+                      </span>
+                      <h3 className="text-white text-2xl md:text-3xl font-display font-bold leading-tight">
+                        Onyekachi Celestine
+                      </h3>
+                      <div className="flex items-center justify-center gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
+                        <span className="text-white/60 text-[11px] font-mono tracking-wider">
+                          Diverse Ventures, Unified Vision
+                        </span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
+                      </div>
+                    </motion.div>
+                  </div>
+
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-t from-[#C9A227]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  />
+                </div>
+
+                <motion.div 
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+              </motion.div>
             </div>
           </motion.div>
-        </div>
-
-        {/* Grey Box Hover Reveal */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-t from-[#C9A227]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        />
-      </div>
-
-      {/* Grey Box Border Animation - Bottom */}
-      <motion.div 
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      />
-    </motion.div>
-  </div>
-</motion.div>
 
           <motion.div variants={staggerItem}>
             <div className="founder-content">
@@ -3118,6 +3549,7 @@ export default function App() {
             <h4>Quick Links</h4>
             <a href="#about">About Us</a>
             <a href="#brands">Our Brands</a>
+            <a href="#cybermall-app">Cybermall App</a>
             <a href="#process">Our Process</a>
             <a href="#contact">Contact</a>
           </div>
