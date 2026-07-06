@@ -79,11 +79,30 @@ function useReveal(threshold = 0.2) {
   return [ref, visible];
 }
 
-function useTilt(strength = 8) {
+// Detect touch / coarse-pointer devices once, so we can skip the
+// mousemove-driven tilt effect there (it does nothing useful on touch
+// and just adds an extra listener + forced layer for no visual gain).
+function usePointerFine() {
+  const [isFine, setIsFine] = useState(true);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    setIsFine(mq.matches);
+    const listener = (e) => setIsFine(e.matches);
+    mq.addEventListener ? mq.addEventListener("change", listener) : mq.addListener(listener);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener("change", listener) : mq.removeListener(listener);
+    };
+  }, []);
+  return isFine;
+}
+
+function useTilt(strength = 8, enabled = true) {
   const ref = useRef(null);
 
   const onMouseMove = useCallback(
     (e) => {
+      if (!enabled) return;
       const el = ref.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
@@ -93,7 +112,7 @@ function useTilt(strength = 8) {
         -y * strength
       }deg) translateZ(4px)`;
     },
-    [strength],
+    [strength, enabled],
   );
 
   const onMouseLeave = useCallback(() => {
@@ -125,8 +144,14 @@ function useCountUp(target, visible, duration = 1400) {
   return value;
 }
 
-function useScrollProgress() {
+// Single shared scroll-progress + "scrolled past threshold" hook.
+// Previously the App root AND NavBar each ran their own scroll
+// listener/rAF loop (one of them entirely unused downstream). Merging
+// into one listener halves the per-frame scroll work on every device.
+function useScrollState() {
   const [progress, setProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
     let ticking = false;
     const onScroll = () => {
@@ -137,6 +162,7 @@ function useScrollProgress() {
         const scrollTop = h.scrollTop || document.body.scrollTop;
         const scrollHeight = h.scrollHeight - h.clientHeight;
         setProgress(scrollHeight > 0 ? scrollTop / scrollHeight : 0);
+        setScrolled(scrollTop > 24);
         ticking = false;
       });
     };
@@ -144,7 +170,8 @@ function useScrollProgress() {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  return progress;
+
+  return { progress, scrolled };
 }
 
 // Framer Motion variants
@@ -322,16 +349,8 @@ function MotionStatNumber({ value, suffix = "", decimals = 0, delay = 0 }) {
    RESPONSIVE NAVIGATION
 ---------------------------------------------------------------------- */
 
-function NavBar() {
+function NavBar({ scrolled }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   // Close menu on escape key
   useEffect(() => {
@@ -374,13 +393,9 @@ function NavBar() {
         <div className="nav-container">
           {/* Logo */}
           <div className="nav-logo">
-            <motion.span
-              className="w-[200px] h-[50px] rounded-2xl bg-white"
-              whileHover={{ scale: 1.1, rotate: -5 }}
-              transition={{ duration: 0.3 }}
-            >
+            <span className="nav-logo-mark-hover w-[200px] h-[50px] rounded-2xl bg-white">
               <img src={images.logo01Png} alt="Celetex Group Logo" className="w-full h-full" />
-            </motion.span>
+            </span>
           </div>
 
           {/* Desktop Navigation */}
@@ -394,22 +409,16 @@ function NavBar() {
 
           {/* Desktop CTA */}
           <div className="nav-cta">
-            <motion.a
-              href="#contact"
-              className="btn btn-gold nav-cta-btn"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            <a href="#contact" className="btn btn-gold nav-cta-btn">
               Get in Touch <ArrowRight size={16} />
-            </motion.a>
-            <motion.button
+            </a>
+            <button
               className="menu-toggle"
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
-              whileTap={{ scale: 0.9 }}
             >
               <Menu size={24} />
-            </motion.button>
+            </button>
           </div>
         </div>
       </motion.nav>
@@ -433,15 +442,13 @@ function NavBar() {
                   Celetex <span>Group</span>
                 </span>
               </div>
-              <motion.button
+              <button
                 className="mobile-menu-close"
                 onClick={() => setMenuOpen(false)}
                 aria-label="Close menu"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
               >
                 <X size={28} />
-              </motion.button>
+              </button>
             </div>
 
             <div className="mobile-menu-body">
@@ -467,15 +474,13 @@ function NavBar() {
                     />
                   </motion.a>
                 ))}
-                
-                {/* Mobile CTA Button - Added to mobile menu */}
+
+                {/* Mobile CTA Button */}
                 <motion.a
                   href="#contact"
                   className="mobile-menu-cta"
                   variants={mobileMenuItem}
                   onClick={() => setMenuOpen(false)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
                 >
                   <span>Get in Touch</span>
                   <ArrowRight size={20} />
@@ -599,11 +604,12 @@ function NavBar() {
           align-items: center;
           justify-content: center;
           border-radius: 8px;
-          transition: background 0.3s ease;
+          transition: background 0.3s ease, transform 0.2s ease;
         }
 
         .mobile-menu-close:hover {
           background: rgba(255, 255, 255, 0.06);
+          transform: rotate(90deg);
         }
 
         .mobile-menu-body {
@@ -766,7 +772,6 @@ function NavBar() {
             display: none;
           }
 
-          /* Hide desktop CTA button on mobile */
           .nav-cta-btn {
             display: none !important;
           }
@@ -787,7 +792,6 @@ function NavBar() {
         }
 
         @media (min-width: 981px) {
-          /* Show desktop CTA button on large screens */
           .nav-cta-btn {
             display: inline-flex !important;
           }
@@ -819,7 +823,7 @@ function NavBar() {
           }
         }
 
-        /* Fix for nav sticky */
+        /* Nav sticky */
         .nav {
           position: sticky;
           top: 0;
@@ -829,13 +833,23 @@ function NavBar() {
           justify-content: space-between;
           padding: 20px 48px;
           background: rgba(10, 10, 10, 0);
-          transition: all 0.4s ease;
+          transition: background-color 0.4s ease, padding 0.4s ease, border-color 0.4s ease;
           border-bottom: 1px solid transparent;
+          /* Isolates this layer from the scrolling content behind it so the
+             browser doesn't have to re-composite the whole page every time
+             the sticky nav repaints. This is the main fix for the glitch. */
+          will-change: background-color;
+          transform: translateZ(0);
         }
 
         .nav.scrolled {
-          background: rgba(10, 10, 10, 0.95);
-          backdrop-filter: blur(14px);
+          /* Solid background instead of backdrop-filter: blur().
+             backdrop-filter on a sticky element is the single most common
+             cause of scroll-time GPU corruption/tearing on mid/low-end
+             Android GPUs (Adreno/Mali) — removing it fixes that class of
+             glitch entirely, at the cost of a very slightly less "frosted"
+             look, which is barely perceptible at this opacity. */
+          background: rgba(8, 8, 8, 0.98);
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
           padding: 14px 48px;
         }
@@ -845,6 +859,15 @@ function NavBar() {
           align-items: center;
           gap: 10px;
           flex-shrink: 0;
+        }
+
+        .nav-logo-mark-hover {
+          display: inline-block;
+          transition: transform 0.3s ease;
+        }
+
+        .nav-logo-mark-hover:hover {
+          transform: scale(1.1) rotate(-5deg);
         }
 
         .nav-logo-mark {
@@ -863,6 +886,11 @@ function NavBar() {
           overflow: hidden;
           border: 2px solid rgba(201, 162, 39, 0.3);
           box-shadow: 0 0 20px rgba(201, 162, 39, 0.15);
+          transition: transform 0.3s ease;
+        }
+
+        .nav-logo-mark:hover {
+          transform: scale(1.1) rotate(-5deg);
         }
 
         .nav-logo-mark img {
@@ -905,6 +933,10 @@ function NavBar() {
           text-decoration: none;
         }
 
+        .btn:active {
+          transform: scale(0.97);
+        }
+
         .btn-gold {
           background: linear-gradient(135deg, var(--gold-bright), var(--gold));
           color: #0a0a0a;
@@ -935,6 +967,11 @@ function NavBar() {
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: transform 0.15s ease;
+        }
+
+        .menu-toggle:active {
+          transform: scale(0.9);
         }
 
         @media (max-width: 600px) {
@@ -1505,6 +1542,7 @@ function VideoSection() {
               loop
               muted
               playsInline
+              preload="metadata"
               poster={images.videoPoster || "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=1200"}
             >
               <source
@@ -1515,40 +1553,24 @@ function VideoSection() {
             </video>
 
             {/* Video Overlay with Logo */}
-            <motion.div
-              className="video-overlay"
-              initial={{ opacity: 0.8 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2 }}
-            >
+            <div className="video-overlay">
               <div className="video-overlay-content">
-                <motion.div
-                  className="video-brand-icon"
-                  initial={{ scale: 0.8, rotate: -10 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.3,
-                    ease: [0.22, 0.61, 0.36, 1],
-                  }}
-                >
-                  <img 
-                    src={images.Logo1} 
-                    alt="Celetex Group" 
+                <div className="video-brand-icon">
+                  <img
+                    src={images.Logo1}
+                    alt="Celetex Group"
                     className="w-full h-full object-cover"
                   />
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Video Controls */}
             <div className="video-controls">
-              <motion.button
+              <button
                 className="video-control-btn"
                 onClick={togglePlay}
                 aria-label={isPlaying ? "Pause" : "Play"}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
               >
                 {isPlaying ? (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
@@ -1560,13 +1582,11 @@ function VideoSection() {
                     <polygon points="5,3 19,12 5,21" />
                   </svg>
                 )}
-              </motion.button>
-              <motion.button
+              </button>
+              <button
                 className="video-control-btn"
                 onClick={toggleMute}
                 aria-label={isMuted ? "Unmute" : "Mute"}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
               >
                 {isMuted ? (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -1581,7 +1601,7 @@ function VideoSection() {
                     <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
                   </svg>
                 )}
-              </motion.button>
+              </button>
               <span className="video-loop-indicator">⟳ Loop</span>
             </div>
 
@@ -1599,15 +1619,15 @@ function VideoSection() {
                 <span className="video-text-badge-dot" />
                 Celetex Group
               </div>
-              
+
               <h2 className="video-text-title">
-                Building a Legacy of 
+                Building a Legacy of
                 <span className="video-text-highlight"> Innovation</span>
               </h2>
-              
+
               <p className="video-text-description">
-                Celetex Group is a diversified business conglomerate delivering innovative 
-                solutions across media, real estate, travel, and digital commerce — 
+                Celetex Group is a diversified business conglomerate delivering innovative
+                solutions across media, real estate, travel, and digital commerce —
                 empowering individuals, businesses, and communities.
               </p>
 
@@ -1651,15 +1671,10 @@ function VideoSection() {
                 </div>
               </div>
 
-              <motion.a
-                href="#contact"
-                className="video-text-cta"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
+              <a href="#contact" className="video-text-cta">
                 Learn More About Us
                 <ArrowRight size={18} />
-              </motion.a>
+              </a>
             </motion.div>
           </div>
         </div>
@@ -1675,7 +1690,7 @@ function VideoSection() {
         .video-wrapper {
           opacity: 0;
           transform: translateY(28px);
-          transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), 
+          transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
                       transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
         }
 
@@ -1700,6 +1715,9 @@ function VideoSection() {
           border: 1px solid rgba(255, 255, 255, 0.06);
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
           aspect-ratio: 16/10;
+          /* Contain the video's own paint/layout so it can't force a
+             recomposite of the rest of the page while playing. */
+          contain: layout paint;
         }
 
         .video-element {
@@ -1769,20 +1787,27 @@ function VideoSection() {
           height: 38px;
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.2);
-          background: rgba(0, 0, 0, 0.5);
-          backdrop-filter: blur(8px);
+          /* Solid dark background instead of backdrop-filter: blur().
+             This was compositing live over a playing <video>, which is one
+             of the most expensive things a mobile GPU can be asked to do
+             every frame — a common source of the scroll-time glitch. */
+          background: rgba(15, 15, 15, 0.75);
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: background 0.3s ease, transform 0.15s ease, border-color 0.3s ease;
         }
 
         .video-control-btn:hover {
-          background: rgba(201, 162, 39, 0.4);
+          background: rgba(201, 162, 39, 0.55);
           border-color: var(--gold-bright);
           transform: scale(1.05);
+        }
+
+        .video-control-btn:active {
+          transform: scale(0.95);
         }
 
         .video-loop-indicator {
@@ -1792,8 +1817,7 @@ function VideoSection() {
           font-family: 'IBM Plex Mono', monospace;
           letter-spacing: 0.06em;
           margin-left: auto;
-          background: rgba(0, 0, 0, 0.3);
-          backdrop-filter: blur(4px);
+          background: rgba(10, 10, 10, 0.6);
           padding: 4px 12px;
           border-radius: 999px;
           border: 1px solid rgba(255, 255, 255, 0.06);
@@ -1941,6 +1965,10 @@ function VideoSection() {
           box-shadow: 0 12px 32px rgba(201, 162, 39, 0.35);
         }
 
+        .video-text-cta:active {
+          transform: translateY(0) scale(0.98);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
           .video-grid {
@@ -2066,8 +2094,8 @@ function CybermallAppSection() {
                 </h2>
 
                 <p className="cybermall-description">
-                  Experience seamless shopping with the Cybermall mobile app. 
-                  Browse products, make secure payments, and track deliveries 
+                  Experience seamless shopping with the Cybermall mobile app.
+                  Browse products, make secure payments, and track deliveries
                   all from the palm of your hand.
                 </p>
 
@@ -2089,24 +2117,14 @@ function CybermallAppSection() {
                 </div>
 
                 <div className="cybermall-cta-group">
-                  <motion.a
-                    href="#contact"
-                    className="cybermall-cta-primary"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
+                  <a href="#contact" className="cybermall-cta-primary">
                     <Download size={18} />
                     Get Notified
-                  </motion.a>
-                  <motion.a
-                    href="#contact"
-                    className="cybermall-cta-secondary"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
+                  </a>
+                  <a href="#contact" className="cybermall-cta-secondary">
                     Learn More
                     <ArrowRight size={16} />
-                  </motion.a>
+                  </a>
                 </div>
 
                 <div className="cybermall-store-badges">
@@ -2122,7 +2140,7 @@ function CybermallAppSection() {
               </motion.div>
             </div>
 
-            {/* Right - Mockup Image - Made Larger */}
+            {/* Right - Mockup Image */}
             <motion.div
               className="cybermall-mockup-wrapper"
               initial={{ opacity: 0, scale: 0.95, x: 30 }}
@@ -2134,6 +2152,7 @@ function CybermallAppSection() {
                   src={images.mockup}
                   alt="Cybermall App Mockup"
                   className="cybermall-mockup-image"
+                  loading="lazy"
                 />
                 {/* Decorative glow */}
                 <div className="cybermall-mockup-glow" />
@@ -2293,6 +2312,11 @@ function CybermallAppSection() {
           box-shadow: 0 12px 32px rgba(201, 162, 39, 0.35);
         }
 
+        .cybermall-cta-primary:active,
+        .cybermall-cta-secondary:active {
+          transform: scale(0.97);
+        }
+
         .cybermall-cta-secondary {
           display: inline-flex;
           align-items: center;
@@ -2339,7 +2363,7 @@ function CybermallAppSection() {
           color: rgba(255, 255, 255, 0.8);
         }
 
-        /* Right - Mockup Image - Made Larger */
+        /* Right - Mockup Image */
         .cybermall-mockup-wrapper {
           display: flex;
           justify-content: center;
@@ -2463,25 +2487,13 @@ function CybermallAppSection() {
 ---------------------------------------------------------------------- */
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const progress = useScrollProgress();
+  const { progress, scrolled } = useScrollState();
+  const pointerFine = usePointerFine();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const tiltA = useTilt(8);
-  const tiltB = useTilt(8);
-  const tiltC = useTilt(8);
-  const tiltD = useTilt(8);
-  const tiltG1 = useTilt(6);
-  const tiltG2 = useTilt(6);
-  const tiltG3 = useTilt(6);
-  const tiltG4 = useTilt(6);
+  const tiltA = useTilt(8, pointerFine);
+  const tiltB = useTilt(8, pointerFine);
+  const tiltC = useTilt(8, pointerFine);
+  const tiltD = useTilt(8, pointerFine);
 
   const brands = [
     {
@@ -2490,8 +2502,6 @@ export default function App() {
       desc: "Full-service multimedia and creative agency specializing in branding, graphic design, website development, cinematography, photography, digital marketing, content creation, and strategic communications.",
       tilt: tiltA,
       variant: "media",
-      gradient: "from-purple-500/20 to-blue-500/20",
-      bg: "bg-gradient-to-br from-purple-900/20 to-blue-900/20",
     },
     {
       icon: images.celetexTravelsTours,
@@ -2499,8 +2509,6 @@ export default function App() {
       desc: "Travel solutions company providing reliable travel consultancy, tour planning, visa assistance, vacation packages, and corporate travel management for local and international destinations.",
       tilt: tiltB,
       variant: "travels",
-      gradient: "from-orange-500/20 to-yellow-500/20",
-      bg: "bg-gradient-to-br from-orange-900/20 to-yellow-900/20",
     },
     {
       icon: images.celetexSignature,
@@ -2508,8 +2516,6 @@ export default function App() {
       desc: "Premium real estate brand focused on property development, real estate consultancy, construction, property management, interior design, and investment advisory services.",
       tilt: tiltC,
       variant: "homes",
-      gradient: "from-emerald-500/20 to-teal-500/20",
-      bg: "bg-gradient-to-br from-emerald-900/20 to-teal-900/20",
     },
     {
       icon: images.cyberMall,
@@ -2517,8 +2523,6 @@ export default function App() {
       desc: "Innovative digital commerce platform connecting buyers and sellers through a seamless online marketplace experience, integrating e-commerce, logistics, and product discovery.",
       tilt: tiltD,
       variant: "cybermall",
-      gradient: "from-cyan-500/20 to-indigo-500/20",
-      bg: "bg-gradient-to-br from-cyan-900/20 to-indigo-900/20",
     },
   ];
 
@@ -2632,6 +2636,8 @@ export default function App() {
           font-size:17px; line-height:1.7; color:rgba(255,255,255,0.6); max-width:480px; margin-bottom:36px;
         }
         .hero-ctas{ display:flex; gap:14px; margin-bottom:56px; }
+        .hero-ctas a{ transition: transform 0.2s ease; }
+        .hero-ctas a:active{ transform: scale(0.97); }
         .hero-meta{ display:flex; align-items:center; gap:18px; }
         .hero-avatars{ display:flex; }
         .hero-avatars span{
@@ -2666,7 +2672,10 @@ export default function App() {
         .hero-art-svg-sm{ width:100%; height:100%; display:block; }
 
         .hero-badge{
-          position:absolute; background:rgba(10,10,10,0.9); backdrop-filter:blur(8px);
+          position:absolute;
+          /* Solid background instead of backdrop-filter: blur() — same
+             fix as the nav and video controls. */
+          background:rgba(12,12,12,0.94);
           border:1px solid var(--line); border-radius:14px; padding:14px 18px;
           display:flex; align-items:center; gap:12px; box-shadow:0 20px 40px rgba(0,0,0,0.4);
         }
@@ -2711,63 +2720,62 @@ export default function App() {
         .stat-card.dark .stat-label{ color:rgba(255,255,255,0.5); }
 
         /* BRANDS */
-        .brands-grid{ 
-          display:grid; 
-          grid-template-columns:repeat(2, 1fr); 
-          gap:28px; 
+        .brands-grid{
+          display:grid;
+          grid-template-columns:repeat(2, 1fr);
+          gap:28px;
         }
-        
+
         .brand-card{
-          background:var(--charcoal); 
-          border:1px solid var(--line); 
-          border-radius:24px; 
+          background:var(--charcoal);
+          border:1px solid var(--line);
+          border-radius:24px;
           padding:0;
           overflow:hidden;
           transition:all 0.4s ease;
           box-shadow:0 4px 20px rgba(0,0,0,0.3);
         }
-        
-        .brand-card:hover{ 
-          box-shadow:0 24px 60px rgba(0,0,0,0.4); 
+
+        .brand-card:hover{
+          box-shadow:0 24px 60px rgba(0,0,0,0.4);
           border-color:var(--gold);
           transform:translateY(-6px);
         }
-        
-        .brand-card-full{ 
-          grid-column:span 2; 
+
+        .brand-card-full{
+          grid-column:span 2;
         }
-        
+
         .brand-card-image-wrapper{
           position:relative;
           height:200px;
           overflow:hidden;
           background:var(--charcoal);
         }
-        
+
         .brand-card-image-wrapper img{
           width:100%;
           height:100%;
           object-fit:cover;
           transition:transform 0.6s ease;
         }
-        
+
         .brand-card:hover .brand-card-image-wrapper img{
           transform:scale(1.05);
         }
-        
+
         .brand-card-image-overlay{
           position:absolute;
           inset:0;
           background:linear-gradient(135deg, rgba(201,162,39,0.08), rgba(0,0,0,0.4));
           pointer-events:none;
         }
-        
+
         .brand-card-image-badge{
           position:absolute;
           top:16px;
           right:16px;
           background:rgba(10,10,10,0.85);
-          backdrop-filter:blur(8px);
           padding:6px 14px;
           border-radius:999px;
           font-size:10px;
@@ -2777,50 +2785,50 @@ export default function App() {
           letter-spacing:0.04em;
           text-transform:uppercase;
         }
-        
+
         .brand-card-body{
           padding:24px 28px 28px;
         }
-        
-        .brand-card-body h3{ 
-          font-size:20px; 
-          font-weight:700; 
-          margin:0 0 10px; 
+
+        .brand-card-body h3{
+          font-size:20px;
+          font-weight:700;
+          margin:0 0 10px;
           font-family:'Space Grotesk', sans-serif;
           letter-spacing:-0.02em;
           color:var(--white);
         }
-        
-        .brand-card-body h3 span{ 
-          color:var(--gold); 
+
+        .brand-card-body h3 span{
+          color:var(--gold);
         }
-        
-        .brand-card-body p{ 
-          font-size:14.5px; 
-          color:rgba(255,255,255,0.6); 
-          line-height:1.7; 
-          margin:0 0 20px; 
+
+        .brand-card-body p{
+          font-size:14.5px;
+          color:rgba(255,255,255,0.6);
+          line-height:1.7;
+          margin:0 0 20px;
         }
-        
-        .brand-link{ 
-          display:inline-flex; 
-          align-items:center; 
-          gap:8px; 
-          font-size:14px; 
-          font-weight:600; 
+
+        .brand-link{
+          display:inline-flex;
+          align-items:center;
+          gap:8px;
+          font-size:14px;
+          font-weight:600;
           color:var(--gold-bright);
           transition:all 0.3s ease;
           text-decoration:none;
         }
-        
-        .brand-link svg{ 
-          transition:transform 0.3s ease; 
+
+        .brand-link svg{
+          transition:transform 0.3s ease;
         }
-        
-        .brand-card:hover .brand-link svg{ 
-          transform:translateX(4px); 
+
+        .brand-card:hover .brand-link svg{
+          transform:translateX(4px);
         }
-        
+
         .brand-card-full .brand-card-image-wrapper{
           height:240px;
         }
@@ -2851,6 +2859,10 @@ export default function App() {
         .process-icon{
           width:44px; height:44px; border-radius:12px; background:rgba(201,162,39,0.12); color:var(--gold-bright);
           display:flex; align-items:center; justify-content:center; margin-bottom:18px; position:relative; z-index:2;
+          transition: transform 0.3s ease;
+        }
+        .process-step:hover .process-icon{
+          transform: scale(1.1) rotate(-5deg);
         }
         .process-step h3{ font-size:17px; font-weight:600; margin:0 0 10px; color:var(--white); }
         .process-step p{ font-size:13.5px; color:rgba(255,255,255,0.55); line-height:1.6; margin:0; max-width:240px; }
@@ -2911,6 +2923,8 @@ export default function App() {
         .footer-col a:hover{ color:var(--gold-bright); }
         .footer-bottom{ display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--line); padding-top:28px; font-size:12.5px; }
         .footer-bottom .rc{ color:var(--gold-bright); }
+        .footer-logo-mark{ transition: transform 0.3s ease; display:inline-block; }
+        .footer-logo-mark:hover{ transform: scale(1.1) rotate(-5deg); }
 
         /* RESPONSIVE */
         @media (max-width:980px){
@@ -2955,7 +2969,7 @@ export default function App() {
       />
 
       {/* NAVIGATION */}
-      <NavBar />
+      <NavBar scrolled={scrolled} />
 
       {/* HERO */}
       <section className="hero" id="home" ref={heroRef}>
@@ -2979,22 +2993,12 @@ export default function App() {
               communities.
             </p>
             <div className="hero-ctas">
-              <motion.a
-                href="#contact"
-                className="btn btn-gold"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
+              <a href="#contact" className="btn btn-gold">
                 Explore Our Brands <ArrowRight size={16} />
-              </motion.a>
-              <motion.a
-                href="#about"
-                className="btn btn-ghost-dark"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
+              </a>
+              <a href="#about" className="btn btn-ghost-dark">
                 About Us
-              </motion.a>
+              </a>
             </div>
             <div className="hero-meta">
               <div className="hero-avatars">
@@ -3227,26 +3231,22 @@ export default function App() {
                 onMouseLeave={b.tilt.onMouseLeave}
               >
                 <div className="brand-card-image-wrapper">
-                  <img src={b.icon} alt={b.title} />
+                  <img src={b.icon} alt={b.title} loading="lazy" />
                   <div className="brand-card-image-overlay" />
                   <span className="brand-card-image-badge">
                     {b.title.split(" ")[0]}
                   </span>
                 </div>
-                
+
                 <div className="brand-card-body">
                   <h3>
                     <span>{b.title.split(" ")[0]}</span>{" "}
                     {b.title.split(" ").slice(1).join(" ")}
                   </h3>
                   <p>{b.desc}</p>
-                  <motion.a
-                    href="#contact"
-                    className="brand-link"
-                    whileHover={{ x: 4 }}
-                  >
+                  <a href="#contact" className="brand-link">
                     Learn More <ArrowUpRight size={15} />
-                  </motion.a>
+                  </a>
                 </div>
               </div>
             </motion.div>
@@ -3264,11 +3264,7 @@ export default function App() {
           variants={staggerChildren}
         >
           {brands.map((b, i) => (
-            <motion.div
-              key={`gallery-${i}`}
-              variants={staggerItem}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-            >
+            <motion.div key={`gallery-${i}`} variants={staggerItem}>
               <div className="gallery-card">
                 <div className="gallery-art-wrap">
                   <GalleryArt variant={b.variant} />
@@ -3313,49 +3309,29 @@ export default function App() {
         <motion.div className="founder-grid" variants={staggerChildren}>
           <motion.div variants={staggerItem}>
             <div className="founder-image-wrap group relative">
-              <motion.div
-                className="relative overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-2xl"
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
-              >
+              <div className="relative overflow-hidden rounded-2xl bg-[#1a1a1a] shadow-2xl">
                 <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#2a2a2a]">
                   <img
                     src={images.Agu}
                     alt="Onyekachi Celestine - Founder of Celetex Group"
-                    className="w-full h-full object-cover object-center transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                    className="w-full h-full object-cover object-center"
+                    loading="lazy"
                   />
-                  
+
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/95 via-[#1a1a1a]/40 to-transparent" />
-                  <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMzBoMTB2MTBIMzB6TTAgMGgxMHYxMEgweiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==')] bg-repeat" />
-                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227]/30 to-transparent" />
-                  
-                  <motion.div 
-                    className="absolute top-4 right-4 z-20 bg-[#1a1a1a]/80 backdrop-blur-sm border border-white/10 rounded-lg px-3 py-1.5 shadow-lg"
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
+
+                  <div className="absolute top-4 right-4 z-20 bg-[#1a1a1a]/90 border border-white/10 rounded-lg px-3 py-1.5 shadow-lg">
                     <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-[#C9A227] rounded-full animate-pulse" />
+                      <span className="w-1.5 h-1.5 bg-[#C9A227] rounded-full" />
                       <span className="text-white/70 text-[9px] font-mono tracking-[0.15em] uppercase">
                         Celetex Group
                       </span>
                     </div>
-                  </motion.div>
+                  </div>
 
                   <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center justify-end pb-10 pt-20 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/40 to-transparent">
-                    <motion.div 
-                      className="text-center space-y-3 w-full px-6"
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4, duration: 0.5 }}
-                    >
-                      <motion.div 
-                        className="w-16 h-[2px] bg-gradient-to-r from-[#C9A227] to-[#F3D27A] mx-auto rounded-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: 64 }}
-                        transition={{ delay: 0.5, duration: 0.7 }}
-                      />
+                    <div className="text-center space-y-3 w-full px-6">
+                      <div className="w-16 h-[2px] bg-gradient-to-r from-[#C9A227] to-[#F3D27A] mx-auto rounded-full" />
                       <span className="block text-[#F3D27A] text-[11px] font-mono tracking-[0.2em] uppercase">
                         Founder & CEO
                       </span>
@@ -3369,21 +3345,12 @@ export default function App() {
                         </span>
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]/50" />
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
-
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-t from-[#C9A227]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  />
                 </div>
 
-                <motion.div 
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                />
-              </motion.div>
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A227] to-transparent" />
+              </div>
             </div>
           </motion.div>
 
@@ -3478,13 +3445,9 @@ export default function App() {
                 className="process-step"
               >
                 <div className="process-num">{step.n}</div>
-                <motion.div
-                  className="process-icon"
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  transition={{ duration: 0.3 }}
-                >
+                <div className="process-icon">
                   <step.icon size={20} />
-                </motion.div>
+                </div>
                 <h3>{step.title}</h3>
                 <p>{step.desc}</p>
               </motion.div>
@@ -3525,22 +3488,12 @@ export default function App() {
             animate={ctaInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.4 }}
           >
-            <motion.a
-              href="mailto:Celetexgroup@gmail.com"
-              className="btn btn-gold"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            <a href="mailto:Celetexgroup@gmail.com" className="btn btn-gold">
               <Mail size={16} /> Email Us
-            </motion.a>
-            <motion.a
-              href="tel:08140784286"
-              className="btn btn-ghost-dark"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
+            </a>
+            <a href="tel:08140784286" className="btn btn-ghost-dark">
               <Phone size={16} /> Call Now
-            </motion.a>
+            </a>
           </motion.div>
         </div>
       </motion.div>
@@ -3556,13 +3509,9 @@ export default function App() {
         <div className="footer-top">
           <div>
             <div className="nav-logo">
-              <motion.span
-                className="nav-logo-mark"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-                transition={{ duration: 0.3 }}
-              >
+              <span className="nav-logo-mark footer-logo-mark">
                 <img src={images.Logo1} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
-              </motion.span>
+              </span>
               <span className="nav-logo-text" style={{ color: "#fff" }}>
                 Celetex <span>Group</span>
               </span>
