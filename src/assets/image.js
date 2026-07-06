@@ -1,5 +1,6 @@
 import logo from '../assets/logo.jpg'
 import logo1 from '../assets/logo1.jpg'
+import logo01 from '../assets/logo01.jpg'
 import Agu from '../assets/Agu.jpg'
 import celetexMedia from '../assets/celetexMedia.jpg'
 import celetexSignature from '../assets/celetexSignature.jpg'
@@ -17,7 +18,8 @@ const images = {
    celetexTravelsTours,
    cyberMall,
    video,
-   mockup
+   mockup,
+   logo01
 }
 
 export default images

@@ -369,7 +369,7 @@ function NavBar() {
         className={`nav ${scrolled ? "scrolled" : ""}`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 0.61, 0.36, 1] }}
+        transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
       >
         <div className="nav-container">
           {/* Logo */}
@@ -379,7 +379,7 @@ function NavBar() {
               whileHover={{ scale: 1.1, rotate: -5 }}
               transition={{ duration: 0.3 }}
             >
-              <img src={images.Logo1} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
+              <img src={images.logo01} alt="Celetex Group Logo" className="w-full h-full object-cover rounded-lg" />
             </motion.span>
             <span className="nav-logo-text">
               Celetex <span>Group</span>
@@ -470,6 +470,19 @@ function NavBar() {
                     />
                   </motion.a>
                 ))}
+                
+                {/* Mobile CTA Button - Added to mobile menu */}
+                <motion.a
+                  href="#contact"
+                  className="mobile-menu-cta"
+                  variants={mobileMenuItem}
+                  onClick={() => setMenuOpen(false)}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span>Get in Touch</span>
+                  <ArrowRight size={20} />
+                </motion.a>
               </motion.div>
 
               <motion.div
@@ -658,6 +671,28 @@ function NavBar() {
           transform: translateX(0);
         }
 
+        /* Mobile CTA Button */
+        .mobile-menu-cta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 16px 24px;
+          margin-top: 8px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+          color: #0a0a0a;
+          text-decoration: none;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 18px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          border: none;
+        }
+
+        .mobile-menu-cta:hover {
+          box-shadow: 0 8px 24px rgba(201, 162, 39, 0.25);
+        }
+
         .mobile-menu-footer {
           border-top: 1px solid rgba(255, 255, 255, 0.06);
           padding-top: 24px;
@@ -766,6 +801,11 @@ function NavBar() {
           .mobile-menu-header {
             padding: 16px 16px;
           }
+
+          .mobile-menu-cta {
+            font-size: 16px;
+            padding: 14px 20px;
+          }
         }
 
         @media (min-width: 981px) {
@@ -803,9 +843,9 @@ function NavBar() {
         }
 
         .nav-logo-mark {
-          width: 34px;
-          height: 34px;
-          border-radius: 8px;
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
           background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
           display: flex;
           align-items: center;
@@ -816,6 +856,14 @@ function NavBar() {
           font-size: 16px;
           flex-shrink: 0;
           overflow: hidden;
+          border: 2px solid rgba(201, 162, 39, 0.3);
+          box-shadow: 0 0 20px rgba(201, 162, 39, 0.15);
+        }
+
+        .nav-logo-mark img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .nav-logo-text {
@@ -889,9 +937,8 @@ function NavBar() {
             font-size: 15px;
           }
           .nav-logo-mark {
-            width: 30px;
-            height: 30px;
-            font-size: 14px;
+            width: 34px;
+            height: 34px;
           }
           .nav {
             padding: 14px 16px !important;
@@ -1974,10 +2021,6 @@ function VideoSection() {
    CYBERMALL APP SHOWCASE SECTION
 ---------------------------------------------------------------------- */
 
-/* ----------------------------------------------------------------------
-   CYBERMALL APP SHOWCASE SECTION
----------------------------------------------------------------------- */
-
 function CybermallAppSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -2409,6 +2452,7 @@ function CybermallAppSection() {
     </section>
   );
 }
+
 /* ----------------------------------------------------------------------
    MAIN APP
 ---------------------------------------------------------------------- */
@@ -2919,8 +2963,9 @@ export default function App() {
           >
             <Eyebrow>Diverse Ventures, Unified Vision</Eyebrow>
             <h1>
-              Building a legacy of innovation{" "}
-              <span className="accent">across Africa.</span>
+              Celetex Group of Company Limited
+              <br />
+              <span className="accent">Building a legacy of innovation across Africa.</span>
             </h1>
             <p className="lead">
               Celetex Group is a diversified business conglomerate delivering
