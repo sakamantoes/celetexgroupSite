@@ -5,6 +5,7 @@ import celetexMedia from '../assets/celetexMedia.jpg'
 import celetexSignature from '../assets/celetexSignature.jpg'
 import celetexTravelsTours from '../assets/celetexTravelsTours.jpg'
 import cyberMall from '../assets/cyberMall.jpg'
+import video from '../assets/video.mp4'
 
 const images = {
    Logo: logo,
@@ -13,7 +14,8 @@ const images = {
    celetexMedia,
    celetexSignature,
    celetexTravelsTours,
-   cyberMall
+   cyberMall,
+   video
 }
 
 export default images

@@ -1435,117 +1435,173 @@ function VideoSection() {
         variants={fadeUp}
         transition={{ duration: 0.8 }}
       >
-        <div className="video-container">
-          <video
-            ref={videoRef}
-            className="video-element"
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=1200"
-          >
-            <source
-              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+        <div className="video-grid">
+          {/* Video Container - Left Side */}
+          <div className="video-container">
+            <video
+              ref={videoRef}
+              className="video-element"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster={images.videoPoster || "https://images.pexels.com/photos/3184295/pexels-photo-3184295.jpeg?auto=compress&cs=tinysrgb&w=1200"}
+            >
+              <source
+                src={images.video}
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
 
-          <motion.div
-            className="video-overlay"
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2 }}
-          >
-            <div className="video-overlay-content">
-              <motion.div
-                className="video-brand-icon"
-                initial={{ scale: 0.8, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: 0.3,
-                  ease: [0.22, 0.61, 0.36, 1],
-                }}
+            {/* Video Overlay with Logo */}
+            <motion.div
+              className="video-overlay"
+              initial={{ opacity: 0.8 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.2 }}
+            >
+              <div className="video-overlay-content">
+                <motion.div
+                  className="video-brand-icon"
+                  initial={{ scale: 0.8, rotate: -10 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.3,
+                    ease: [0.22, 0.61, 0.36, 1],
+                  }}
+                >
+                  <img 
+                    src={images.Logo1} 
+                    alt="Celetex Group" 
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Video Controls */}
+            <div className="video-controls">
+              <motion.button
+                className="video-control-btn"
+                onClick={togglePlay}
+                aria-label={isPlaying ? "Pause" : "Play"}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
-                C
-              </motion.div>
-              <motion.h3
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+                {isPlaying ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <rect x="6" y="4" width="4" height="16" />
+                    <rect x="14" y="4" width="4" height="16" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <polygon points="5,3 19,12 5,21" />
+                  </svg>
+                )}
+              </motion.button>
+              <motion.button
+                className="video-control-btn"
+                onClick={toggleMute}
+                aria-label={isMuted ? "Unmute" : "Mute"}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
-                Celetex Group
-              </motion.h3>
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-              >
-                Diverse Ventures, Unified Vision
-              </motion.p>
+                {isMuted ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
+                    <line x1="23" y1="9" x2="17" y2="15" />
+                    <line x1="17" y1="9" x2="23" y2="15" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                    <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  </svg>
+                )}
+              </motion.button>
+              <span className="video-loop-indicator">⟳ Loop</span>
             </div>
-          </motion.div>
 
-          <div className="video-controls">
-            <motion.button
-              className="video-control-btn"
-              onClick={togglePlay}
-              aria-label={isPlaying ? "Pause" : "Play"}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isPlaying ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                  <rect x="6" y="4" width="4" height="16" />
-                  <rect x="14" y="4" width="4" height="16" />
-                </svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                  <polygon points="5,3 19,12 5,21" />
-                </svg>
-              )}
-            </motion.button>
-            <motion.button
-              className="video-control-btn"
-              onClick={toggleMute}
-              aria-label={isMuted ? "Unmute" : "Mute"}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              {isMuted ? (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                >
-                  <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
-                  <line x1="23" y1="9" x2="17" y2="15" />
-                  <line x1="17" y1="9" x2="23" y2="15" />
-                </svg>
-              ) : (
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                >
-                  <polygon points="11,5 6,9 2,9 2,15 6,15 11,19 11,5" />
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                </svg>
-              )}
-            </motion.button>
-            <span className="video-loop-indicator">⟳ Loop</span>
+            <div className="video-accent-line" />
           </div>
 
-          <div className="video-accent-line" />
+          {/* Text Content - Right Side */}
+          <div className="video-text-content">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.3 }}
+            >
+              <div className="video-text-badge">
+                <span className="video-text-badge-dot" />
+                Celetex Group
+              </div>
+              
+              <h2 className="video-text-title">
+                Building a Legacy of 
+                <span className="video-text-highlight"> Innovation</span>
+              </h2>
+              
+              <p className="video-text-description">
+                Celetex Group is a diversified business conglomerate delivering innovative 
+                solutions across media, real estate, travel, and digital commerce — 
+                empowering individuals, businesses, and communities.
+              </p>
+
+              <div className="video-text-stats">
+                <div className="video-text-stat">
+                  <span className="video-text-stat-number">2022</span>
+                  <span className="video-text-stat-label">Founded</span>
+                </div>
+                <div className="video-text-stat-divider" />
+                <div className="video-text-stat">
+                  <span className="video-text-stat-number">4+</span>
+                  <span className="video-text-stat-label">Brands</span>
+                </div>
+                <div className="video-text-stat-divider" />
+                <div className="video-text-stat">
+                  <span className="video-text-stat-number">100+</span>
+                  <span className="video-text-stat-label">Clients</span>
+                </div>
+              </div>
+
+              <div className="video-text-features">
+                <div className="video-text-feature">
+                  <svg className="video-text-feature-icon" viewBox="0 0 24 24" fill="none" stroke="#C9A227" strokeWidth="2.5">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  <span>100% Trusted</span>
+                </div>
+                <div className="video-text-feature">
+                  <svg className="video-text-feature-icon" viewBox="0 0 24 24" fill="none" stroke="#C9A227" strokeWidth="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <polyline points="9 12 11 14 15 10" />
+                  </svg>
+                  <span>Certified</span>
+                </div>
+                <div className="video-text-feature">
+                  <svg className="video-text-feature-icon" viewBox="0 0 24 24" fill="none" stroke="#C9A227" strokeWidth="2.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
+                  <span>Excellence</span>
+                </div>
+              </div>
+
+              <motion.a
+                href="#contact"
+                className="video-text-cta"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Learn More About Us
+                <ArrowRight size={18} />
+              </motion.a>
+            </motion.div>
+          </div>
         </div>
       </motion.div>
 
@@ -1568,6 +1624,14 @@ function VideoSection() {
           transform: translateY(0);
         }
 
+        .video-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 48px;
+          align-items: center;
+        }
+
+        /* Video Container */
         .video-container {
           position: relative;
           border-radius: 20px;
@@ -1575,7 +1639,7 @@ function VideoSection() {
           background: var(--black);
           border: 1px solid var(--line);
           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-          aspect-ratio: 16/9;
+          aspect-ratio: 16/10;
         }
 
         .video-element {
@@ -1593,7 +1657,7 @@ function VideoSection() {
           bottom: 0;
           background: linear-gradient(
             135deg,
-            rgba(10, 10, 10, 0.3) 0%,
+            rgba(10, 10, 10, 0.4) 0%,
             rgba(10, 10, 10, 0.1) 50%,
             rgba(10, 10, 10, 0.3) 100%
           );
@@ -1612,35 +1676,19 @@ function VideoSection() {
         .video-brand-icon {
           width: 60px;
           height: 60px;
-          margin: 0 auto 16px;
           border-radius: 14px;
           background: linear-gradient(135deg, var(--gold-bright), var(--gold));
           display: flex;
           align-items: center;
           justify-content: center;
-          font-family: 'Space Grotesk', sans-serif;
-          font-size: 28px;
-          font-weight: 700;
-          color: #0a0a0a;
           box-shadow: 0 8px 30px rgba(201, 162, 39, 0.3);
+          overflow: hidden;
         }
 
-        .video-overlay-content h3 {
-          font-family: 'Space Grotesk', sans-serif;
-          font-size: 28px;
-          font-weight: 700;
-          margin: 0 0 6px;
-          letter-spacing: -0.02em;
-          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .video-overlay-content p {
-          font-size: 14px;
-          color: rgba(255, 255, 255, 0.7);
-          margin: 0;
-          letter-spacing: 0.1em;
-          font-weight: 300;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        .video-brand-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .video-controls {
@@ -1702,30 +1750,211 @@ function VideoSection() {
           opacity: 0.6;
         }
 
+        /* Text Content - Right Side */
+        .video-text-content {
+          padding: 20px 0;
+        }
+
+        .video-text-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-family: 'IBM Plex Mono', monospace;
+          font-size: 12px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--gold);
+          margin-bottom: 16px;
+        }
+
+        .video-text-badge-dot {
+          width: 8px;
+          height: 8px;
+          background: var(--gold);
+          border-radius: 2px;
+          display: inline-block;
+        }
+
+        .video-text-title {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 36px;
+          font-weight: 700;
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+          color: var(--black);
+          margin: 0 0 16px;
+        }
+
+        .video-text-highlight {
+          background: linear-gradient(90deg, var(--gold-bright), var(--gold));
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+        }
+
+        .video-text-description {
+          font-size: 16px;
+          line-height: 1.7;
+          color: rgba(0, 0, 0, 0.6);
+          margin: 0 0 24px;
+          max-width: 460px;
+        }
+
+        .video-text-stats {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          margin-bottom: 24px;
+          padding: 16px 20px;
+          background: var(--off);
+          border-radius: 12px;
+          border: 1px solid var(--line);
+        }
+
+        .video-text-stat {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .video-text-stat-number {
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: 20px;
+          font-weight: 700;
+          color: var(--black);
+        }
+
+        .video-text-stat-label {
+          font-size: 11px;
+          color: rgba(0, 0, 0, 0.5);
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+        }
+
+        .video-text-stat-divider {
+          width: 1px;
+          height: 30px;
+          background: var(--line);
+        }
+
+        .video-text-features {
+          display: flex;
+          gap: 16px;
+          margin-bottom: 28px;
+          flex-wrap: wrap;
+        }
+
+        .video-text-feature {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--black);
+        }
+
+        .video-text-feature-icon {
+          width: 18px;
+          height: 18px;
+          flex-shrink: 0;
+        }
+
+        .video-text-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 28px;
+          background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+          color: #0a0a0a;
+          border: none;
+          border-radius: 999px;
+          font-weight: 600;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          box-shadow: 0 8px 24px rgba(201, 162, 39, 0.25);
+        }
+
+        .video-text-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(201, 162, 39, 0.35);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .video-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+          }
+
+          .video-container {
+            aspect-ratio: 16/9;
+          }
+
+          .video-text-content {
+            padding: 0;
+          }
+
+          .video-text-title {
+            font-size: 30px;
+          }
+        }
+
         @media (max-width: 768px) {
           .video-section {
             padding: 20px 20px 40px;
           }
-          
-          .video-overlay-content h3 {
-            font-size: 20px;
+
+          .video-text-title {
+            font-size: 26px;
           }
-          
+
+          .video-text-stats {
+            flex-wrap: wrap;
+            gap: 12px;
+          }
+
+          .video-text-stat-divider {
+            display: none;
+          }
+
           .video-brand-icon {
             width: 44px;
             height: 44px;
-            font-size: 20px;
           }
-          
+
           .video-controls {
             bottom: 12px;
             left: 12px;
             right: 12px;
           }
-          
+
           .video-control-btn {
             width: 32px;
             height: 32px;
+          }
+
+          .video-text-features {
+            gap: 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .video-text-title {
+            font-size: 22px;
+          }
+
+          .video-text-description {
+            font-size: 14px;
+          }
+
+          .video-text-stats {
+            padding: 12px 16px;
+          }
+
+          .video-text-stat-number {
+            font-size: 17px;
           }
         }
       `}</style>
