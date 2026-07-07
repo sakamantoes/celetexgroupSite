@@ -271,7 +271,7 @@ function NavBar({ scrolled }) {
         <div className="mobile-menu-header">
           <div className="nav-logo">
             <span className="nav-logo-mark">
-              <img src={images.Logo1} alt="Celetex Group Logo" className="nav-logo-img" />
+              <img src={images.newLog} alt="Celetex Group Logo" className="nav-logo-img" />
             </span>
             <span className="nav-logo-text">
               Celetex <span>Group</span>
@@ -389,7 +389,6 @@ function NavBar({ scrolled }) {
 /* ----------------------------------------------------------------------
    HERO SECTION — with image grid instead of SVGs
 ---------------------------------------------------------------------- */
-
 function HeroSection() {
   const [ref, visible] = useReveal(0.2);
   const tiltImg = useTilt(4, true);
@@ -400,9 +399,9 @@ function HeroSection() {
         <div className={`reveal ${visible ? "reveal-visible" : ""}`}>
           <Eyebrow>Diverse Ventures, Unified Vision</Eyebrow>
           <h1>
-            Building Impactful Solutions Across
+            Celetex Group of Company Limited
             <br />
-            <span className="accent">Multiple Industries.</span>
+            <span className="accent">Building a legacy of innovation across Africa.</span>
           </h1>
           <p className="lead">
             Celetex Group is a diversified business conglomerate delivering value-driven services
