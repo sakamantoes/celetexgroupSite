@@ -241,7 +241,7 @@ function NavBar({ scrolled }) {
         <div className="nav-container">
           <a href="#home" className="nav-logo">
             <span className="nav-logo-mark">
-              <img src={images.logo01Png} alt="Celetex Group Logo" className="nav-logo-img" />
+              <img src={images.newLog} alt="Celetex Group Logo" className="nav-logo-img" />
             </span>
             <span className="nav-logo-text">
               Celetex <span>Group</span>
@@ -1312,7 +1312,7 @@ export default function App() {
           <div>
             <a href="#home" className="nav-logo">
               <span className="nav-logo-mark">
-                <img src={images.Logo1} alt="Celetex Group Logo" className="nav-logo-img" />
+                <img src={images.newLog} alt="Celetex Group Logo" className="nav-logo-img" />
               </span>
               <span className="nav-logo-text" style={{ color: "#fff" }}>Celetex <span>Group</span></span>
             </a>

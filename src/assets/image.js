@@ -8,6 +8,7 @@ import celetexTravelsTours from '../assets/celetexTravelsTours.jpg'
 import cyberMall from '../assets/cyberMall.jpg'
 import video from '../assets/video.mp4'
 import mockup from '../assets/mockup.jpg'
+import newLog from '../assets/newLog.jpg'
 
 const images = {
    Logo: logo,
@@ -19,7 +20,8 @@ const images = {
    cyberMall,
    video,
    mockup,
-   logo01Png: logo01
+   logo01Png: logo01,
+   newLog
 }
 
 export default images
