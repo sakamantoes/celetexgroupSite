@@ -360,7 +360,7 @@ function NavBar({ scrolled }) {
         .nav{ position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; background:rgba(10,10,10,0); transition:background-color .4s ease, padding .4s ease, border-color .4s ease; border-bottom:1px solid transparent; }
         .nav.scrolled{ background:rgba(8,8,8,0.98); border-bottom:1px solid rgba(255,255,255,0.06); padding:14px 48px; }
         .nav-logo{ display:flex; align-items:center; gap:10px; flex-shrink:0; text-decoration:none; }
-        .nav-logo-mark{ width:42px; height:42px; border-radius:10px; background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep)); display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px solid rgba(201,162,39,0.3); box-shadow:0 0 20px rgba(201,162,39,0.15); transition:transform .3s ease; flex-shrink:0; }
+        .nav-logo-mark{ width:62px; height:62px; border-radius:10px; background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep)); display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px solid rgba(201,162,39,0.3); box-shadow:0 0 20px rgba(201,162,39,0.15); transition:transform .3s ease; flex-shrink:0; }
         .nav-logo-mark:hover{ transform:scale(1.1) rotate(-5deg); }
         .nav-logo-img{ width:100%; height:100%; object-fit:cover; }
         .nav-logo-text{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:18px; letter-spacing:0.02em; white-space:nowrap; color:var(--white); }
