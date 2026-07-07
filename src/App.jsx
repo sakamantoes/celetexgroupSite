@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+ import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   Building2,
   ArrowRight,
@@ -19,10 +19,6 @@ import {
   MapPin,
   Clock,
   Star,
-  Home,
-  Globe,
-  Award,
-  Briefcase,
 } from "lucide-react";
 
 /* ----------------------------------------------------------------------
@@ -233,7 +229,7 @@ function NavBar({ scrolled }) {
               <Building2 size={20} strokeWidth={2.4} />
             </span>
             <span className="nav-logo-text">
-              Celetex <span>Group</span>
+              Vantara <span>Group</span>
             </span>
           </a>
 
@@ -263,7 +259,7 @@ function NavBar({ scrolled }) {
               <Building2 size={20} strokeWidth={2.4} />
             </span>
             <span className="nav-logo-text">
-              Celetex <span>Group</span>
+              Vantara <span>Group</span>
             </span>
           </div>
           <button className="mobile-menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
@@ -299,7 +295,7 @@ function NavBar({ scrolled }) {
 
           <div className="mobile-menu-footer">
             <div className="mobile-menu-contact">
-              <a href="mailto:celetexgroup@gmail.com"><Mail size={18} /> celetexgroup@gmail.com</a>
+              <a href="mailto:hello@vantaragroup.com"><Mail size={18} /> hello@vantaragroup.com</a>
               <a href="tel:+2348140784286"><Phone size={18} /> +234 814 078 4286</a>
             </div>
           </div>
@@ -386,24 +382,20 @@ function HeroSection() {
     <section className="hero" id="home" ref={ref}>
       <div className="hero-inner">
         <div className={`reveal ${visible ? "reveal-visible" : ""}`}>
-          <Eyebrow>Diverse Ventures, Unified Vision</Eyebrow>
+          <Eyebrow>Trusted Multi-Sector Enterprise</Eyebrow>
           <h1>
-            Building Impactful Solutions Across
+            Focused on delivering thoughtful strategy and
             <br />
-            <span className="accent">Multiple Industries.</span>
+            <span className="accent">flawless execution.</span>
           </h1>
           <p className="lead">
-            Celetex Group is a diversified business conglomerate delivering value-driven services
-            across media, real estate, travel, and digital commerce. We combine creativity,
-            technology, and strategic thinking to build brands that inspire confidence.
+            We take pride in transforming ambition into results through a meticulous approach across
+            every venture we run. Each project is guided by careful planning, skilled specialists, and
+            a deep understanding of the sectors we serve.
           </p>
           <div className="hero-ctas">
-            <a href="#contact" className="btn btn-gold">Partner With Us <ArrowRight size={16} /></a>
+            <a href="#contact" className="btn btn-gold">Request a Consultation <ArrowRight size={16} /></a>
             <a href="#services" className="btn btn-ghost-dark">Our Services</a>
-          </div>
-          <div className="hero-badge-inline">
-            <span className="hero-badge-item"><ShieldCheck size={16} /> RC: 9341015</span>
-            <span className="hero-badge-item"><Award size={16} /> Est. 2022</span>
           </div>
         </div>
 
@@ -418,17 +410,12 @@ function HeroSection() {
           <div className="hero-badge hero-badge-1">
             <div className="hero-badge-icon"><ShieldCheck size={18} /></div>
             <div>
-              <div className="hero-badge-num">4+</div>
-              <div className="hero-badge-label">Business Divisions</div>
+              <div className="hero-badge-num">3+ Yrs</div>
+              <div className="hero-badge-label">Proven Track Record</div>
             </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        .hero-badge-inline{ display:flex; gap:24px; margin-top:24px; flex-wrap:wrap; }
-        .hero-badge-item{ display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.5); font-family:'IBM Plex Mono',monospace; }
-      `}</style>
     </section>
   );
 }
@@ -444,13 +431,11 @@ function AboutSection() {
     <section className="about-wrap" id="about" ref={ref}>
       <div className="section">
         <div className={`about-head reveal ${visible ? "reveal-visible" : ""}`}>
-          <Eyebrow>About Celetex Group</Eyebrow>
-          <h2>Diverse Ventures, Unified Vision.</h2>
+          <Eyebrow>About Our Company</Eyebrow>
+          <h2>Built on Vision. Driven by Excellence.</h2>
           <p>
-            Founded on 9th March 2022 by Rtr. Onyekachi Uchechukwu Celestine, Celetex Group has
-            evolved into a growing enterprise with interests spanning media, real estate, travel,
-            and digital innovation. We are committed to delivering exceptional value while
-            empowering individuals, businesses, and communities.
+            With years in the field, we bring a hands-on, client-first approach to every venture.
+            Our teams blend strategy, craftsmanship, and trust to deliver results that last.
           </p>
         </div>
 
@@ -458,22 +443,22 @@ function AboutSection() {
           <div className={`stat-card stat-card-main reveal ${visible ? "reveal-visible" : ""}`}>
             <div className="stat-brand">
               <span className="stat-brand-mark"><Building2 size={16} /></span>
-              Celetex Group
+              Vantara Group
             </div>
             <div>
               <StatNumber value={100} suffix="+" delay={200} />
-              <div className="stat-desc">Projects delivered across media, property, travel, and commerce sectors.</div>
+              <div className="stat-desc">Proven track record across media, property, travel, and commerce sectors.</div>
             </div>
             <div className="stat-avatars">
-              <span>OC</span><span>DK</span><span>TR</span>
+              <span>OA</span><span>MK</span><span>TR</span>
               <span className="stat-avatars-more">+12</span>
             </div>
           </div>
 
           <div className={`stat-card reveal ${visible ? "reveal-visible" : ""}`} style={{ transitionDelay: "120ms" }}>
             <div className="stat-icon-row"><div className="stat-icon-box"><Target size={18} /></div></div>
-            <div className="stat-label">Innovation-Driven</div>
-            <p className="stat-body">We integrate market intelligence and technology for faster, sharper results.</p>
+            <div className="stat-label">Modern Strategy</div>
+            <p className="stat-body">We integrate current market intelligence and technology to ensure faster, sharper results.</p>
           </div>
 
           <div className={`stat-card dark reveal ${visible ? "reveal-visible" : ""}`} style={{ transitionDelay: "240ms" }}>
@@ -488,8 +473,8 @@ function AboutSection() {
 
           <div className={`stat-card reveal ${visible ? "reveal-visible" : ""}`} style={{ transitionDelay: "480ms" }}>
             <div className="stat-icon-row"><div className="stat-icon-box"><Users size={18} /></div></div>
-            <div className="stat-label">Expert Leadership</div>
-            <p className="stat-body">Led by visionary entrepreneur Rtr. Onyekachi Uchechukwu Celestine.</p>
+            <div className="stat-label">Experienced Specialists</div>
+            <p className="stat-body">Our team brings decades of combined, cross-sector, hands-on experience.</p>
           </div>
         </div>
       </div>
@@ -510,20 +495,20 @@ function ServicesSection() {
   const services = [
     {
       icon: Camera,
-      title: "Celetex Multimedia",
-      desc: "Full-service creative agency specializing in branding, graphic design, web development, cinematography, photography, digital marketing, and media production.",
+      title: "Media & Creative Services",
+      desc: "Branding, content production, digital marketing, and strategic communications built to grow your presence.",
       tilt: tiltA,
     },
     {
       icon: Landmark,
-      title: "Celetex Signature Homes",
-      desc: "Premium real estate solutions including property development, consultancy, construction, property management, and investment advisory.",
+      title: "Property & Real Estate",
+      desc: "Development, consultancy, and investment advisory for residential and commercial real estate ventures.",
       tilt: tiltB,
     },
     {
-      icon: Globe,
-      title: "Celetex Travels & Tours",
-      desc: "Travel consultancy, tour planning, visa assistance, vacation packages, and corporate travel management for local and international destinations.",
+      icon: Plane,
+      title: "Travel & Corporate Logistics",
+      desc: "Consultancy, planning, and management for individual, corporate, and international travel needs.",
       tilt: tiltC,
     },
   ];
@@ -533,12 +518,12 @@ function ServicesSection() {
       <div className="section">
         <div className="services-head">
           <div className={`reveal ${visible ? "reveal-visible" : ""}`}>
-            <Eyebrow>Our Brands</Eyebrow>
-            <h2>Diverse Ventures Across Key Industries.</h2>
+            <Eyebrow>Our Services</Eyebrow>
+            <h2>End-to-End Solutions You Can Rely On.</h2>
           </div>
           <p className={`reveal ${visible ? "reveal-visible" : ""}`} style={{ transitionDelay: "120ms" }}>
-            From creative direction to property development and travel logistics — our portfolio
-            of brands delivers comprehensive solutions tailored to your needs.
+            From creative direction to property development and travel logistics — we offer comprehensive
+            solutions tailored to your needs across every sector we operate in.
           </p>
         </div>
 
@@ -553,7 +538,7 @@ function ServicesSection() {
                 <div className="service-icon"><s.icon size={22} /></div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
-                <a href="#contact" className="service-link">Learn More <ArrowUpRight size={15} /></a>
+                <a href="#contact" className="service-link">Read More <ArrowUpRight size={15} /></a>
               </div>
             </div>
           ))}
@@ -577,22 +562,22 @@ function ProjectsSection() {
   const projects = [
     {
       img: img.strategy,
-      title: "Celetex Media Campaign",
-      desc: "Full brand relaunch with integrated content strategy for a regional healthcare client.",
+      title: "Metro Wellness Media Campaign",
+      desc: "A full brand relaunch with integrated content strategy for a regional healthcare client.",
       loc: "Lagos, Nigeria",
       date: "2025 / 2026",
     },
     {
       img: img.laptops,
-      title: "Signature Homes Development",
+      title: "Skyline Business District Advisory",
       desc: "Investment advisory and planning support for a mixed-use commercial development.",
       loc: "Abuja, Nigeria",
       date: "2024 / 2025",
     },
     {
       img: img.tablet,
-      title: "Corporate Travel Framework",
-      desc: "Managed travel program covering logistics, visas, and vendor coordination for enterprise clients.",
+      title: "Corporate Travel Framework Rollout",
+      desc: "A managed travel program covering logistics, visas, and vendor coordination for enterprise clients.",
       loc: "Port Harcourt, Nigeria",
       date: "2024 / 2025",
     },
@@ -914,12 +899,12 @@ export default function App() {
       <div ref={ctaRef}>
         <div className={`cta-banner ${ctaVisible ? "reveal-visible" : ""}`} id="contact">
           <div>
-            <h2>Ready to partner with Celetex Group?</h2>
+            <h2>Ready to partner with Vantara Group?</h2>
             <p>Connect with our team today and let's build something extraordinary across every sector we serve.</p>
           </div>
           <div className="cta-actions">
-            <a href="mailto:celetexgroup@gmail.com" className="btn btn-gold"><Mail size={16} /> celetexgroup@gmail.com</a>
-            <a href="tel:+2348140784286" className="btn btn-ghost-dark"><Phone size={16} /> +234 814 078 4286</a>
+            <a href="mailto:hello@vantaragroup.com" className="btn btn-gold"><Mail size={16} /> Email Us</a>
+            <a href="tel:+2348140784286" className="btn btn-ghost-dark"><Phone size={16} /> Call Now</a>
           </div>
         </div>
       </div>
@@ -929,28 +914,23 @@ export default function App() {
           <div>
             <a href="#home" className="nav-logo">
               <span className="nav-logo-mark"><Building2 size={20} strokeWidth={2.4} /></span>
-              <span className="nav-logo-text" style={{ color: "#fff" }}>Celetex <span>Group</span></span>
+              <span className="nav-logo-text" style={{ color: "#fff" }}>Vantara <span>Group</span></span>
             </a>
             <p className="footer-brand-text">
-              A diversified business conglomerate delivering strategic solutions across media,
-              real estate, travel, and digital commerce. RC: 9341015
-            </p>
-            <p className="footer-brand-text" style={{ marginTop: "8px", fontSize: "12px", color: "rgba(255,255,255,0.4)" }}>
-              Black · Gold · White
+              A multi-sector enterprise delivering strategic solutions across media, real estate,
+              travel, and digital commerce.
             </p>
           </div>
           <div className="footer-col">
-            <h4>Our Brands</h4>
-            <a href="#services">Celetex Multimedia</a>
-            <a href="#services">Celetex Signature Homes</a>
-            <a href="#services">Celetex Travels & Tours</a>
-            <a href="#services">Cybermall</a>
+            <h4>Services</h4>
+            <a href="#services">Media & Creative</a>
+            <a href="#services">Real Estate</a>
+            <a href="#services">Travel & Logistics</a>
           </div>
           <div className="footer-col">
             <h4>Contact</h4>
-            <a href="mailto:celetexgroup@gmail.com">celetexgroup@gmail.com</a>
+            <a href="mailto:hello@vantaragroup.com">hello@vantaragroup.com</a>
             <a href="tel:+2348140784286">+234 814 078 4286</a>
-            <a href="tel:+2348123676517">+234 812 367 6517</a>
           </div>
           <div className="footer-col">
             <h4>Quick Links</h4>
@@ -961,8 +941,8 @@ export default function App() {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Celetex Group of Company Limited. All rights reserved.</span>
-          <span>RC: 9341015</span>
+          <span>© 2026 Vantara Group. All rights reserved.</span>
+          <span>Black · Gold · White</span>
         </div>
       </footer>
     </div>
